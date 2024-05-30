@@ -1,0 +1,76 @@
+name: {{EDGEIQ_SNAP_NAME}}
+base: core20
+version: '0.1'
+summary: Official SNAP of EdgeIQ CODA client
+description: |
+  CODA agent for IoT devices managed by EdgeIQ
+
+grade: devel
+confinement: strict
+
+epoch: 1
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf 
+
+
+apps:
+  agent:
+    command: edge
+    plugs:
+      - home
+      - network
+      - network-bind
+      - network-control
+      - shutdown
+      - snapd-control
+
+parts:
+  coda:
+    plugin: nil
+    build-packages:
+      - wget
+      - jq
+    stage-packages:
+      - network-manager
+      - iptables
+      - iputils-ping
+    override-build: |
+      EDGEIQ_API_URL={{EDGEIQ_API_URL}}
+      VERSION={{EDGEIQ_CODA_VERSION}}
+      case $SNAPCRAFT_ARCH_TRIPLET in
+        "x86_64-linux-gnu")
+          ARCH=amd64
+          ;;
+        "arm-linux-gnueabihf")
+          ARCH=arm7
+          ;;
+        "aarch64-linux-gnu")
+          ARCH=arm64
+          ;;
+      esac
+      
+      wget --max-redirect=10 $EDGEIQ_API_URL/api/v1/platform/releases/$VERSION/edge-assets-$VERSION.tar.gz -O $SNAPCRAFT_PART_INSTALL/edge-assets.tar.gz
+      tar -xvf $SNAPCRAFT_PART_INSTALL/edge-assets.tar.gz -C $SNAPCRAFT_PART_INSTALL
+      rm $SNAPCRAFT_PART_INSTALL/edge-assets.tar.gz
+      mv $SNAPCRAFT_PART_INSTALL/edge/* $SNAPCRAFT_PART_INSTALL/
+      rm -rf $SNAPCRAFT_PART_INSTALL/edge
+
+      jq '.platform = "snap" | .network_configurer = "nmcli"' $SNAPCRAFT_PART_INSTALL/conf/bootstrap.json > $SNAPCRAFT_PART_INSTALL/conf/temp.json 
+      mv $SNAPCRAFT_PART_INSTALL/conf/temp.json $SNAPCRAFT_PART_INSTALL/conf/bootstrap.json
+
+      wget --max-redirect=10 $EDGEIQ_API_URL/api/v1/platform/releases/$VERSION/edge-linux-$ARCH-$VERSION -O $SNAPCRAFT_PART_INSTALL/edge
+      chmod +x $SNAPCRAFT_PART_INSTALL/edge
+
+layout:
+  $SNAP/conf:
+    bind: $SNAP_COMMON/log
+  $SNAP/data_dir:
+    bind: $SNAP_COMMON/data_dir
+  $SNAP/log:
+    bind: $SNAP_COMMON/log
+  $SNAP/app_config.zip:
+    bind-file: $SNAP_COMMON/app_config.zip
+  $SNAP/app_config.json:
+    bind-file: $SNAP_COMMON/app_config.json
