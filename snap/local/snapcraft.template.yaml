@@ -1,7 +1,7 @@
 name: {{EDGEIQ_SNAP_NAME}}
 base: core20
-version: '0.1'
-summary: Official SNAP of EdgeIQ CODA client
+version: '{{EDGEIQ_CODA_SNAP_VERSION}}'
+summary: Official SNAP of EdgeIQ CODA agent
 description: |
   CODA agent for IoT devices managed by EdgeIQ
 
@@ -14,6 +14,9 @@ architectures:
   - build-on: arm64
   - build-on: armhf 
 
+hooks:
+  install:
+    plugs: [network, network-bind]
 
 apps:
   agent:
@@ -27,15 +30,19 @@ apps:
       - snapd-control
 
 parts:
+  deps:
+    plugin: nil
+    stage-packages:
+      - network-manager
+      - iptables
+      - iputils-ping
+      - jq
+
   coda:
     plugin: nil
     build-packages:
       - wget
       - jq
-    stage-packages:
-      - network-manager
-      - iptables
-      - iputils-ping
     override-build: |
       EDGEIQ_API_URL={{EDGEIQ_API_URL}}
       VERSION={{EDGEIQ_CODA_VERSION}}
@@ -62,15 +69,3 @@ parts:
 
       wget --max-redirect=10 $EDGEIQ_API_URL/api/v1/platform/releases/$VERSION/edge-linux-$ARCH-$VERSION -O $SNAPCRAFT_PART_INSTALL/edge
       chmod +x $SNAPCRAFT_PART_INSTALL/edge
-
-layout:
-  $SNAP/conf:
-    bind: $SNAP_COMMON/log
-  $SNAP/data_dir:
-    bind: $SNAP_COMMON/data_dir
-  $SNAP/log:
-    bind: $SNAP_COMMON/log
-  $SNAP/app_config.zip:
-    bind-file: $SNAP_COMMON/app_config.zip
-  $SNAP/app_config.json:
-    bind-file: $SNAP_COMMON/app_config.json
