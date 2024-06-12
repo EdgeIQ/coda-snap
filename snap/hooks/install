@@ -7,29 +7,26 @@ import subprocess
 
 print("Starting installation...")
 src_conf_dir = os.path.join(os.environ['SNAP'], 'conf')
-writrable_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
+dst_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
 
-def parse_and_set(data, prefix=''):
-    for key, value in data.items():
-        if isinstance(value, dict):
-            parse_and_set(value, f"{prefix}.{key}")
-        else:
-            print(f"Setting {prefix}.{key} to {value}")
-            subprocess.run(["snap", "set", f"{prefix}.{key}={value}"], check=True)
+def set_default_values(data, prefix=''):
+    json_data = json.dumps(data)
+    print(f"Setting {prefix} to {json_data}")
+    subprocess.run(["snapctl", "set", f"{prefix}={json_data}"], check=True)
 
-def load_json(file_name):
+def load_conf_file(file_name):
     file = os.path.join(src_conf_dir, file_name)
     with open(file, 'r') as f:
         print(f"Loading {file}")
-        print(f.read())
-        return json.load(f)
-
+        content = f.read()
+        print(content)
+        return json.loads(content)
 
 # Copy the default configuration files to the persistent and writable area
 print("Copying configuration files...")
-shutil.copytree(src_conf_dir, writrable_config_dir)
+shutil.copytree(src_conf_dir, dst_config_dir)
 
 # Set the default values for the snap
 print("Setting default values...")
-parse_and_set(load_json('bootstrap.json'), 'bootstrap')
-parse_and_set(load_json('config.json'), 'config')
+set_default_values(load_conf_file('bootstrap.json'), 'bootstrap')
+set_default_values(load_conf_file('conf.json'), 'conf')
