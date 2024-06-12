@@ -7,14 +7,27 @@ import subprocess
 print("Starting configuration...")
 config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
 
-# Function to get snap configuration value using snapctl
+def translate_config_snap_to_coda(obj):
+    if isinstance(obj, dict):
+        new_obj = {}
+        for k, v in obj.items():
+            new_key = k.replace("-", "_")
+            new_obj[new_key] = translate_config_snap_to_coda(v)
+        return new_obj
+    elif isinstance(obj, list):
+        for i in range(len(obj)):
+            obj[i] = translate_config_snap_to_coda(obj[i])
+        return obj
+    else:
+        return obj
+
 def snapctl_get(key):
     result = subprocess.run(['snapctl', 'get', key], capture_output=True, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"Failed to get snap configuration for key: {key}")
     return result.stdout.strip()
 
-def save_json(data, path):
+def save_json(path, data):
     print(f"Writing configuration to {path}")
     with open(path, 'w') as f:
         json_str = json.dumps(data, indent=4)
@@ -22,12 +35,16 @@ def save_json(data, path):
         f.write(json_str)
         print(f"Data saved to {path}")
 
+# Prepare bootstrap.json
 bootstrap_path = os.path.join(config_dir, 'bootstrap.json')
-bootstrap_data_str = snapctl_get('bootstrap')
-bootstrap_data = json.loads(bootstrap_data_str)
-save_json(bootstrap_data, bootstrap_path)
+bootstrap_coda_str = snapctl_get('bootstrap')
+bootstrap_coda_json = json.loads(bootstrap_coda_str)
+bootstrap_coda_config = translate_config_snap_to_coda(bootstrap_coda_json)
+save_json(bootstrap_path, bootstrap_coda_config)
 
+# Prepare conf.json
 conf_path = os.path.join(config_dir, 'conf.json')
-conf_data_str = snapctl_get('conf')
-conf_data = json.loads(conf_data_str)
-save_json(conf_data, conf_path)
+conf_coda_str = snapctl_get('conf')
+conf_coda_json = json.loads(conf_coda_str)
+conf_coda_config = translate_config_snap_to_coda(conf_coda_json)
+save_json(conf_path, conf_coda_config)

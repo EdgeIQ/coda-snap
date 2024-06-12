@@ -9,6 +9,20 @@ print("Starting installation...")
 src_conf_dir = os.path.join(os.environ['SNAP'], 'conf')
 dst_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
 
+def translate_config_coda_to_snap(obj):
+    if isinstance(obj, dict):
+        new_obj = {}
+        for k, v in obj.items():
+            new_key = k.replace("_", "-")
+            new_obj[new_key] = translate_config_coda_to_snap(v)
+        return new_obj
+    elif isinstance(obj, list):
+        for i in range(len(obj)):
+            obj[i] = translate_config_coda_to_snap(obj[i])
+        return obj
+    else:
+        return obj
+
 def snapctl_set(key, json_data):
     json_str = json.dumps(json_data)
     print(f"Setting {key} to {json_data}")
@@ -28,5 +42,13 @@ shutil.copytree(src_conf_dir, dst_config_dir)
 
 # Set the default values for the snap
 print("Setting default values...")
-snapctl_set('bootstrap', load_json(os.path.join(src_conf_dir, 'bootstrap.json')))
-snapctl_set('conf', load_json(os.path.join(src_conf_dir, 'conf.json')))
+
+# Handle bootstrap.json
+bootstrap_coda_config = load_json(os.path.join(src_conf_dir, 'bootstrap.json'))
+bootstrap_snap_config = translate_config_coda_to_snap(bootstrap_coda_config)
+snapctl_set('bootstrap', bootstrap_snap_config)
+
+# Handle conf.json
+conf_coda_config = load_json(os.path.join(src_conf_dir, 'conf.json'))
+conf_snap_config = translate_config_coda_to_snap(conf_coda_config)
+snapctl_set('conf', conf_snap_config)
