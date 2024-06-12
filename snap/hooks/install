@@ -1,0 +1,27 @@
+#!/bin/sh
+set -e
+
+# During the first install of the snap we want to copy the default configuration files and set the default values for the snap.
+# This script will be executed by the snapd daemon as root on the clean installation of the snap.
+
+parse_and_set() {
+    file=$1
+    prefix=$2
+    echo "Processing file: $file"
+    cat $file
+    keys=$(grep -oP '"\K[^"]*(?=":)' $file)
+    for key in $keys; do
+        value=$(grep -oP "(?<=\"$key\": \")[^\"]*" $file)
+        echo "Setting $prefix.$key to $value"
+        snap set $prefix.$key="$value"
+    done
+}
+
+# Copy the default configuration files to the persistent and writable area
+echo "Copying configuration files..."
+cp -r $SNAP/conf $SNAP_COMMON/conf
+
+# Set the default values for the snap
+echo "Setting default values..."
+parse_and_set $SNAP/conf/bootstrap.json bootstrap
+parse_and_set $SNAP/conf/config.json config
