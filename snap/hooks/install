@@ -9,12 +9,12 @@ print("Starting installation...")
 src_conf_dir = os.path.join(os.environ['SNAP'], 'conf')
 dst_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
 
-def set_default_values(data, prefix=''):
-    json_data = json.dumps(data)
-    print(f"Setting {prefix} to {json_data}")
-    subprocess.run(["snapctl", "set", f"{prefix}={json_data}"], check=True)
+def snapctl_set(key, json_data):
+    json_str = json.dumps(json_data)
+    print(f"Setting {key} to {json_data}")
+    subprocess.run(["snapctl", "set", f"{key}={json_str}"], check=True)
 
-def load_conf_file(file_name):
+def load_json(file_name):
     file = os.path.join(src_conf_dir, file_name)
     with open(file, 'r') as f:
         print(f"Loading {file}")
@@ -28,5 +28,5 @@ shutil.copytree(src_conf_dir, dst_config_dir)
 
 # Set the default values for the snap
 print("Setting default values...")
-set_default_values(load_conf_file('bootstrap.json'), 'bootstrap')
-set_default_values(load_conf_file('conf.json'), 'conf')
+snapctl_set('bootstrap', load_json(os.path.join(src_conf_dir, 'bootstrap.json')))
+snapctl_set('conf', load_json(os.path.join(src_conf_dir, 'conf.json')))
