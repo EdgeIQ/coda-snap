@@ -1,27 +1,35 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env python3
 
-# During the first install of the snap we want to copy the default configuration files and set the default values for the snap.
-# This script will be executed by the snapd daemon as root on the clean installation of the snap.
+import os
+import json
+import shutil
+import subprocess
 
-parse_and_set() {
-    file=$1
-    prefix=$2
-    echo "Processing file: $file"
-    cat $file
-    keys=$(grep -oP '"\K[^"]*(?=":)' $file)
-    for key in $keys; do
-        value=$(grep -oP "(?<=\"$key\": \")[^\"]*" $file)
-        echo "Setting $prefix.$key to $value"
-        snap set $prefix.$key="$value"
-    done
-}
+print("Starting installation...")
+src_conf_dir = os.path.join(os.environ['SNAP'], 'conf')
+writrable_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
+
+def parse_and_set(data, prefix=''):
+    for key, value in data.items():
+        if isinstance(value, dict):
+            parse_and_set(value, f"{prefix}.{key}")
+        else:
+            print(f"Setting {prefix}.{key} to {value}")
+            subprocess.run(["snap", "set", f"{prefix}.{key}={value}"], check=True)
+
+def load_json(file_name):
+    file = os.path.join(src_conf_dir, file_name)
+    with open(file, 'r') as f:
+        print(f"Loading {file}")
+        print(f.read())
+        return json.load(f)
+
 
 # Copy the default configuration files to the persistent and writable area
-echo "Copying configuration files..."
-cp -r $SNAP/conf $SNAP_COMMON/conf
+print("Copying configuration files...")
+shutil.copytree(src_conf_dir, writrable_config_dir)
 
 # Set the default values for the snap
-echo "Setting default values..."
-parse_and_set $SNAP/conf/bootstrap.json bootstrap
-parse_and_set $SNAP/conf/config.json config
+print("Setting default values...")
+parse_and_set(load_json('bootstrap.json'), 'bootstrap')
+parse_and_set(load_json('config.json'), 'config')
