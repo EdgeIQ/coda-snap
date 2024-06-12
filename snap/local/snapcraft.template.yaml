@@ -16,7 +16,9 @@ architectures:
 
 hooks:
   install:
-    plugs: [network, network-bind]
+    plugs: []
+  configure:
+    plugs: []
 
 apps:
   agent:
@@ -36,7 +38,6 @@ parts:
       - network-manager
       - iptables
       - iputils-ping
-      - jq
 
   coda:
     plugin: nil
