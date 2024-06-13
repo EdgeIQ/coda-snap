@@ -23,19 +23,34 @@ hooks:
 apps:
   agent:
     command: edge
+    daemon: simple
+    restart-condition: always
     plugs:
       - home
+      - shutdown
+      - snapd-control
+      - snap-refresh-observe
+      - snap-refresh-control
+      - hardware-observe
       - network
       - network-bind
       - network-control
-      - shutdown
-      - snapd-control
+      - network-manager
+      - network-manager-observe
+      - network-observe
+      - network-setup-control
+      - network-setup-observe
+      - network-status
+      - modem-manager
+      - ppp
+      - firewall-control
 
 parts:
   deps:
     plugin: nil
     stage-packages:
       - network-manager
+      - modemmanager
       - iptables
       - iputils-ping
 
