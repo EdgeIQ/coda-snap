@@ -57,7 +57,7 @@ parts:
       - iputils-ping
 
   utils:
-    plugin: python
+    plugin: dump
     source: utils
 
   coda:
