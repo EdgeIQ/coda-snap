@@ -40,3 +40,6 @@ install:
 	sudo snap connect $(EDGEIQ_SNAP_NAME):home :home
 	sudo snap connect $(EDGEIQ_SNAP_NAME):snapd-control :snapd-control
 	sudo snap connect $(EDGEIQ_SNAP_NAME):network-control :network-control
+	sudo snap connect $(EDGEIQ_SNAP_NAME):network-manager :network-manager
+	sudo snap connect $(EDGEIQ_SNAP_NAME):modem-manager :modem-manager
+	sudo snap connect $(EDGEIQ_SNAP_NAME):firewall-control :firewall-control

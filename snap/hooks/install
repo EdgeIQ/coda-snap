@@ -4,51 +4,82 @@ import os
 import json
 import shutil
 import subprocess
+import logging
+import sys
 
-print("Starting installation...")
+# Setup logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+logging.info("Starting installation...")
+
 src_conf_dir = os.path.join(os.environ['SNAP'], 'conf')
 dst_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
 
 def translate_config_coda_to_snap(obj):
+    """
+    Recursively translates configuration keys from coda style (underscore) to snap style (dash).
+    """
     if isinstance(obj, dict):
-        new_obj = {}
-        for k, v in obj.items():
-            new_key = k.replace("_", "-")
-            new_obj[new_key] = translate_config_coda_to_snap(v)
+        new_obj = {k.replace("_", "-"): translate_config_coda_to_snap(v) for k, v in obj.items()}
         return new_obj
     elif isinstance(obj, list):
-        for i in range(len(obj)):
-            obj[i] = translate_config_coda_to_snap(obj[i])
-        return obj
+        return [translate_config_coda_to_snap(i) for i in obj]
     else:
         return obj
 
 def snapctl_set(key, json_data):
+    """
+    Sets a snap configuration key to the provided JSON data using snapctl.
+    """
     json_str = json.dumps(json_data)
-    print(f"Setting {key} to {json_data}")
-    subprocess.run(["snapctl", "set", f"{key}={json_str}"], check=True)
+    logging.debug(f"Setting {key} to {json_data}")
+    try:
+        subprocess.run(["snapctl", "set", f"{key}={json_str}"], check=True)
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Failed to set {key}: {e}")
+        sys.exit(1)
 
-def load_json(file_name):
-    file = os.path.join(src_conf_dir, file_name)
-    with open(file, 'r') as f:
-        print(f"Loading {file}")
-        content = f.read()
-        print(content)
-        return json.loads(content)
+def load_json(file_path):
+    """
+    Loads and returns the JSON data from the specified file.
+    """
+    try:
+        with open(file_path, 'r') as f:
+            logging.debug(f"Loading {file_path}")
+            content = json.load(f)
+            logging.debug(f"Loaded content: {content}")
+            return content
+    except (IOError, json.JSONDecodeError) as e:
+        logging.error(f"Failed to load or parse {file_path}: {e}")
+        sys.exit(1)
+
+def copy_configuration_files(src_dir, dst_dir):
+    """
+    Copies configuration files from source directory to destination directory.
+    """
+    try:
+        shutil.copytree(src_dir, dst_dir)
+        logging.info(f"Copied configuration files from {src_dir} to {dst_dir}")
+    except shutil.Error as e:
+        logging.error(f"Failed to copy configuration files: {e}")
+        sys.exit(1)
+
+def process_config(file_name, snap_key):
+    """
+    Processes a configuration file: loads it, translates keys, and sets it using snapctl.
+    """
+    file_path = os.path.join(src_conf_dir, file_name)
+    coda_config = load_json(file_path)
+    snap_config = translate_config_coda_to_snap(coda_config)
+    snapctl_set(snap_key, snap_config)
 
 # Copy the default configuration files to the persistent and writable area
-print("Copying configuration files...")
-shutil.copytree(src_conf_dir, dst_config_dir)
+logging.info("Copying configuration files...")
+copy_configuration_files(src_conf_dir, dst_config_dir)
 
 # Set the default values for the snap
-print("Setting default values...")
+logging.info("Setting default values...")
 
-# Handle bootstrap.json
-bootstrap_coda_config = load_json(os.path.join(src_conf_dir, 'bootstrap.json'))
-bootstrap_snap_config = translate_config_coda_to_snap(bootstrap_coda_config)
-snapctl_set('bootstrap', bootstrap_snap_config)
-
-# Handle conf.json
-conf_coda_config = load_json(os.path.join(src_conf_dir, 'conf.json'))
-conf_snap_config = translate_config_coda_to_snap(conf_coda_config)
-snapctl_set('conf', conf_snap_config)
+# Handle bootstrap.json and conf.json using the universal function
+process_config('bootstrap.json', 'bootstrap')
+process_config('conf.json', 'conf')

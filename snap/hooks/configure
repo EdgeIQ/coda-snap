@@ -3,48 +3,107 @@
 import os
 import json
 import subprocess
+import logging
+import sys
 
-print("Starting configuration...")
+# Setup logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+logging.info("Starting configuration...")
+
 config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
 
 def translate_config_snap_to_coda(obj):
+    """
+    Recursively translates configuration keys from snap style (dash) to coda style (underscore).
+    """
     if isinstance(obj, dict):
-        new_obj = {}
-        for k, v in obj.items():
-            new_key = k.replace("-", "_")
-            new_obj[new_key] = translate_config_snap_to_coda(v)
-        return new_obj
+        return {k.replace("-", "_"): translate_config_snap_to_coda(v) for k, v in obj.items()}
     elif isinstance(obj, list):
-        for i in range(len(obj)):
-            obj[i] = translate_config_snap_to_coda(obj[i])
-        return obj
+        return [translate_config_snap_to_coda(i) for i in obj]
     else:
         return obj
 
 def snapctl_get(key):
-    result = subprocess.run(['snapctl', 'get', key], capture_output=True, text=True)
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to get snap configuration for key: {key}")
-    return result.stdout.strip()
+    """
+    Gets a snap configuration key using snapctl.
+    """
+    try:
+        result = subprocess.run(['snapctl', 'get', key], capture_output=True, text=True, check=True)
+        return result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Failed to get snap configuration for key: {key}: {e}")
+        sys.exit(1)
 
 def save_json(path, data):
-    print(f"Writing configuration to {path}")
-    with open(path, 'w') as f:
-        json_str = json.dumps(data, indent=4)
-        print(json_str)
-        f.write(json_str)
-        print(f"Data saved to {path}")
+    """
+    Saves the provided JSON data to the specified file path.
+    """
+    logging.debug(f"Writing configuration to {path}")
+    try:
+        with open(path, 'w') as f:
+            json_str = json.dumps(data, indent=4)
+            logging.debug(f"Configuration data: {json_str}")
+            f.write(json_str)
+            logging.info(f"Data saved to {path}")
+    except IOError as e:
+        logging.error(f"Failed to save data to {path}: {e}")
+        sys.exit(1)
+
+def normalize_bootstrap_config(config_json):
+    """
+    Normalizes the bootstrap configuration by translating keys and handling identifier data.
+    """
+    translated_config = translate_config_snap_to_coda(config_json)
+    identifier_filepath = translated_config.get('identifier_filepath')
+    company_id = translated_config.get('company_id')
+    unique_id = translated_config.get('unique_id')
+    
+    if (not identifier_filepath or identifier_filepath == "") and company_id and unique_id:
+        identifier_data = {
+            'company_id': company_id,
+            'unique_id': unique_id
+        }
+
+        identifier_filepath = os.path.join(config_dir, 'identifier.json')
+        save_json(identifier_filepath, identifier_data)
+        translated_config['identifier_filepath'] = identifier_filepath
+        if 'unique_id' in translated_config:
+            del translated_config['unique_id']
+
+    return translated_config
+
+def process_configuration(file_name, snap_key, normalize_func=None):
+    """
+    Processes a configuration file: gets the configuration from snapctl, translates keys,
+    normalizes if needed, and saves it to the specified path.
+    """
+    file_path = os.path.join(config_dir, file_name)
+    snap_config_str = snapctl_get(snap_key)
+    snap_config_json = json.loads(snap_config_str)
+    if normalize_func:
+        snap_config_json = normalize_func(snap_config_json)
+    else:
+        snap_config_json = translate_config_snap_to_coda(snap_config_json)
+    save_json(file_path, snap_config_json)
+
+def restart_agent():
+    """
+    Restarts the CODA agent.
+    """
+    try:
+        snap_name = os.environ['SNAP_NAME']
+        subprocess.run(['snapctl', 'restart', f'{snap_name}.agent'], check=True)
+        logging.info("Successfully restarted the snap daemon.")
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Failed to restart the snap daemon: {e}")
+        sys.exit(1)
 
 # Prepare bootstrap.json
-bootstrap_path = os.path.join(config_dir, 'bootstrap.json')
-bootstrap_coda_str = snapctl_get('bootstrap')
-bootstrap_coda_json = json.loads(bootstrap_coda_str)
-bootstrap_coda_config = translate_config_snap_to_coda(bootstrap_coda_json)
-save_json(bootstrap_path, bootstrap_coda_config)
+process_configuration('bootstrap.json', 'bootstrap', normalize_func=normalize_bootstrap_config)
 
 # Prepare conf.json
-conf_path = os.path.join(config_dir, 'conf.json')
-conf_coda_str = snapctl_get('conf')
-conf_coda_json = json.loads(conf_coda_str)
-conf_coda_config = translate_config_snap_to_coda(conf_coda_json)
-save_json(conf_path, conf_coda_config)
+process_configuration('conf.json', 'conf')
+
+# Restart the CODA with updated configuration
+restart_agent()
