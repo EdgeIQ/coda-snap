@@ -19,6 +19,8 @@ hooks:
     plugs: []
   configure:
     plugs: []
+  refresh:
+    plugs: []
 
 apps:
   agent:
@@ -53,6 +55,10 @@ parts:
       - modemmanager
       - iptables
       - iputils-ping
+
+  utils:
+    plugin: python
+    source: utils
 
   coda:
     plugin: nil

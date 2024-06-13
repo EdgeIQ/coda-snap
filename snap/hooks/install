@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-import os
-import json
-import shutil
-import subprocess
-import logging
 import sys
+import os
+import logging
+
+sys.path.append(os.path.join(os.environ['SNAP'], 'shared'))
+
+import hook_utils
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -27,59 +28,22 @@ def translate_config_coda_to_snap(obj):
     else:
         return obj
 
-def snapctl_set(key, json_data):
-    """
-    Sets a snap configuration key to the provided JSON data using snapctl.
-    """
-    json_str = json.dumps(json_data)
-    logging.debug(f"Setting {key} to {json_data}")
-    try:
-        subprocess.run(["snapctl", "set", f"{key}={json_str}"], check=True)
-    except subprocess.CalledProcessError as e:
-        logging.error(f"Failed to set {key}: {e}")
-        sys.exit(1)
-
-def load_json(file_path):
-    """
-    Loads and returns the JSON data from the specified file.
-    """
-    try:
-        with open(file_path, 'r') as f:
-            logging.debug(f"Loading {file_path}")
-            content = json.load(f)
-            logging.debug(f"Loaded content: {content}")
-            return content
-    except (IOError, json.JSONDecodeError) as e:
-        logging.error(f"Failed to load or parse {file_path}: {e}")
-        sys.exit(1)
-
-def copy_configuration_files(src_dir, dst_dir):
-    """
-    Copies configuration files from source directory to destination directory.
-    """
-    try:
-        shutil.copytree(src_dir, dst_dir)
-        logging.info(f"Copied configuration files from {src_dir} to {dst_dir}")
-    except shutil.Error as e:
-        logging.error(f"Failed to copy configuration files: {e}")
-        sys.exit(1)
-
-def process_config(file_name, snap_key):
+def process_configuration(file_name, snap_key, translate_func):
     """
     Processes a configuration file: loads it, translates keys, and sets it using snapctl.
     """
     file_path = os.path.join(src_conf_dir, file_name)
-    coda_config = load_json(file_path)
-    snap_config = translate_config_coda_to_snap(coda_config)
-    snapctl_set(snap_key, snap_config)
+    coda_config = hook_utils.load_json(file_path)
+    snap_config = translate_func(coda_config)
+    hook_utils.snapctl_set(snap_key, snap_config)
 
 # Copy the default configuration files to the persistent and writable area
 logging.info("Copying configuration files...")
-copy_configuration_files(src_conf_dir, dst_config_dir)
+hook_utils.copy_configuration_files(src_conf_dir, dst_config_dir)
 
 # Set the default values for the snap
 logging.info("Setting default values...")
 
 # Handle bootstrap.json and conf.json using the universal function
-process_config('bootstrap.json', 'bootstrap')
-process_config('conf.json', 'conf')
+process_configuration('bootstrap.json', 'bootstrap', translate_config_coda_to_snap)
+process_configuration('conf.json', 'conf', translate_config_coda_to_snap)
