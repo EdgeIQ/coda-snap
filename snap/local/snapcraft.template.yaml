@@ -8,7 +8,6 @@ description: |
 grade: devel
 confinement: strict
 
-epoch: 1
 architectures:
   - build-on: amd64
   - build-on: arm64
@@ -46,6 +45,7 @@ apps:
       - modem-manager
       - ppp
       - firewall-control
+      - tpm
 
 parts:
   deps:
@@ -86,7 +86,7 @@ parts:
       mv $SNAPCRAFT_PART_INSTALL/edge/* $SNAPCRAFT_PART_INSTALL/
       rm -rf $SNAPCRAFT_PART_INSTALL/edge
 
-      jq '.platform = "snap" | .network_configurer = "nmcli"' $SNAPCRAFT_PART_INSTALL/conf/bootstrap.json > $SNAPCRAFT_PART_INSTALL/conf/temp.json 
+      jq '.network_configurer = "nmcli"' $SNAPCRAFT_PART_INSTALL/conf/bootstrap.json > $SNAPCRAFT_PART_INSTALL/conf/temp.json 
       mv $SNAPCRAFT_PART_INSTALL/conf/temp.json $SNAPCRAFT_PART_INSTALL/conf/bootstrap.json
 
       wget --max-redirect=10 $EDGEIQ_API_URL/api/v1/platform/releases/$VERSION/edge-linux-$ARCH-$VERSION -O $SNAPCRAFT_PART_INSTALL/edge
