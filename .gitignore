@@ -3,3 +3,5 @@
 snap/snapcraft.yaml
 
 *.snap
+
+exported.txt
