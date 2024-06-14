@@ -62,5 +62,5 @@ login:
 	snapcraft export-login --snaps=$(EDGEIQ_SNAP_NAME) --acls package_access,package_push,package_update,package_release ./exported.txt
 
 publish:
-	snapcraft login --with mylogin
+	snapcraft login --with ./exported.txt
 	snapcraft upload --release=$(SNAPCRAFT_CHANNEL) $(EDGEIQ_SNAP_NAME)*.snap
