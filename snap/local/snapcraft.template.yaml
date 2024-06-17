@@ -1,0 +1,104 @@
+name: {{EDGEIQ_SNAP_NAME}}
+base: core20
+version: '{{EDGEIQ_CODA_SNAP_VERSION}}'
+summary: Official EdgeIQ Coda snap
+description: |
+  Coda by EdgeIQ is a powerful edge agent platform designed to connect, manage, and orchestrate IoT devices at the edge. 
+  This snap provides the core functionalities required to deploy and run the Coda Edge Agent on Ubuntu Core. 
+  
+  Coda enables efficient management of IoT devices, ensuring seamless data flow and secure communication with EdgeIQ Symphony platform. 
+  It offers robust features for device monitoring, data collection, and real-time analytics, making it an essential tool for edge computing solutions.
+  
+  Coda supports various edge protocols and can be integrated with numerous cloud services, providing a flexible workflows for your IoT device orchestration.
+  
+  This snap package simplifies the deployment of Coda on Ubuntu Core, allowing users to leverage its capabilities with minimal setup effort. 
+  Whether you are deploying a few devices or managing a large-scale IoT network, Coda provides the tools and functionality needed to ensure smooth and reliable operations.
+  
+  For more information, visit the website: "https://www.edgeiq.ai/".
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf 
+
+hooks:
+  install:
+    plugs: [network]
+  configure:
+    plugs: []
+  refresh:
+    plugs: []
+
+apps:
+  agent:
+    command: edge
+    daemon: simple
+    restart-condition: always
+    plugs:
+      - home
+      - shutdown
+      - snapd-control
+      - snap-refresh-observe
+      - snap-refresh-control
+      - hardware-observe
+      - network
+      - network-bind
+      - network-control
+      - network-manager
+      - network-manager-observe
+      - network-observe
+      - network-setup-control
+      - network-setup-observe
+      - network-status
+      - modem-manager
+      - ppp
+      - firewall-control
+      - tpm
+
+parts:
+  deps:
+    plugin: nil
+    stage-packages:
+      - network-manager
+      - modemmanager
+      - iptables
+      - iputils-ping
+
+  utils:
+    plugin: dump
+    source: utils
+
+  coda:
+    plugin: nil
+    build-packages:
+      - wget
+      - jq
+    override-build: |
+      EDGEIQ_API_URL={{EDGEIQ_API_URL}}
+      VERSION={{EDGEIQ_CODA_VERSION}}
+      case $SNAPCRAFT_ARCH_TRIPLET in
+        "x86_64-linux-gnu")
+          ARCH=amd64
+          ;;
+        "arm-linux-gnueabihf")
+          ARCH=arm7
+          ;;
+        "aarch64-linux-gnu")
+          ARCH=arm64
+          ;;
+      esac
+      
+      wget --max-redirect=10 $EDGEIQ_API_URL/api/v1/platform/releases/$VERSION/edge-assets-$VERSION.tar.gz -O $SNAPCRAFT_PART_INSTALL/edge-assets.tar.gz
+      tar -xvf $SNAPCRAFT_PART_INSTALL/edge-assets.tar.gz -C $SNAPCRAFT_PART_INSTALL
+      rm $SNAPCRAFT_PART_INSTALL/edge-assets.tar.gz
+      mv $SNAPCRAFT_PART_INSTALL/edge/* $SNAPCRAFT_PART_INSTALL/
+      rm -rf $SNAPCRAFT_PART_INSTALL/edge
+
+      jq '.network_configurer = "nmcli"' $SNAPCRAFT_PART_INSTALL/conf/bootstrap.json > $SNAPCRAFT_PART_INSTALL/conf/temp.json 
+      mv $SNAPCRAFT_PART_INSTALL/conf/temp.json $SNAPCRAFT_PART_INSTALL/conf/bootstrap.json
+
+      wget --max-redirect=10 $EDGEIQ_API_URL/api/v1/platform/releases/$VERSION/edge-linux-$ARCH-$VERSION -O $SNAPCRAFT_PART_INSTALL/edge
+      chmod +x $SNAPCRAFT_PART_INSTALL/edge
