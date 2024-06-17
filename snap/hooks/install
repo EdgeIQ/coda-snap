@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import logging
+
+sys.path.append(os.path.join(os.environ['SNAP'], 'shared'))
+
+import hook_utils
+
+# Setup logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+logging.info("Starting installation...")
+
+src_conf_dir = os.path.join(os.environ['SNAP'], 'conf')
+dst_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
+
+def process_bootstrap_config(obj):
+    """
+    Processes the bootstrap configuration file: loads it, translates keys, and sets it using snapctl.
+    """
+    obj['unique_id'] = hook_utils.get_mac_of_first_ethernet_failsafe()
+    return hook_utils.translate_config_coda_to_snap(obj)
+
+
+def process_configuration(file_name, snap_key, translate_func):
+    """
+    Processes a configuration file: loads it, translates keys, and sets it using snapctl.
+    """
+    file_path = os.path.join(src_conf_dir, file_name)
+    coda_config = hook_utils.load_json(file_path)
+    snap_config = translate_func(coda_config)
+    hook_utils.snapctl_set(snap_key, snap_config)
+
+# Copy the default configuration files to the persistent and writable area
+logging.info("Copying configuration files...")
+hook_utils.copy_configuration_files(src_conf_dir, dst_config_dir)
+
+# Set the default values for the snap
+logging.info("Setting default values...")
+
+# Handle bootstrap.json and conf.json using the universal function
+process_configuration('bootstrap.json', 'bootstrap', process_bootstrap_config)
+process_configuration('conf.json', 'conf', hook_utils.translate_config_coda_to_snap)
