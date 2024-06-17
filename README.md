@@ -24,10 +24,12 @@ sudo snap install coda
 Configure your device with a unique ID and company ID using the following commands:
 
 ```bash
-sudo snap set coda bootstrap.unique-id=testdevice
-sudo snap set coda bootstrap.company-id=machineshop
+sudo snap set coda bootstrap.unique-id=your-unique-id
+sudo snap set coda bootstrap.company-id=your-company-id
 sudo snap restart coda
 ```
+
+> **Note:** By default, during the installation, Snap tries to use the MAC address of the first Ethernet port as the `unique-id`. This will happen only one time during the first installation and then can be changed via the `snap set` command.
 
 ### Change MQTT Password
 
@@ -53,6 +55,47 @@ cat /var/snap/coda/common/conf/identifier.json
 
 sudo snap get coda "conf"
 cat /var/snap/coda/common/conf/conf.json
+```
+
+## Use-cases
+
+### Reboot or Shutdown the Device
+
+To grant access the coda snap to reboot or shutdown the device, please connect the following plugs:
+
+```bash
+sudo snap connect coda:shutdown :shutdown
+```
+
+### Managing Snaps on the Device
+
+To [manage snaps on the device](https://dev.edgeiq.io/docs/example-managing-snaps-on-ubuntu-core-devices), please connect the following plugs:
+
+```bash
+sudo snap connect coda:snapd-control :snapd-control # required
+sudo snap connect coda:snap-refresh-observe :snap-refresh-observe # nice to have
+sudo snap connect coda:snap-refresh-control :snap-refresh-control # nice to have
+```
+
+### Network Configuration
+
+To have ability [create and apply network configurations]()https://dev.edgeiq.io/docs/create-and-apply-a-network-configuration-for-a-gateway-device to your device via [API](https://dev.edgeiq.io/docs/network-configuration), please connect the following plug:
+
+```bash
+sudo snap connect coda:network-control :network-control 
+sudo snap connect coda:network-manager :network-manager
+sudo snap connect coda:network-manager-observe :network-manager-observe
+sudo snap connect coda:firewall-control :firewall-control
+```
+
+> **Note:** At this time `modem-manager` is reserved but not actively supported by the Coda. We are working on adding support for it in nearest the future.
+
+### Certificate-Based Authentication with TPM 2.0
+
+To [configure your Device with TPM Support for Enhanced Security](https://dev.edgeiq.io/docs/configuring-edge-devices-with-tpm-support-for-enhanced-security) , please connect the following plug:
+
+```bash
+sudo snap connect coda:tpm :tpm
 ```
 
 ## Development

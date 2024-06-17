@@ -16,17 +16,13 @@ logging.info("Starting installation...")
 src_conf_dir = os.path.join(os.environ['SNAP'], 'conf')
 dst_config_dir = os.path.join(os.environ['SNAP_COMMON'], 'conf')
 
-def translate_config_coda_to_snap(obj):
+def process_bootstrap_config(obj):
     """
-    Recursively translates configuration keys from coda style (underscore) to snap style (dash).
+    Processes the bootstrap configuration file: loads it, translates keys, and sets it using snapctl.
     """
-    if isinstance(obj, dict):
-        new_obj = {k.replace("_", "-"): translate_config_coda_to_snap(v) for k, v in obj.items()}
-        return new_obj
-    elif isinstance(obj, list):
-        return [translate_config_coda_to_snap(i) for i in obj]
-    else:
-        return obj
+    obj['unique_id'] = hook_utils.get_mac_of_first_ethernet_failsafe()
+    return hook_utils.translate_config_coda_to_snap(obj)
+
 
 def process_configuration(file_name, snap_key, translate_func):
     """
@@ -45,5 +41,5 @@ hook_utils.copy_configuration_files(src_conf_dir, dst_config_dir)
 logging.info("Setting default values...")
 
 # Handle bootstrap.json and conf.json using the universal function
-process_configuration('bootstrap.json', 'bootstrap', translate_config_coda_to_snap)
-process_configuration('conf.json', 'conf', translate_config_coda_to_snap)
+process_configuration('bootstrap.json', 'bootstrap', process_bootstrap_config)
+process_configuration('conf.json', 'conf', hook_utils.translate_config_coda_to_snap)
