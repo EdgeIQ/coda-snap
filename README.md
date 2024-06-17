@@ -79,7 +79,7 @@ sudo snap connect coda:snap-refresh-control :snap-refresh-control # nice to have
 
 ### Network Configuration
 
-To have ability [create and apply network configurations]()https://dev.edgeiq.io/docs/create-and-apply-a-network-configuration-for-a-gateway-device to your device via [API](https://dev.edgeiq.io/docs/network-configuration), please connect the following plug:
+To have ability [create and apply network configurations](https://dev.edgeiq.io/docs/create-and-apply-a-network-configuration-for-a-gateway-device) to your device via [API](https://dev.edgeiq.io/docs/network-configuration), please connect the following plug:
 
 ```bash
 sudo snap connect coda:network-control :network-control 
@@ -88,7 +88,7 @@ sudo snap connect coda:network-manager-observe :network-manager-observe
 sudo snap connect coda:firewall-control :firewall-control
 ```
 
-> **Note:** At this time `modem-manager` is reserved but not actively supported by the Coda. We are working on adding support for it in nearest the future.
+> **Note:** At this time `modem-manager` is reserved but not supported by the Coda. We are working on adding support for it in nearest the future.
 
 ### Certificate-Based Authentication with TPM 2.0
 
