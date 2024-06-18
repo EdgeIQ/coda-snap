@@ -72,9 +72,7 @@ sudo snap connect coda:shutdown :shutdown
 To [manage snaps on the device](https://dev.edgeiq.io/docs/example-managing-snaps-on-ubuntu-core-devices), please connect the following plugs:
 
 ```bash
-sudo snap connect coda:snapd-control :snapd-control # required
-sudo snap connect coda:snap-refresh-observe :snap-refresh-observe # nice to have
-sudo snap connect coda:snap-refresh-control :snap-refresh-control # nice to have
+sudo snap connect coda:snapd-control :snapd-control
 ```
 
 ### Network Configuration
@@ -119,7 +117,14 @@ make setup
 To build the project:
 
 ```bash
-make uninstall clean build install
+make clean build
+```
+
+To build the specific version:
+
+```bash
+export EDGEIQ_CODA_VERSION=4.0.2
+make clean build
 ```
 
 For more information and support, visit the [EdgeIQ documentation](https://dev.edgeiq.io/).
