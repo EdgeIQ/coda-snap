@@ -41,8 +41,6 @@ install:
 	sudo snap connect $(EDGEIQ_SNAP_NAME):home :home
 	sudo snap connect $(EDGEIQ_SNAP_NAME):shutdown :shutdown
 	sudo snap connect $(EDGEIQ_SNAP_NAME):snapd-control :snapd-control
-	sudo snap connect $(EDGEIQ_SNAP_NAME):snap-refresh-observe :snap-refresh-observe
-	sudo snap connect $(EDGEIQ_SNAP_NAME):snap-refresh-control :snap-refresh-control
 	sudo snap connect $(EDGEIQ_SNAP_NAME):hardware-observe :hardware-observe
 	sudo snap connect $(EDGEIQ_SNAP_NAME):network :network
 	sudo snap connect $(EDGEIQ_SNAP_NAME):network-bind :network-bind
@@ -62,5 +60,5 @@ login:
 	snapcraft export-login --snaps=$(EDGEIQ_SNAP_NAME) --acls package_access,package_push,package_update,package_release ./exported.txt
 
 publish:
-	snapcraft login --with ./exported.txt
+	export SNAPCRAFT_STORE_CREDENTIALS=$(shell cat ./exported.txt)
 	snapcraft upload --release=$(SNAPCRAFT_CHANNEL) $(EDGEIQ_SNAP_NAME)*.snap
