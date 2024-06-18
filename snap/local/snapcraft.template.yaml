@@ -29,8 +29,6 @@ hooks:
     plugs: [network]
   configure:
     plugs: []
-  refresh:
-    plugs: []
 
 apps:
   agent:
@@ -41,7 +39,6 @@ apps:
       - home
       - shutdown
       - snapd-control
-      - snap-refresh-observe
       - snap-refresh-control
       - hardware-observe
       - network
