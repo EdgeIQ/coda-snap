@@ -39,7 +39,6 @@ apps:
       - home
       - shutdown
       - snapd-control
-      - snap-refresh-control
       - hardware-observe
       - network
       - network-bind
