@@ -31,17 +31,12 @@ jobs:
       - name: Run template to generate snapcraft.yaml
         run: make template
 
-      - name: Build and publish snap for amd64, arm64, and armhf
+      - name: Build for the target architectures
         run: |
-          snapcraft remote-build --build-on=amd64,arm64,armhf --status --launchpad-accept-public-upload --launchpad-timeout 3600 --package-all-sources
-          
-      - name: Publish to specified channels
+          snapcraft remote-build --launchpad-accept-public-upload --launchpad-timeout 3600 --package-all-sources --status
+
+      - name: Release to the specified channels
         run: |
-          echo "Publishing to channels: $SNAPCRAFT_CHANNELS"
-          IFS=',' read -ra CHANNELS <<< "$SNAPCRAFT_CHANNELS"
-          for channel in "${CHANNELS[@]}"; do
-            echo "Publishing to channel: $channel"
-            snapcraft push *.snap --release="$channel"
-            echo "Published to $channel"
+          for snap_file in $(EDGEIQ_SNAP_NAME)*.snap; do
+            snapcraft upload --release="$SNAPCRAFT_CHANNELS" "$snap_file"
           done
-          echo "All publishing completed"
