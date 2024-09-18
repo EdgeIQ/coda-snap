@@ -30,12 +30,12 @@ jobs:
 
       - name: Login to Snapcraft
         run: |
-          echo "${SNAPCRAFT_STORE_CREDENTIALS}" > snapcraft_login_file
-          snapcraft login --with snapcraft_login_file
+          export SNAPCRAFT_STORE_CREDENTIALS="${SNAPCRAFT_STORE_CREDENTIALS}"
+          snapcraft login
 
       - name: Run template to generate snapcraft.yaml
         run: make template
 
-      - name: Build and publish snap for amd64 and arm64
+      - name: Build and publish snap for amd64, arm64, and armhf
         run: |
-          snapcraft remote-build --build-on=amd64,arm64 --launchpad-accept-public-upload --release-channels=${SNAPCRAFT_CHANNELS}
+          snapcraft remote-build --build-on=amd64,arm64,armhf --launchpad-accept-public-upload --release-channels=${SNAPCRAFT_CHANNELS}
