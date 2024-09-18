@@ -1,0 +1,41 @@
+name: Publish Snap
+
+on:
+  workflow_dispatch:
+    inputs:
+      EDGEIQ_CODA_VERSION:
+        description: 'Version of the snap'
+        required: true
+      SNAPCRAFT_CHANNELS:
+        description: 'Channels for publication (comma-separated)'
+        required: false
+        default: 'edge,beta,candidate,stable'
+
+jobs:
+  build-and-publish:
+    name: Build and Publish Snap
+    runs-on: ubuntu-latest
+    env:
+      EDGEIQ_SNAP_NAME: coda
+      EDGEIQ_API_URL: https://api.edgeiq.io
+      EDGEIQ_CODA_VERSION: ${{ github.event.inputs.EDGEIQ_CODA_VERSION }}
+      SNAPCRAFT_CHANNELS: ${{ github.event.inputs.SNAPCRAFT_CHANNELS }}
+      SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Install Snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Login to Snapcraft
+        run: |
+          echo "${SNAPCRAFT_STORE_CREDENTIALS}" > snapcraft_login_file
+          snapcraft login --with snapcraft_login_file
+
+      - name: Run template to generate snapcraft.yaml
+        run: make template
+
+      - name: Build and publish snap for amd64 and arm64
+        run: |
+          snapcraft remote-build --build-on=amd64,arm64 --launchpad-accept-public-upload --release-channels=${SNAPCRAFT_CHANNELS}
