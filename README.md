@@ -127,4 +127,25 @@ export EDGEIQ_CODA_VERSION=4.0.2
 make clean build
 ```
 
+### Remote Build
+
+```bash
+# Login to the snapcraft store
+make login
+export SNAPCRAFT_STORE_CREDENTIALS=$(cat ./exported.txt)
+
+# Configure snapcraft.yaml
+export EDGEIQ_CODA_VERSION=4.0.15
+make template
+
+# Trigger the remote build
+snapcraft remote-build --launchpad-accept-public-upload --launchpad-timeout 3600 --package-all-sources
+
+# Upload the builds to the snapcraft store
+snapcraft upload --release="edge,beta,candidate,stable" coda_${EDGEIQ_CODA_VERSION}_armhf.snap
+snapcraft upload --release="edge,beta,candidate,stable" coda_${EDGEIQ_CODA_VERSION}_amd64.snap
+snapcraft upload --release="edge,beta,candidate,stable" coda_${EDGEIQ_CODA_VERSION}_arm64.snap
+```
+
+
 For more information and support, visit the [EdgeIQ documentation](https://dev.edgeiq.io/).
