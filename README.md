@@ -123,7 +123,7 @@ make clean build
 To build the specific version:
 
 ```bash
-export EDGEIQ_CODA_VERSION=4.0.2
+export EDGEIQ_CODA_VERSION=4.0.18
 make clean build
 ```
 
@@ -135,7 +135,7 @@ make login
 export SNAPCRAFT_STORE_CREDENTIALS=$(cat ./exported.txt)
 
 # Configure snapcraft.yaml
-export EDGEIQ_CODA_VERSION=4.0.15
+export EDGEIQ_CODA_VERSION=4.0.18
 make template
 
 # Trigger the remote build
