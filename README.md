@@ -40,6 +40,22 @@ sudo snap set coda conf.mqtt.broker.password="your-encrypted-password"
 sudo snap restart coda
 ```
 
+### Connect to a different environment
+
+To connect to a different EdgeIQ environment, run the following command to set the corresponding broker:
+
+```bash
+sudo snap set coda conf.mqtt.broker.host="mqtt.edgeiq.io"
+sudo snap restart coda
+```
+
+The brokers are:
+
+| Environment | MQTT Broker       |
+|------------|--------------------|
+| Production | mqtt.edgeiq.io     |
+| Staging    | mqtt.stage.edgeiq.io    |
+
 ## Configuration
 
 ### Configuration Keys
@@ -123,7 +139,7 @@ make clean build
 To build the specific version:
 
 ```bash
-export EDGEIQ_CODA_VERSION=4.0.18
+export EDGEIQ_CODA_VERSION=4.0.22
 make clean build
 ```
 
