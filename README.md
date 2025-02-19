@@ -151,7 +151,7 @@ make login
 export SNAPCRAFT_STORE_CREDENTIALS=$(cat ./exported.txt)
 
 # Configure snapcraft.yaml
-export EDGEIQ_CODA_VERSION=4.0.18
+export EDGEIQ_CODA_VERSION=4.0.22
 make template
 
 # Trigger the remote build
