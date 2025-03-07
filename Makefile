@@ -27,6 +27,10 @@ build:
 	$(MAKE) template
 	$(SNAPCRAFT) --use-lxd
 
+build-no-lxd:
+	$(MAKE) template
+	$(SNAPCRAFT)
+
 build-interactive:
 	$(MAKE) template
 	$(SNAPCRAFT) build --shell --use-lxd
