@@ -1,5 +1,9 @@
 .PHONY: build
 
+SNAPCRAFT := $(shell if snapcraft --version > /dev/null 2>&1; then echo snapcraft; else echo sudo snapcraft; fi)
+LXD := $(shell if lxd --version > /dev/null 2>&1; then echo lxd; else echo sudo lxd; fi)
+SNAP := sudo snap
+
 EDGEIQ_SNAP_NAME ?= coda
 EDGEIQ_API_URL ?= https://api.edgeiq.io
 EDGEIQ_CODA_VERSION ?= latest
@@ -7,9 +11,9 @@ EDGEIQ_CODA_SNAP_VERSION ?= $(shell echo $(EDGEIQ_CODA_VERSION) | sed 's/_/-/g')
 SNAPCRAFT_CHANNEL ?= stable
 
 setup:
-	sudo snap install snapcraft --classic
-	sudo snap install lxd
-	sudo lxd init --auto
+	$(SNAP) install snapcraft --classic
+	$(SNAP) install lxd
+	$(LXD) init --auto
 
 template:
 	rm -rf snap/snapcraft.yaml
@@ -21,44 +25,54 @@ template:
 
 build:
 	$(MAKE) template
-	sudo snapcraft --use-lxd
+	$(SNAPCRAFT) --use-lxd
 
 build-interactive:
 	$(MAKE) template
-	sudo snapcraft build --shell --use-lxd
+	$(SNAPCRAFT) build --shell --use-lxd
 
 clean:
-	sudo lxd shutdown
-	snapcraft clean --use-lxd
+	$(LXD) shutdown
+	$(SNAPCRAFT) clean --use-lxd
 	rm -rf snap/*.snap
-	rm -rf *.snap
+	rm -rf $(EDGEIQ_SNAP_NAME)*.snap
+	rm -rf $(EDGEIQ_SNAP_NAME)*.txt
 
 uninstall:
-	sudo snap remove $(EDGEIQ_SNAP_NAME)
+	$(SNAP) remove $(EDGEIQ_SNAP_NAME)
 
 install:
-	sudo snap install --dangerous $(EDGEIQ_SNAP_NAME)*.snap
-	sudo snap connect $(EDGEIQ_SNAP_NAME):home :home
-	sudo snap connect $(EDGEIQ_SNAP_NAME):shutdown :shutdown
-	sudo snap connect $(EDGEIQ_SNAP_NAME):snapd-control :snapd-control
-	sudo snap connect $(EDGEIQ_SNAP_NAME):hardware-observe :hardware-observe
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network :network
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-bind :network-bind
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-control :network-control
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-manager :network-manager
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-manager-observe :network-manager-observe
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-observe :network-observe
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-setup-control :network-setup-control
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-setup-observe :network-setup-observe
-	sudo snap connect $(EDGEIQ_SNAP_NAME):network-status :network-status
-	sudo snap connect $(EDGEIQ_SNAP_NAME):modem-manager :modem-manager
-	sudo snap connect $(EDGEIQ_SNAP_NAME):ppp :ppp
-	sudo snap connect $(EDGEIQ_SNAP_NAME):firewall-control :firewall-control
-	sudo snap connect $(EDGEIQ_SNAP_NAME):tpm :tpm
+	$(SNAP) install --dangerous $(EDGEIQ_SNAP_NAME)*.snap
+	$(MAKE) connect
+
+connect:
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):home :home
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):shutdown :shutdown
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):snapd-control :snapd-control
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):hardware-observe :hardware-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):system-observe :system-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network :network
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-bind :network-bind
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-control :network-control
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-manager :network-manager
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-manager-observe :network-manager-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-observe :network-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-setup-control :network-setup-control
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-setup-observe :network-setup-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-status :network-status
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):modem-manager :modem-manager
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):ppp :ppp
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):firewall-control :firewall-control
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):tpm :tpm
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):log-observe :log-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):physical-memory-observe :physical-memory-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):mount-observe :mount-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):ssh-public-keys :ssh-public-keys
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):raw-usb :raw-usb
 
 login:
-	snapcraft export-login --snaps=$(EDGEIQ_SNAP_NAME) --acls package_access,package_push,package_update,package_release ./exported.txt
+	$(SNAPCRAFT) export-login --snaps=$(EDGEIQ_SNAP_NAME) --acls package_access,package_push,package_update,package_release ./exported.txt
 
 publish:
 	export SNAPCRAFT_STORE_CREDENTIALS=$(shell cat ./exported.txt)
-	snapcraft upload --release=$(SNAPCRAFT_CHANNEL) $(EDGEIQ_SNAP_NAME)*.snap
+	$(SNAPCRAFT) upload --release=$(SNAPCRAFT_CHANNEL) $(EDGEIQ_SNAP_NAME)*.snap

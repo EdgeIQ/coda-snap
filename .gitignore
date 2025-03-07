@@ -5,3 +5,6 @@ snap/snapcraft.yaml
 *.snap
 
 exported.txt
+
+coda_*.snap
+coda_*.txt

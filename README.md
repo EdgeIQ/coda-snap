@@ -73,6 +73,16 @@ sudo snap get coda "conf"
 cat /var/snap/coda/common/conf/conf.json
 ```
 
+### Persistent Logging
+
+To enable persistent logging for the system journal, which ensures logs are preserved across reboots:
+
+```bash
+sudo snap set system journal.persistent=true
+```
+
+This configuration is recommended for maintaining log history and debugging purposes.
+
 ## Use-cases
 
 ### Reboot or Shutdown the Device

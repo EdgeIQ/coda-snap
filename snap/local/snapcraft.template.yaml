@@ -1,5 +1,5 @@
 name: {{EDGEIQ_SNAP_NAME}}
-base: core20
+base: core22
 version: '{{EDGEIQ_CODA_SNAP_VERSION}}'
 
 grade: stable
@@ -31,13 +31,13 @@ license: Proprietary
 architectures:
   - build-on: amd64
   - build-on: arm64
-  - build-on: armhf 
+  - build-on: armhf
 
 hooks:
   install:
     plugs: [network]
   configure:
-    plugs: []
+    plugs: [network]
 
 apps:
   agent:
@@ -49,7 +49,7 @@ apps:
       - shutdown
       - snapd-control
       - hardware-observe
-      - system-backup
+      - system-observe
       - network
       - network-bind
       - network-control
@@ -63,6 +63,11 @@ apps:
       - ppp
       - firewall-control
       - tpm
+      - log-observe
+      - physical-memory-observe
+      - mount-observe
+      - ssh-public-keys
+      - raw-usb
 
 parts:
   deps:
