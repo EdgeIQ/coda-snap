@@ -37,6 +37,7 @@ jobs:
           sudo lxd init --auto
           sudo usermod -a -G lxd $USER
           sudo newgrp lxd
+          sudo chmod 666 /var/snap/lxd/common/lxd/unix.socket
           lxc list
 
       - name: Build snap
