@@ -33,7 +33,7 @@ jobs:
 
       - name: Build snap
         run: |
-          make build-no-lxd
+          sg lxd -c 'make build'
 
       - name: Release snap to the specified channels
         run: |
