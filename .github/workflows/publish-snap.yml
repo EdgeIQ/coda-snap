@@ -1,4 +1,4 @@
-name: Publish Snap
+name: Buld & Publish Snap
 
 on:
   workflow_dispatch:
@@ -25,18 +25,16 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y make
+
       - name: Install Snapcraft
-        run: sudo snap install snapcraft --classic
+        uses: samuelmeuli/action-snapcraft@v3
 
-      - name: Run template to generate snapcraft.yaml
-        run: make template
-
-      - name: Build for the target architectures
+      - name: Build snap
         run: |
-          snapcraft remote-build --launchpad-accept-public-upload --launchpad-timeout 3600 --package-all-sources --status
+          make build
 
-      - name: Release to the specified channels
+      - name: Release snap to the specified channels
         run: |
-          for snap_file in $(EDGEIQ_SNAP_NAME)*.snap; do
-            snapcraft upload --release="$SNAPCRAFT_CHANNELS" "$snap_file"
-          done
+          make publish

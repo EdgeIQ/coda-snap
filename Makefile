@@ -8,7 +8,7 @@ EDGEIQ_SNAP_NAME ?= coda
 EDGEIQ_API_URL ?= https://api.edgeiq.io
 EDGEIQ_CODA_VERSION ?= latest
 EDGEIQ_CODA_SNAP_VERSION ?= $(shell echo $(EDGEIQ_CODA_VERSION) | sed 's/_/-/g')
-SNAPCRAFT_CHANNEL ?= stable
+SNAPCRAFT_CHANNEL ?= "edge,beta,candidate,stable"
 
 setup:
 	$(SNAP) install snapcraft --classic
@@ -73,6 +73,8 @@ connect:
 login:
 	$(SNAPCRAFT) export-login --snaps=$(EDGEIQ_SNAP_NAME) --acls package_access,package_push,package_update,package_release ./exported.txt
 
+remote-build:
+	$(SNAPCRAFT) remote-build --launchpad-accept-public-upload --launchpad-timeout 3600 --build-for=amd64,armhf,arm64
+
 publish:
-	export SNAPCRAFT_STORE_CREDENTIALS=$(shell cat ./exported.txt)
 	$(SNAPCRAFT) upload --release=$(SNAPCRAFT_CHANNEL) $(EDGEIQ_SNAP_NAME)*.snap

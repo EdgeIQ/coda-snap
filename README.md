@@ -165,7 +165,7 @@ export EDGEIQ_CODA_VERSION=4.0.22
 make template
 
 # Trigger the remote build
-snapcraft remote-build --launchpad-accept-public-upload --launchpad-timeout 3600 --package-all-sources
+snapcraft remote-build --launchpad-accept-public-upload --launchpad-timeout 3600 --build-for=amd64,armhf,arm64
 
 # Upload the builds to the snapcraft store
 snapcraft upload --release="edge,beta,candidate,stable" coda_${EDGEIQ_CODA_VERSION}_armhf.snap
