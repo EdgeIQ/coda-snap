@@ -31,9 +31,17 @@ jobs:
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v3
 
+      - name: Setup LXD
+        run: |
+          sudo usermod -aG lxd $USER
+          sudo snap install lxd
+          sudo lxd init --auto
+          newgrp lxd
+          sudo chmod 666 /var/snap/lxd/common/lxd/unix.socket
+
       - name: Build snap
         run: |
-          sg lxd -c 'make build'
+          sudo sg lxd -c 'make build'
 
       - name: Release snap to the specified channels
         run: |
