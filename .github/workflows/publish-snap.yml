@@ -35,13 +35,9 @@ jobs:
         run: |
           sudo snap install lxd
           sudo lxd init --auto
-          # Add the current user to the lxd group
           sudo usermod -a -G lxd $USER
-          # Create and use a new group to avoid having to log out and back in
-          sudo newgrp lxd << EOF
-          # Verify LXD is working
-          lxc --version
-          EOF
+          sudo newgrp lxd
+          lxc list
 
       - name: Build snap
         run: |
