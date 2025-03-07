@@ -50,6 +50,7 @@ connect:
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):shutdown :shutdown
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):snapd-control :snapd-control
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):hardware-observe :hardware-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):system-observe :system-observe
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network :network
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-bind :network-bind
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):network-control :network-control
@@ -64,7 +65,10 @@ connect:
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):firewall-control :firewall-control
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):tpm :tpm
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):log-observe :log-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):physical-memory-observe :physical-memory-observe
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):mount-observe :mount-observe
 	$(SNAP) connect $(EDGEIQ_SNAP_NAME):ssh-public-keys :ssh-public-keys
+	$(SNAP) connect $(EDGEIQ_SNAP_NAME):raw-usb :raw-usb
 
 login:
 	$(SNAPCRAFT) export-login --snaps=$(EDGEIQ_SNAP_NAME) --acls package_access,package_push,package_update,package_release ./exported.txt
