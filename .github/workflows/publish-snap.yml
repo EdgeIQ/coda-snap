@@ -14,7 +14,7 @@ on:
 jobs:
   build-and-publish:
     name: Build and Publish Snap
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       EDGEIQ_SNAP_NAME: coda
       EDGEIQ_API_URL: https://api.edgeiq.io
