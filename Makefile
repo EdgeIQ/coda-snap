@@ -29,7 +29,7 @@ build:
 
 build-no-lxd:
 	$(MAKE) template
-	$(SNAPCRAFT)
+	$(SNAPCRAFT) --destructive-mode
 
 build-interactive:
 	$(MAKE) template
