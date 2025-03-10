@@ -31,6 +31,9 @@ jobs:
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v3
 
+      - name: Ensure core22 is installed
+        run: sudo snap install core22 || sudo snap refresh core22
+
       - name: Build snap
         run: |
           make build-no-lxd
