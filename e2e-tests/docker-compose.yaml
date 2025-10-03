@@ -1,0 +1,122 @@
+services:
+  # Ubuntu Core 24 container with snapd
+  ubuntu-core:
+    image: ubuntu:24.04
+    container_name: ubuntu-core
+    hostname: ubuntu-core
+    privileged: true
+    networks:
+      - coda-test-network
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /sys/fs/fuse:/sys/fs/fuse:rw
+      - ubuntu-core-data:/var/lib/snapd
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    command: >
+      bash -c "
+        set -e
+        echo 'Installing snapd and dependencies...'
+        apt-get update -qq
+        apt-get install -y -qq snapd systemd systemd-sysv squashfuse fuse > /dev/null 2>&1
+
+        echo 'Starting snapd service manually...'
+        mkdir -p /run/snapd
+        /usr/lib/snapd/snapd &
+        SNAPD_PID=\$!
+
+        echo 'Waiting for snapd to be ready...'
+        for i in {1..60}; do
+          if snap version > /dev/null 2>&1; then
+            echo 'snapd is ready!'
+            break
+          fi
+          sleep 1
+        done
+
+        echo 'Keeping container running...'
+        wait \$SNAPD_PID
+      "
+    healthcheck:
+      test: ["CMD-SHELL", "snap version || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 30s
+
+  # MQTT broker (Mosquitto)
+  mqtt-broker:
+    image: eclipse-mosquitto:2.0
+    container_name: mqtt-broker
+    hostname: mqtt-broker
+    networks:
+      - coda-test-network
+    ports:
+      - "11883:1883"
+    volumes:
+      - ./fixtures/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Mock EdgeIQ API server
+  mock-server:
+    build:
+      context: ./mock-server
+      dockerfile: Dockerfile
+    container_name: mock-server
+    hostname: mock-server
+    networks:
+      - coda-test-network
+    ports:
+      - "18080:8080"
+    volumes:
+      - ./fixtures/responses:/app/responses:ro
+    depends_on:
+      mqtt-broker:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Test runner container (run with: docker compose run --rm test-runner)
+  test-runner:
+    build:
+      context: ./test-runner
+      dockerfile: Dockerfile
+    container_name: test-runner
+    hostname: test-runner
+    networks:
+      - coda-test-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./test-runner/tests:/tests:ro
+    environment:
+      - UBUNTU_CORE_CONTAINER=ubuntu-core
+      - MOCK_SERVER_URL=http://mock-server:8080
+      - MOCK_MQTT_HOST=mqtt-broker
+      - MOCK_MQTT_PORT=1883
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      ubuntu-core:
+        condition: service_healthy
+      mock-server:
+        condition: service_healthy
+      mqtt-broker:
+        condition: service_healthy
+    profiles:
+      - test
+
+networks:
+  coda-test-network:
+    driver: bridge
+
+volumes:
+  ubuntu-core-data:
+    driver: local
