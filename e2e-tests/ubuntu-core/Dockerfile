@@ -7,10 +7,17 @@ ENV SNAP_REEXEC=0
 # Install snapd and dependencies
 RUN apt-get update && \
     apt-get install -y \
+    iproute2 \
+    ubuntu-standard \
     snapd \
     squashfuse \
     fuse \
-    && rm -rf /var/lib/apt/lists/*
+    python3 \
+    python3-pip
+
+# Remove unused packages
+RUN apt-get autoremove -y && \
+    apt-get clean
 
 # Create necessary directories
 RUN mkdir -p /run/snapd
