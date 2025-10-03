@@ -1,48 +1,28 @@
 services:
-  # Ubuntu Core 24 container with snapd
+  # Ubuntu Core 24 container with snapd and systemd
   ubuntu-core:
-    image: ubuntu:24.04
+    build:
+      context: ./ubuntu-core
+      dockerfile: Dockerfile
     container_name: ubuntu-core
     hostname: ubuntu-core
     privileged: true
     networks:
       - coda-test-network
+    stop_signal: SIGRTMIN+3
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
-      - /sys/fs/fuse:/sys/fs/fuse:rw
       - ubuntu-core-data:/var/lib/snapd
-    environment:
-      - DEBIAN_FRONTEND=noninteractive
-    command: >
-      bash -c "
-        set -e
-        echo 'Installing snapd and dependencies...'
-        apt-get update -qq
-        apt-get install -y -qq snapd systemd systemd-sysv squashfuse fuse > /dev/null 2>&1
-
-        echo 'Starting snapd service manually...'
-        mkdir -p /run/snapd
-        /usr/lib/snapd/snapd &
-        SNAPD_PID=\$!
-
-        echo 'Waiting for snapd to be ready...'
-        for i in {1..60}; do
-          if snap version > /dev/null 2>&1; then
-            echo 'snapd is ready!'
-            break
-          fi
-          sleep 1
-        done
-
-        echo 'Keeping container running...'
-        wait \$SNAPD_PID
-      "
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
     healthcheck:
-      test: ["CMD-SHELL", "snap version || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 60
-      start_period: 30s
+      test: ["CMD-SHELL", "snap version > /dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
 
   # MQTT broker (Mosquitto)
   mqtt-broker:

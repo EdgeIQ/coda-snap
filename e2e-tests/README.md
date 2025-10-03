@@ -141,7 +141,6 @@ cat /var/snap/coda/common/conf/conf.json
 cat /var/snap/coda/common/conf/identifier.json
 
 # Check systemd status
-systemctl status snapd
 journalctl -u snap.coda.agent -n 50
 ```
 
