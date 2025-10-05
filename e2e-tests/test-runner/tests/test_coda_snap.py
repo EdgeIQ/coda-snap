@@ -6,6 +6,10 @@ import time
 import subprocess
 import pytest
 
+MQTT_BROKER_PROTOCOL = "tcp"
+MQTT_BROKER_HOST = "localhost"
+MQTT_BROKER_PORT = 1883
+PLATFORM_URL = "http://localhost:8080/api/v1/platform"
 
 class TestCodaSnapInstallation:
     """Test suite for Coda snap installation and basic functionality"""
@@ -50,10 +54,10 @@ class TestCodaSnapInstallation:
 
     def test_install_coda_snap(self, multipass_vm, wait_for_services):
         """Install the coda snap from the snap store"""
-        # Wait for snap environment to be ready
-        print("Waiting for snap environment to be ready...")
-        time.sleep(10)
-
+        
+        SNAP_VERSION = "stable"
+        COMPANY_ID = "test-company-001"
+        UNIQUE_ID = "test-device-001"
         # Verify snapd is responsive
         print("Verifying snapd is ready...")
         for attempt in range(10):
@@ -84,36 +88,11 @@ class TestCodaSnapInstallation:
         )
         print(f"Coda snap info: {output}")
 
-        # Try to install hello-world snap first (simple test)
-        print("Installing hello-world snap as connectivity test...")
+        # Install coda snap version 4.1.0
+        print(f"Installing coda snap version {SNAP_VERSION} from store...")
         exit_code, output = self.exec_command(
             multipass_vm,
-            "sudo snap install hello-world"
-        )
-        print(f"Hello-world installation: {output}")
-
-        # List installed snaps
-        exit_code, output = self.exec_command(
-            multipass_vm,
-            "snap list"
-        )
-        print(f"Installed snaps after hello-world: {output}")
-        assert exit_code == 0, f"Failed to install hello-world snap: {output}"
-
-        # Check network interfaces (for debugging)
-        print("Checking network interfaces in VM...")
-        exit_code, output = self.exec_command(
-            multipass_vm,
-            "ip addr show",
-            check=False
-        )
-        print(f"Network interfaces: {output}")
-
-        # Install coda snap
-        print("Installing coda snap from store...")
-        exit_code, output = self.exec_command(
-            multipass_vm,
-            "sudo snap install coda",
+            f"sudo snap install coda --channel={SNAP_VERSION}",
             timeout=120
         )
 
@@ -147,3 +126,136 @@ class TestCodaSnapInstallation:
         assert "coda" in output
 
         print("✓ Coda snap installed successfully")
+
+        # Connect required interfaces
+        print("Connecting required snap interfaces...")
+        interfaces = [
+            "home",
+            "shutdown",
+            "snapd-control",
+            "hardware-observe",
+            "system-observe",
+            "network",
+            "network-bind",
+            "network-control",
+            "network-manager",
+            "network-manager-observe",
+            "network-observe",
+            "network-setup-control",
+            "network-setup-observe",
+            "network-status",
+            "modem-manager",
+            "ppp",
+            "firewall-control",
+            "tpm",
+            "log-observe",
+            "physical-memory-observe",
+            "mount-observe",
+            "ssh-public-keys",
+            "raw-usb"
+        ]
+
+        for interface in interfaces:
+            print(f"Connecting interface: {interface}")
+            exit_code, output = self.exec_command(
+                multipass_vm,
+                f"sudo snap connect coda:{interface} :{interface}",
+                check=False
+            )
+            if exit_code == 0:
+                print(f"✓ Connected {interface}")
+            else:
+                print(f"⚠ Could not connect {interface}: {output}")
+
+        print("✓ Interface connections completed")
+
+        # Configure coda with unique-id and company-id
+        print("Configuring coda snap...")
+        
+        # Set unique-id
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            f"sudo snap set coda bootstrap.unique-id={UNIQUE_ID}"
+        )
+        assert exit_code == 0, f"Failed to set unique-id: {output}"
+        print(f"✓ Set bootstrap.unique-id={UNIQUE_ID}")
+
+        # Set company-id
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            f"sudo snap set coda bootstrap.company-id={COMPANY_ID}"
+        )
+        assert exit_code == 0, f"Failed to set company-id: {output}"
+        print(f"✓ Set bootstrap.company-id={COMPANY_ID}")
+
+        # Set mqtt broker host & port
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            f"sudo snap set coda conf.mqtt.broker.protocol={MQTT_BROKER_PROTOCOL}"
+        )
+        assert exit_code == 0, f"Failed to set mqtt broker protocol: {output}"
+        print(f"✓ Set conf.mqtt.broker.protocol={MQTT_BROKER_PROTOCOL}")
+
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            f"sudo snap set coda conf.mqtt.broker.host={MQTT_BROKER_HOST}"
+        )
+        assert exit_code == 0, f"Failed to set mqtt broker host: {output}"
+        print(f"✓ Set conf.mqtt.broker.host={MQTT_BROKER_HOST}")
+
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            f"sudo snap set coda conf.mqtt.broker.port={MQTT_BROKER_PORT}"
+        )
+        assert exit_code == 0, f"Failed to set mqtt broker port: {output}"
+        print(f"✓ Set conf.mqtt.broker.port={MQTT_BROKER_PORT}")
+
+        # Set platform url
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            f"sudo snap set coda conf.platform.url={PLATFORM_URL}"
+        )
+        assert exit_code == 0, f"Failed to set platform url: {output}"
+        print(f"✓ Set conf.platform.url={PLATFORM_URL}")
+
+        # Restart coda snap to apply configuration
+        print("Restarting coda snap...")
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            "sudo snap restart coda"
+        )
+        assert exit_code == 0, f"Failed to restart coda snap: {output}"
+        print("✓ Coda snap restarted")
+
+        # Verify configuration
+        print("Verifying configuration...")
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            "sudo snap get coda bootstrap"
+        )
+        assert exit_code == 0, f"Failed to get configuration: {output}"
+        print(f"Bootstrap configuration: {output}")
+        assert UNIQUE_ID in output, "unique-id not found in configuration"
+        assert COMPANY_ID in output, "company-id not found in configuration"
+
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            "sudo snap get coda conf"
+        )
+        assert exit_code == 0, f"Failed to get configuration: {output}"
+        print(f"Configuration: {output}")
+        assert MQTT_BROKER_PROTOCOL in output, "mqtt broker protocol not found in configuration"
+        assert MQTT_BROKER_HOST in output, "mqtt broker host not found in configuration"
+        assert f"{MQTT_BROKER_PORT}" in output, "mqtt broker port not found in configuration"
+        assert PLATFORM_URL in output, "platform url not found in configuration"
+
+        print("✓ Coda snap configured successfully")
+
+        # Print coda snap logs
+        print("Printing coda snap logs...")
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            "sudo snap logs coda"
+        )
+        print(f"Coda snap logs: {output}")
+        assert exit_code == 0, f"Failed to get logs: {output}"
