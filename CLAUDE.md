@@ -149,34 +149,45 @@ The E2E test suite uses **Multipass VMs** (not Docker) to provide authentic Ubun
 - **Platform**: Multipass VM with Ubuntu 24.04
 - **Why Multipass**: Real snapd behavior, full systemd support, no container limitations
 - **Test Runner**: pytest on host (macOS), executes via `multipass exec`
-- **Mock Services**: EdgeIQ API mock server and MQTT broker run on host
+- **Mock Services**: EdgeIQ API mock server runs as systemd service inside VM
+
+### Service Architecture
+
+Mock server runs as a **systemd service** (`edgeiq-mock-server.service`) for:
+- **Reliability**: Automatic restart on failure
+- **Logging**: Integrated with journald and application logs
+- **Management**: Standard systemd commands (start/stop/status/restart)
+- **Resource limits**: CPU and memory constraints
 
 ### Running E2E Tests
 
 ```bash
-cd e2e-tests
-
-# Full workflow: create VM, run tests, cleanup
-make test-full
+# Full workflow: create VM, run tests, cleanup (recommended)
+make e2e-tests-test-full
 
 # Interactive workflow (keeps VM for debugging)
-make setup          # Create VM and start services
-make test           # Run tests
-make vm-shell       # Debug inside VM
-make teardown       # Cleanup when done
+make e2e-tests-setup    # Create VM and start services
+make e2e-tests-test     # Run tests (can run multiple times)
+make vm-shell           # Debug inside VM
+make e2e-tests-clean    # Cleanup when done
 
 # Run specific test
-cd test-runner
+cd e2e-tests/test-runner
 MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestCodaSnapInstallation::test_install_coda_snap -v
 
-# Check status
-make status         # View VM and service status
-make logs           # View service logs
+# Check service status
+make e2e-tests-status       # View VM and service status
+make vm-services-logs       # View service logs (last 50 lines)
+make e2e-tests-logs         # Follow logs in real-time
+
+# Service management
+make vm-services-start      # Start mock server service
+make vm-services-stop       # Stop mock server service
 ```
 
 ### E2E Test Configuration
 
-Environment variables in `e2e-tests/Makefile`:
+Environment variables in Makefile:
 - `MULTIPASS_VM_NAME`: VM name (default: `coda-test-vm`)
 - `MULTIPASS_VM_CPUS`: CPU cores (default: `2`)
 - `MULTIPASS_VM_MEMORY`: RAM (default: `2G`)
@@ -194,11 +205,20 @@ Environment variables in `e2e-tests/Makefile`:
 ### Debugging Failed Tests
 
 ```bash
-# Run tests and keep VM for inspection
-make test-keep-vm
+# Check service status first
+make e2e-tests-status
+
+# View service logs
+make vm-services-logs        # Last 50 lines
+make e2e-tests-logs          # Follow in real-time
 
 # Access VM to debug
 make vm-shell
+
+# Inside VM, check mock server:
+sudo systemctl status edgeiq-mock-server.service
+sudo journalctl -u edgeiq-mock-server.service -n 50
+curl http://localhost:8080/health
 
 # Inside VM, check snap status:
 snap list
@@ -206,6 +226,9 @@ snap services coda.agent
 snap logs coda.agent -n=100
 cat /var/snap/coda/common/conf/bootstrap.json
 journalctl -u snap.coda.agent -n 50
+
+# Restart mock server if needed:
+sudo systemctl restart edgeiq-mock-server.service
 ```
 
 ## Hook Development

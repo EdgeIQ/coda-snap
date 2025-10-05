@@ -1,6 +1,6 @@
 .PHONY: help build setup template build-no-lxd build-interactive clean uninstall install connect login remote-build publish \
         install-multipass vm-create vm-delete vm-shell shell vm-info vm-list vm-wait-for-snapd \
-        vm-services-setup vm-services-start vm-services-stop e2e-tests-status e2e-tests-setup test e2e-tests-test-full e2e-tests-test \
+        vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-tests-status e2e-tests-setup test e2e-tests-test-full e2e-tests-test \
         e2e-tests-clean e2e-tests-logs
 
 SNAPCRAFT := $(shell if snapcraft --version > /dev/null 2>&1; then echo snapcraft; else echo sudo snapcraft; fi)
@@ -165,25 +165,36 @@ vm-wait-for-snapd: ## Wait for snapd to be ready in VM
 	' && echo "$(COLOR_GREEN)✓ snapd is ready$(COLOR_RESET)" || \
 	(echo "$(COLOR_RED)✗ snapd did not become ready$(COLOR_RESET)" && exit 1)
 
-vm-services-setup: ## Transfer files and start services in VM
+vm-services-setup: ## Transfer files and setup systemd service in VM
 	@echo "$(COLOR_YELLOW)Setting up services in VM...$(COLOR_RESET)"
 	@multipass transfer -r e2e-tests/mock-server $(MULTIPASS_VM_NAME):/home/ubuntu/
 	@multipass transfer -r e2e-tests/fixtures $(MULTIPASS_VM_NAME):/home/ubuntu/
 	@echo "$(COLOR_YELLOW)Installing Python dependencies in VM...$(COLOR_RESET)"
 	@multipass exec $(MULTIPASS_VM_NAME) -- bash -c "cd /home/ubuntu/mock-server && pip3 install -r requirements.txt --break-system-packages"
+	@echo "$(COLOR_YELLOW)Installing systemd service...$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo cp /home/ubuntu/mock-server/edgeiq-mock-server.service /etc/systemd/system/
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl daemon-reload
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl enable edgeiq-mock-server.service
+	@echo "$(COLOR_GREEN)✓ Services configured$(COLOR_RESET)"
 
-vm-services-start: ## Start services in VM
-	@echo "$(COLOR_YELLOW)Starting mock server in VM...$(COLOR_RESET)"
-	@multipass exec $(MULTIPASS_VM_NAME) -- bash -c "setsid python3 /home/ubuntu/mock-server/server.py > /home/ubuntu/mock-server.log 2>&1 < /dev/null &"
-	@sleep 3
-	@echo "$(COLOR_YELLOW)Verifying mock server is running...$(COLOR_RESET)"
-	@multipass exec $(MULTIPASS_VM_NAME) -- bash -c 'if pgrep -f "python3.*server.py" > /dev/null; then echo "  Mock server PID: $$(pgrep -f \"python3.*server.py\")"; else echo "  ERROR: Mock server failed to start"; exit 1; fi'
-	@echo "$(COLOR_GREEN)✓ Services started in VM$(COLOR_RESET)"
+vm-services-start: ## Start systemd services in VM
+	@echo "$(COLOR_YELLOW)Starting mock server service...$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl start edgeiq-mock-server.service
+	@sleep 2
+	@echo "$(COLOR_YELLOW)Verifying service status...$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl is-active edgeiq-mock-server.service || \
+		(echo "$(COLOR_RED)✗ Mock server service failed to start$(COLOR_RESET)" && \
+		 echo "$(COLOR_YELLOW)Service status:$(COLOR_RESET)" && \
+		 multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl status edgeiq-mock-server.service --no-pager && \
+		 echo "$(COLOR_YELLOW)Service logs:$(COLOR_RESET)" && \
+		 multipass exec $(MULTIPASS_VM_NAME) -- sudo journalctl -u edgeiq-mock-server.service -n 20 --no-pager && \
+		 exit 1)
+	@echo "$(COLOR_GREEN)✓ Mock server service is active$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- bash -c 'curl -s http://localhost:8080/health > /dev/null && echo "$(COLOR_GREEN)✓ HTTP server responding on port 8080$(COLOR_RESET)" || echo "$(COLOR_YELLOW)⚠ HTTP server not responding yet$(COLOR_RESET)"'
 
-vm-services-stop: ## Stop services in VM
+vm-services-stop: ## Stop systemd services in VM
 	@echo "$(COLOR_YELLOW)Stopping services in VM...$(COLOR_RESET)"
-	@multipass exec $(MULTIPASS_VM_NAME) -- pkill -f "python3.*server.py" || true
-	@multipass exec $(MULTIPASS_VM_NAME) -- pkill -f mosquitto§ || true
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl stop edgeiq-mock-server.service 2>/dev/null || true
 	@echo "$(COLOR_GREEN)✓ Services stopped$(COLOR_RESET)"
 
 e2e-tests-status: ## Show status of services and VM
@@ -192,8 +203,11 @@ e2e-tests-status: ## Show status of services and VM
 	@echo ""
 	@echo "$(COLOR_BLUE)Services in VM (if VM exists):$(COLOR_RESET)"
 	@if multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
-		multipass exec $(MULTIPASS_VM_NAME) -- bash -c "pgrep -f 'python3.*server.py' > /dev/null && echo '  Mock Server:  Running' || echo '  Mock Server:  Not running'"; \
-		multipass exec $(MULTIPASS_VM_NAME) -- bash -c "pgrep -f mosquitto > /dev/null && echo '  Mosquitto:    Running' || echo '  Mosquitto:    Not running'"; \
+		echo "  Mock Server:  $$(multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl is-active edgeiq-mock-server.service 2>/dev/null || echo 'not running')"; \
+		echo "  Mosquitto:    $$(multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl is-active mosquitto.service 2>/dev/null || echo 'not running')"; \
+		echo ""; \
+		echo "$(COLOR_BLUE)Service Details:$(COLOR_RESET)"; \
+		multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl status edgeiq-mock-server.service --no-pager -l 2>/dev/null || echo "  Service not installed"; \
 	else \
 		echo "  VM not running"; \
 	fi
@@ -202,13 +216,13 @@ e2e-tests-setup: ## Create VM and install services (run this first)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Setting up E2E test environment...$(COLOR_RESET)"
 	@$(MAKE) vm-create
 	@echo "$(COLOR_GREEN)✓ E2E test environment ready$(COLOR_RESET)"
-	@echo "$(COLOR_BLUE)Run 'make test' to execute tests$(COLOR_RESET)"
+	@echo "$(COLOR_BLUE)Run 'make e2e-tests-test' to execute tests$(COLOR_RESET)"
 
 e2e-tests-test-full: ## Run full E2E test suite (create VM, test, cleanup)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Starting full E2E test suite...$(COLOR_RESET)"
 	@$(MAKE) e2e-tests-setup
 	@$(MAKE) e2e-tests-test || (echo "$(COLOR_RED)✗ Tests failed$(COLOR_RESET)" && $(MAKE) teardown && exit 1)
-	@$(MAKE) teardown
+	@$(MAKE) e2e-tests-clean
 	@echo "$(COLOR_GREEN)✓ Full E2E test suite completed successfully$(COLOR_RESET)"
 
 e2e-tests-test: ## Run tests with verbose output (VM must be running)
@@ -222,15 +236,21 @@ e2e-tests-test: ## Run tests with verbose output (VM must be running)
 		pytest tests/ -vv -s --log-cli-level=DEBUG
 	@echo "$(COLOR_GREEN)✓ Tests completed$(COLOR_RESET)"
 	
+vm-services-logs: ## View service logs from VM
+	@echo "$(COLOR_BLUE)Mock Server Service Logs (last 50 lines):$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo journalctl -u edgeiq-mock-server.service -n 50 --no-pager || echo "  Service not running"
+	@echo ""
+	@echo "$(COLOR_BLUE)Mock Server Application Log:$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- tail -n 50 /home/ubuntu/mock-server/server.log 2>/dev/null || echo "  Log file not found"
+
 e2e-tests-logs: ## Follow service logs in real-time
-	@echo "$(COLOR_BLUE)Following service logs (Ctrl+C to stop)...$(COLOR_RESET)"
-	@tail -f e2e-tests/logs/*.log 2>/dev/null || echo "No logs available"
+	@echo "$(COLOR_BLUE)Following mock server logs (Ctrl+C to stop)...$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- sudo journalctl -u edgeiq-mock-server.service -f
 
 e2e-tests-clean:
 	@echo "$(COLOR_YELLOW)Tearing down E2E test environment...$(COLOR_RESET)"
 	@$(MAKE) vm-services-stop 2>/dev/null || true
 	@$(MAKE) vm-delete 2>/dev/null || true
-	@rm -rf e2e-tests/logs/*.log 2>/dev/null || true
 	@rm -rf e2e-tests/test-runner/tests/__pycache__ 2>/dev/null || true
 	@rm -rf e2e-tests/test-runner/tests/.pytest_cache 2>/dev/null || true
 	@echo "$(COLOR_GREEN)✓ Teardown complete$(COLOR_RESET)"
@@ -252,8 +272,10 @@ help:
 	@echo ""
 	@echo "$(COLOR_BLUE)E2E Testing - Advanced:$(COLOR_RESET)"
 	@echo "  make e2e-tests-test-full     # Run full suite (setup + test + teardown)"
-	@echo "  make vm-shell      # Access VM for debugging"
+	@echo "  make vm-shell                # Access VM for debugging"
 	@echo "  make e2e-tests-status        # Check VM and services status"
+	@echo "  make vm-services-logs        # View service logs (last 50 lines)"
+	@echo "  make e2e-tests-logs          # Follow service logs in real-time"
 	@echo ""
 	@echo "$(COLOR_BLUE)Common Commands:$(COLOR_RESET)"
 	@echo "  make help            # Show this help message"
