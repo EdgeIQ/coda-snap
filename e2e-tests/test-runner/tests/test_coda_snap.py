@@ -251,6 +251,9 @@ class TestCodaSnapInstallation:
 
         print("✓ Coda snap configured successfully")
 
+        # sleep for 10 seconds
+        time.sleep(10)
+
         # Print coda snap logs
         print("Printing coda snap logs...")
         exit_code, output = self.exec_command(
