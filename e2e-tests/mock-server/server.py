@@ -88,7 +88,8 @@ class MockHTTPServer:
         logger.info(f"Received config download request: carrier={carrier}, filename={filename}")
 
         # Load mock config response
-        responses_dir = Path('/app/responses')
+        # Use environment variable or default to ../fixtures/responses
+        responses_dir = Path(os.getenv('RESPONSES_DIR', '/home/ubuntu/fixtures/responses'))
         config_file = responses_dir / 'config.json'
 
         if not config_file.exists():
@@ -138,7 +139,8 @@ class MockHTTPServer:
 async def main():
     """Run both HTTP and MQTT servers"""
     # Create responses directory if it doesn't exist
-    Path('/app/responses').mkdir(exist_ok=True)
+    responses_dir = Path(os.getenv('RESPONSES_DIR', '/home/ubuntu/fixtures/responses'))
+    responses_dir.mkdir(parents=True, exist_ok=True)
 
     # Start HTTP server
     http_server = MockHTTPServer()
@@ -147,7 +149,7 @@ async def main():
 
     # Note: MQTT broker requires external broker like Mosquitto
     # For simplicity, we'll just run HTTP server
-    # MQTT can be added via mosquitto in docker-compose
+    # MQTT broker runs separately on the host (see Makefile services-start)
 
     logger.info("Mock server ready to accept connections")
     logger.info("HTTP: http://0.0.0.0:8080")

@@ -1,0 +1,36 @@
+#cloud-config
+
+# Update packages on first boot
+package_update: true
+package_upgrade: false
+
+# Install required packages
+packages:
+  - snapd
+  - squashfuse
+  - fuse
+  - python3
+  - python3-pip
+  - python3-venv
+  - curl
+  - jq
+  - iproute2
+  - net-tools
+  - netcat-openbsd
+  - mosquitto
+  - mosquitto-clients
+
+# Ensure snapd is enabled and started
+runcmd:
+  - systemctl enable snapd.socket
+  - systemctl enable snapd.service
+  - systemctl start snapd.socket
+  - systemctl start snapd.service
+  - snap wait system seed.loaded
+  - snap refresh
+
+# Set timezone
+timezone: UTC
+
+# Final message
+final_message: "Ubuntu VM for Coda snap testing is ready!"

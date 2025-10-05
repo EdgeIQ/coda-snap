@@ -140,10 +140,143 @@ snapcraft remote-build --launchpad-accept-public-upload --launchpad-timeout 3600
 make publish
 ```
 
+## E2E Testing Infrastructure
+
+### Test Environment
+
+The E2E test suite uses **Multipass VMs** (not Docker) to provide authentic Ubuntu snap testing:
+
+- **Platform**: Multipass VM with Ubuntu 24.04
+- **Why Multipass**: Real snapd behavior, full systemd support, no container limitations
+- **Test Runner**: pytest on host (macOS), executes via `multipass exec`
+- **Mock Services**: EdgeIQ API mock server and MQTT broker run on host
+
+### Running E2E Tests
+
+```bash
+cd e2e-tests
+
+# Full workflow: create VM, run tests, cleanup
+make test-full
+
+# Interactive workflow (keeps VM for debugging)
+make setup          # Create VM and start services
+make test           # Run tests
+make vm-shell       # Debug inside VM
+make teardown       # Cleanup when done
+
+# Run specific test
+cd test-runner
+MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestCodaSnapInstallation::test_install_coda_snap -v
+
+# Check status
+make status         # View VM and service status
+make logs           # View service logs
+```
+
+### E2E Test Configuration
+
+Environment variables in `e2e-tests/Makefile`:
+- `MULTIPASS_VM_NAME`: VM name (default: `coda-test-vm`)
+- `MULTIPASS_VM_CPUS`: CPU cores (default: `2`)
+- `MULTIPASS_VM_MEMORY`: RAM (default: `2G`)
+- `MULTIPASS_VM_DISK`: Disk size (default: `10G`)
+- `MOCK_SERVER_PORT`: Mock server port (default: `8080`)
+- `MQTT_PORT`: MQTT broker port (default: `1883`)
+
+### Test Components
+
+1. **Multipass VM** (`e2e-tests/cloud-init.yaml`): Ubuntu 24.04 with snapd
+2. **Mock Server** (`e2e-tests/mock-server/server.py`): Simulates EdgeIQ API
+3. **Test Fixtures** (`e2e-tests/fixtures/`): Mock API responses and configs
+4. **Test Suite** (`e2e-tests/test-runner/tests/test_coda_snap.py`): Main test cases
+
+### Debugging Failed Tests
+
+```bash
+# Run tests and keep VM for inspection
+make test-keep-vm
+
+# Access VM to debug
+make vm-shell
+
+# Inside VM, check snap status:
+snap list
+snap services coda.agent
+snap logs coda.agent -n=100
+cat /var/snap/coda/common/conf/bootstrap.json
+journalctl -u snap.coda.agent -n 50
+```
+
+## Hook Development
+
+### Hook Architecture
+
+Snap hooks are Python scripts in `snap/hooks/` that use shared utilities from `utils/shared/hook_utils.py`:
+
+- **install** (`snap/hooks/install`): First-time setup
+  - Copies default configs from `$SNAP/conf` to `$SNAP_COMMON/conf`
+  - Sets MAC address of first ethernet interface as default `unique-id`
+  - Translates and stores configs via snapctl
+
+- **configure** (`snap/hooks/configure`): Config change handler
+  - Triggered by `snap set coda <key>=<value>`
+  - Reads snap config via snapctl, translates keys, saves to JSON files
+  - Auto-creates `identifier.json` when both `company-id` and `unique-id` are set
+
+### Key Translation System
+
+**Critical**: Snap uses dashes, Coda uses underscores due to snapd restrictions:
+
+```python
+# In hook_utils.py:
+translate_config_snap_to_coda(obj)  # dash -> underscore
+translate_config_coda_to_snap(obj)  # underscore -> dash
+
+# Example:
+# Snap command: snap set coda conf.edge.relay-frequency-limit=10
+# JSON output:  conf.json → {"edge": {"relay_frequency_limit": 10}}
+```
+
+### Testing Hooks Locally
+
+```bash
+# Build and install snap locally
+export EDGEIQ_CODA_VERSION=4.0.22
+make clean build install
+
+# Test install hook (runs automatically during install)
+snap logs coda.agent
+
+# Test configure hook
+sudo snap set coda bootstrap.unique-id=test-device-001
+sudo snap set coda bootstrap.company-id=12345
+snap get coda -d  # View all config
+cat /var/snap/coda/common/conf/identifier.json  # Check auto-created file
+
+# Check hook logs
+journalctl -t coda.hook.install
+journalctl -t coda.hook.configure
+```
+
+### Hook Utility Functions
+
+Common functions in `utils/shared/hook_utils.py`:
+
+- `get_mac_of_first_ethernet_failsafe()`: Get MAC with 3 retries, 5s delay
+- `translate_config()`: Recursive key translation
+- `snapctl_get(key)`: Read snap configuration
+- `snapctl_set(key, json_data)`: Write snap configuration
+- `load_json(path)`: Load JSON config file
+- `save_json(path, data)`: Save JSON config file
+
 ## Key Architectural Points
 
-1. **Binary Distribution Model**: The snap doesn't build Coda from source; it downloads pre-built binaries from EdgeIQ API
-2. **Configuration Translation Layer**: Snap hook utilities translate between snap's dash-based keys and Coda's underscore-based keys
+1. **Binary Distribution Model**: The snap doesn't build Coda from source; it downloads pre-built binaries from EdgeIQ API during the snapcraft build process
+2. **Configuration Translation Layer**: Snap hook utilities translate between snap's dash-based keys and Coda's underscore-based keys due to snapd restrictions
 3. **Network Manager Integration**: Bootstrap config is modified during build to use "nmcli" for network configuration on Ubuntu Core
 4. **Multi-Architecture Support**: Single codebase builds for amd64, arm64, and armhf with architecture-specific binary downloads
 5. **Persistent Configuration**: All runtime config stored in `$SNAP_COMMON/conf/` which persists across snap updates
+6. **Hook-Driven Configuration**: Python hooks (install, configure) manage configuration lifecycle using shared utilities
+7. **Identifier Management**: Device identifier auto-created from company-id + unique-id via configure hook
+8. **Multipass-Based Testing**: E2E tests use real Ubuntu VMs (not Docker) for authentic snap behavior validation
