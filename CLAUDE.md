@@ -73,6 +73,12 @@ The snap uses Python hooks located in `snap/hooks/`:
   - Handles identifier.json creation when company-id and unique-id are set
   - Saves configurations to `$SNAP_COMMON/conf/`
 
+- **post-refresh**: Runs after snap refresh/update
+  - Cleans up all files and subdirectories in `$SNAP_COMMON/log`
+  - Preserves the log directory itself (only removes contents)
+  - Handles errors gracefully (e.g., if log directory doesn't exist)
+  - Logs cleanup operations for debugging
+
 ### Hook Utilities
 
 Common functionality in `utils/shared/hook_utils.py`:
@@ -81,6 +87,7 @@ Common functionality in `utils/shared/hook_utils.py`:
 - **MAC Address Detection**: `get_mac_of_first_ethernet_failsafe()` with 3 retry attempts
 - **Configuration Management**: JSON loading/saving with snapctl integration
 - **Config Translation**: Recursive translation between snap and Coda key formats
+- **Directory Cleanup**: `cleanup_directory()` removes all contents while preserving directory
 
 ### Configuration Model
 
@@ -230,6 +237,23 @@ Reproduces crash behavior when disk space is exhausted (based on production inci
 - **Cleanup**: Unmounts loop device, restores common directory, verifies snap can restart
 - **Key Finding**: Filling only `/var/snap/coda/common/log` is insufficient - must fill entire common directory to trigger crash (affects both logs and database)
 
+#### 3. `test_post_refresh_hook_cleanup`
+Validates post-refresh hook log directory cleanup:
+- **Purpose**: Verify post-refresh hook cleans up log directory during snap updates
+- **Method**: Creates test log files and subdirectories, triggers snap refresh
+- **Test Steps**:
+  1. Verifies coda snap is installed and running
+  2. Creates test log files and subdirectories in `$SNAP_COMMON/log`
+  3. Triggers snap refresh (uses revert/refresh if already up-to-date)
+  4. Verifies log directory is completely emptied
+  5. Confirms snap continues running normally after refresh
+- **Expected Behavior**:
+  - All log files and subdirectories are removed
+  - Log directory itself is preserved (not deleted)
+  - Post-refresh hook logs cleanup operations
+  - Snap service remains active and functional
+- **Key Validations**: Tests file removal, subdirectory removal, directory preservation, and snap stability
+
 ### Debugging Failed Tests
 
 ```bash
@@ -275,6 +299,12 @@ Snap hooks are Python scripts in `snap/hooks/` that use shared utilities from `u
   - Reads snap config via snapctl, translates keys, saves to JSON files
   - Auto-creates `identifier.json` when both `company-id` and `unique-id` are set
 
+- **post-refresh** (`snap/hooks/post-refresh`): Post-update cleanup
+  - Triggered automatically after snap refresh/update
+  - Cleans up all contents of `$SNAP_COMMON/log` directory
+  - Uses `cleanup_directory()` utility for safe, thorough cleanup
+  - Preserves directory structure (only removes contents)
+
 ### Key Translation System
 
 **Critical**: Snap uses dashes, Coda uses underscores due to snapd restrictions:
@@ -305,9 +335,20 @@ sudo snap set coda bootstrap.company-id=12345
 snap get coda -d  # View all config
 cat /var/snap/coda/common/conf/identifier.json  # Check auto-created file
 
+# Test post-refresh hook
+# Create test log files
+sudo sh -c 'echo "test log" > /var/snap/coda/common/log/test.log'
+sudo mkdir -p /var/snap/coda/common/log/testdir
+ls -la /var/snap/coda/common/log/  # Verify test files exist
+
+# Trigger refresh (hook will clean up logs)
+sudo snap refresh coda  # or use snap revert/refresh if already up-to-date
+ls -la /var/snap/coda/common/log/  # Verify cleanup (should be empty)
+
 # Check hook logs
 journalctl -t coda.hook.install
 journalctl -t coda.hook.configure
+journalctl -t coda.hook.post-refresh
 ```
 
 ### Hook Utility Functions
@@ -320,6 +361,7 @@ Common functions in `utils/shared/hook_utils.py`:
 - `snapctl_set(key, json_data)`: Write snap configuration
 - `load_json(path)`: Load JSON config file
 - `save_json(path, data)`: Save JSON config file
+- `cleanup_directory(dir_path)`: Remove all directory contents while preserving directory
 
 ## Key Architectural Points
 

@@ -117,3 +117,36 @@ def copy_configuration_files(src_dir, dst_dir):
     except shutil.Error as e:
         logging.error(f"Failed to copy configuration files: {e}")
         sys.exit(1)
+
+def cleanup_directory(dir_path):
+    """
+    Removes all files and subdirectories from the specified directory.
+    The directory itself is preserved (not deleted).
+    """
+    try:
+        if not os.path.exists(dir_path):
+            logging.warning(f"Directory does not exist: {dir_path}")
+            return
+
+        if not os.path.isdir(dir_path):
+            logging.error(f"Path is not a directory: {dir_path}")
+            sys.exit(1)
+
+        # Remove all contents but preserve the directory
+        for item in os.listdir(dir_path):
+            item_path = os.path.join(dir_path, item)
+            try:
+                if os.path.isfile(item_path) or os.path.islink(item_path):
+                    os.unlink(item_path)
+                    logging.debug(f"Removed file: {item_path}")
+                elif os.path.isdir(item_path):
+                    shutil.rmtree(item_path)
+                    logging.debug(f"Removed directory: {item_path}")
+            except Exception as e:
+                logging.error(f"Failed to remove {item_path}: {e}")
+                raise
+
+        logging.info(f"Successfully cleaned up directory: {dir_path}")
+    except Exception as e:
+        logging.error(f"Failed to cleanup directory {dir_path}: {e}")
+        sys.exit(1)
