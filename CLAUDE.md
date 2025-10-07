@@ -202,6 +202,34 @@ Environment variables in Makefile:
 3. **Test Fixtures** (`e2e-tests/fixtures/`): Mock API responses and configs
 4. **Test Suite** (`e2e-tests/test-runner/tests/test_coda_snap.py`): Main test cases
 
+### E2E Test Cases
+
+Tests in `TestCodaSnapInstallation` class run **sequentially** in order:
+
+#### 1. `test_install_coda_snap`
+Installs and configures the coda snap from the Snap Store:
+- Waits for snapd to be ready
+- Installs coda snap from stable channel
+- Connects all required snap interfaces (network, tpm, etc.)
+- Configures bootstrap settings (company-id, unique-id)
+- Configures MQTT broker and platform URL
+- Verifies configuration is persisted correctly
+- Validates snap is running and logging
+
+#### 2. `test_disk_space_exhaustion_crash`
+Reproduces crash behavior when disk space is exhausted (based on production incident):
+- **Purpose**: Verify snap crashes predictably when `/var/snap/coda/common` is full
+- **Method**: Creates 10MB loop device mounted over entire common directory
+- **Expected Behavior**:
+  - Snap fails to write logs: "Failed to fire hook: write .../log/...: no space left on device"
+  - Database (ledis) fails to initialize due to disk space
+  - Fatal error: `level=fatal msg="resource temporarily unavailable"`
+  - Process exits with status 1
+  - Systemd restart loop: attempts 5 restarts, then gives up
+  - Final state: `failed (Result: exit-code)`
+- **Cleanup**: Unmounts loop device, restores common directory, verifies snap can restart
+- **Key Finding**: Filling only `/var/snap/coda/common/log` is insufficient - must fill entire common directory to trigger crash (affects both logs and database)
+
 ### Debugging Failed Tests
 
 ```bash
