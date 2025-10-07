@@ -265,32 +265,32 @@ class TestCodaSnapInstallation:
 
     def test_disk_space_exhaustion_crash(self, multipass_vm):
         """
-        Test that coda snap crashes when disk space is exhausted while writing logs.
+        Test that coda snap handles disk space exhaustion gracefully without crashing.
 
         This test:
         1. Creates a small loop device (10MB)
-        2. Mounts it over the log directory
-        3. Pre-fills most of the space to accelerate exhaustion
-        4. Monitors for expected crash behavior
-        5. Verifies snap enters crash-restart loop
-        6. Cleans up and verifies snap recovers
+        2. Mounts it over the common directory
+        3. Pre-fills most of the space to create disk constraint
+        4. Monitors snap behavior under disk pressure
+        5. Verifies snap handles the situation gracefully (no crashes)
+        6. Cleans up and verifies snap continues running normally
 
-        Expected crash pattern from production logs:
-        - "no space left on device" errors
-        - "Failed to fire hook: write" messages
-        - level=fatal msg="resource temporarily unavailable"
-        - "Main process exited, code=exited, status=1/FAILURE"
-        - "Scheduled restart job, restart counter is at N"
+        Expected graceful behavior:
+        - No "no space left on device" errors in logs
+        - No snap service crashes or exits
+        - No systemd restart loops
+        - Snap remains in active/running state
+        - Snap may log warnings about disk space but continues operating
         """
 
         COMMON_DIR = "/var/snap/coda/common"
         COMMON_BACKUP = "/tmp/common_backup"
         LOOP_DEVICE_FILE = "/tmp/loop_disk_test.img"
         LOOP_DEVICE_SIZE_MB = 10  # 10MB - will be filled by restored files + prefill
-        MONITOR_DURATION = 60  # Monitor for 60 seconds - crash happens quickly
+        MONITOR_DURATION = 60  # Monitor for 60 seconds to verify stable operation
 
         print("\n" + "="*80)
-        print("TEST: Disk Space Exhaustion Crash")
+        print("TEST: Disk Space Exhaustion - Graceful Handling")
         print("="*80)
 
         try:
@@ -379,23 +379,23 @@ class TestCodaSnapInstallation:
             )
             print(f"Final disk usage:\n{output}")
 
-            # Step 7: Start coda snap service (expecting crash due to disk space)
-            print("\n[7/9] Starting coda snap service (expecting it to crash due to disk space)...")
+            # Step 7: Start coda snap service (should start successfully despite disk constraints)
+            print("\n[7/9] Starting coda snap service (should handle disk constraints gracefully)...")
             exit_code, output = self.exec_command(
                 multipass_vm,
                 "sudo snap start coda",
-                check=False  # May fail if snap crashes immediately
+                check=False
             )
             print(f"Start command result: {output}")
 
-            # Wait a moment for snap to attempt startup
-            print("Waiting 5 seconds for snap to attempt startup...")
+            # Wait a moment for snap to stabilize
+            print("Waiting 5 seconds for snap to stabilize...")
             time.sleep(5)
 
-            # Step 8: Monitor for crash pattern
-            print(f"\n[8/9] Monitoring for crash pattern (max {MONITOR_DURATION}s)...")
+            # Step 8: Monitor for graceful handling (no crash/error patterns should occur)
+            print(f"\n[8/9] Monitoring snap behavior under disk pressure (max {MONITOR_DURATION}s)...")
 
-            # Monitor logs for expected error patterns
+            # Monitor logs to ensure graceful handling (no errors)
             start_time = time.time()
             found_no_space = False
             found_failed_hook = False
@@ -403,6 +403,7 @@ class TestCodaSnapInstallation:
             found_exit_failure = False
             restart_count = 0
             loop_iteration = 0
+            service_active_count = 0
 
             while time.time() - start_time < MONITOR_DURATION:
                 loop_iteration += 1
@@ -417,7 +418,7 @@ class TestCodaSnapInstallation:
                     timeout=10
                 )
 
-                # Check systemctl status for failure state
+                # Check systemctl status
                 exit_code_status, status_output = self.exec_command(
                     multipass_vm,
                     "sudo systemctl status snap.coda.agent.service --no-pager -l",
@@ -435,52 +436,51 @@ class TestCodaSnapInstallation:
                     )
                     print(f"Disk usage: {df_output.strip()}")
 
-                # Check for expected error patterns
+                # Check for error patterns that should NOT occur
                 if "no space left on device" in output.lower():
                     if not found_no_space:
                         found_no_space = True
-                        print("✓ Found 'no space left on device' error")
+                        print("✗ ERROR: Found 'no space left on device' error (should not occur)")
 
                 if "Failed to fire hook: write" in output or "failed to fire hook" in output.lower():
                     if not found_failed_hook:
                         found_failed_hook = True
-                        print("✓ Found 'Failed to fire hook: write' error")
+                        print("✗ ERROR: Found 'Failed to fire hook: write' error (should not occur)")
 
                 if 'level=fatal msg="resource temporarily unavailable"' in output:
                     if not found_fatal_error:
                         found_fatal_error = True
-                        print("✓ Found level=fatal error")
+                        print("✗ ERROR: Found level=fatal error (should not occur)")
 
                 # Check for exit failure in both journalctl and systemctl status
                 if "Main process exited, code=exited, status=1/FAILURE" in output or \
                    "Main process exited, code=exited, status=1/FAILURE" in status_output:
                     if not found_exit_failure:
                         found_exit_failure = True
-                        print("✓ Found 'Main process exited' message")
+                        print("✗ ERROR: Found 'Main process exited' message (should not occur)")
 
-                # Also check for failed/crashed state in systemctl status
-                if "Active: failed" in status_output or "Active: activating" in status_output:
+                # Check for failed/crashed state in systemctl status
+                if "Active: failed" in status_output:
                     if not found_exit_failure:
                         found_exit_failure = True
-                        print("✓ Service is in failed/restarting state")
+                        print("✗ ERROR: Service is in failed state (should not occur)")
 
-                # Count restart attempts
+                # Check for active state (this is what we want)
+                if "Active: active" in status_output:
+                    service_active_count += 1
+                    if service_active_count == 1:
+                        print("✓ Service is active/running")
+
+                # Count restart attempts (should not occur)
                 restart_matches = output.count("Scheduled restart job, restart counter is at")
                 if restart_matches > restart_count:
                     restart_count = restart_matches
-                    print(f"✓ Restart counter detected: {restart_count} restarts")
+                    print(f"✗ ERROR: Restart counter detected: {restart_count} restarts (should not occur)")
 
-                # If we've seen at least 2 restarts and the key errors, we're done
-                if restart_count >= 2 and found_no_space:
-                    print(f"\n✓ Crash-restart loop confirmed after {int(time.time() - start_time)}s")
+                # If we detect any error pattern early, we can exit early to fail faster
+                if found_no_space or found_exit_failure or restart_count > 0:
+                    print(f"\n✗ ERROR: Detected failure patterns early at {int(time.time() - start_time)}s")
                     break
-
-                # If we found disk space errors and service failure, that's enough
-                if found_no_space and found_exit_failure:
-                    print(f"\n✓ Disk space error and service failure confirmed after {int(time.time() - start_time)}s")
-                    # Wait a bit more to see if restart happens
-                    if time.time() - start_time > 20:
-                        break
 
                 time.sleep(5)
 
@@ -501,23 +501,37 @@ class TestCodaSnapInstallation:
             )
             print(output)
 
-            # Verify we observed the expected crash behavior
+            # Verify we observed graceful handling (no error patterns)
             print("\n[Verification Results]")
-            print(f"  - Found 'no space left on device': {found_no_space}")
-            print(f"  - Found 'Failed to fire hook': {found_failed_hook}")
-            print(f"  - Found level=fatal error: {found_fatal_error}")
-            print(f"  - Found exit failure: {found_exit_failure}")
-            print(f"  - Restart count: {restart_count}")
+            print(f"  - Found 'no space left on device': {found_no_space} (should be False)")
+            print(f"  - Found 'Failed to fire hook': {found_failed_hook} (should be False)")
+            print(f"  - Found level=fatal error: {found_fatal_error} (should be False)")
+            print(f"  - Found exit failure: {found_exit_failure} (should be False)")
+            print(f"  - Restart count: {restart_count} (should be 0)")
+            print(f"  - Service was active: {service_active_count > 0} (should be True)")
 
-            # Assert on critical crash indicators
-            # We must see the disk space error
-            assert found_no_space, "Did not observe 'no space left on device' error"
+            # Assert on graceful handling - no error patterns should occur
+            # Test fails if ANY error pattern is detected
+            assert not found_no_space, \
+                "FAILED: Found 'no space left on device' error - snap should handle disk constraints gracefully"
 
-            # We should see EITHER restart behavior OR exit failure (at least one crash indicator)
-            crash_detected = found_exit_failure or restart_count >= 1
-            assert crash_detected, f"Did not observe any crash behavior (exit_failure={found_exit_failure}, restarts={restart_count})"
+            assert not found_failed_hook, \
+                "FAILED: Found 'Failed to fire hook' error - snap should handle disk constraints gracefully"
 
-            print("\n✓ Disk space exhaustion and crash behavior verified - test passed!")
+            assert not found_fatal_error, \
+                "FAILED: Found level=fatal error - snap should handle disk constraints gracefully"
+
+            assert not found_exit_failure, \
+                "FAILED: Found exit failure - snap should remain running under disk pressure"
+
+            assert restart_count == 0, \
+                f"FAILED: Found {restart_count} restart(s) - snap should not crash and restart"
+
+            # Service should have been active during monitoring
+            assert service_active_count > 0, \
+                "FAILED: Service was never active - snap should remain running under disk pressure"
+
+            print("\n✓ Disk space exhaustion handled gracefully - snap remained stable - test passed!")
 
         finally:
             # Step 9: CLEANUP (critical - must happen even if test fails)
