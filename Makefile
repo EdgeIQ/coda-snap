@@ -1,6 +1,6 @@
 .PHONY: help build setup template build-no-lxd build-interactive clean uninstall install connect login remote-build publish \
         install-multipass vm-create vm-delete vm-shell shell vm-info vm-list vm-wait-for-snapd \
-        vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-tests-status e2e-tests-setup test e2e-tests-test-full e2e-tests-test \
+        vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-tests-status e2e-tests-setup test e2e-tests-test-full e2e-tests-test-status e2e-tests-test \
         e2e-tests-clean e2e-tests-logs
 
 SNAPCRAFT := $(shell if snapcraft --version > /dev/null 2>&1; then echo snapcraft; else echo sudo snapcraft; fi)
@@ -218,12 +218,55 @@ e2e-tests-setup: ## Create VM and install services (run this first)
 	@echo "$(COLOR_GREEN)✓ E2E test environment ready$(COLOR_RESET)"
 	@echo "$(COLOR_BLUE)Run 'make e2e-tests-test' to execute tests$(COLOR_RESET)"
 
-e2e-tests-test-full: ## Run full E2E test suite (create VM, test, cleanup)
+e2e-tests-test-full: ## Run full E2E test suite (cleanup existing VM, create VM, test, cleanup)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Starting full E2E test suite...$(COLOR_RESET)"
+	@echo "$(COLOR_YELLOW)Checking for existing VM...$(COLOR_RESET)"
+	@if multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
+		echo "$(COLOR_YELLOW)⚠ Existing VM found. Cleaning up...$(COLOR_RESET)"; \
+		$(MAKE) e2e-tests-clean; \
+	else \
+		echo "$(COLOR_GREEN)✓ No existing VM found$(COLOR_RESET)"; \
+	fi
 	@$(MAKE) e2e-tests-setup
-	@$(MAKE) e2e-tests-test || (echo "$(COLOR_RED)✗ Tests failed$(COLOR_RESET)" && $(MAKE) teardown && exit 1)
+	@$(MAKE) e2e-tests-test || (echo "$(COLOR_RED)✗ Tests failed$(COLOR_RESET)" && $(MAKE) e2e-tests-clean && exit 1)
 	@$(MAKE) e2e-tests-clean
 	@echo "$(COLOR_GREEN)✓ Full E2E test suite completed successfully$(COLOR_RESET)"
+
+e2e-tests-test-status: ## Check if VM is running and services are active
+	@echo "$(COLOR_BOLD)$(COLOR_BLUE)E2E Test Environment Status$(COLOR_RESET)"
+	@echo "=========================================="
+	@echo ""
+	@echo "$(COLOR_BLUE)VM Status:$(COLOR_RESET)"
+	@if multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
+		echo "  $(COLOR_GREEN)✓ VM $(MULTIPASS_VM_NAME) is running$(COLOR_RESET)"; \
+		multipass info $(MULTIPASS_VM_NAME) 2>/dev/null | grep -E "State|IPv4|Release" | sed 's/^/  /'; \
+		echo ""; \
+		echo "$(COLOR_BLUE)Services Status:$(COLOR_RESET)"; \
+		MOCK_STATUS=$$(multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl is-active edgeiq-mock-server.service 2>/dev/null || echo "inactive"); \
+		MQTT_STATUS=$$(multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl is-active mosquitto.service 2>/dev/null || echo "inactive"); \
+		if [ "$$MOCK_STATUS" = "active" ]; then \
+			echo "  $(COLOR_GREEN)✓ Mock Server: $$MOCK_STATUS$(COLOR_RESET)"; \
+		else \
+			echo "  $(COLOR_RED)✗ Mock Server: $$MOCK_STATUS$(COLOR_RESET)"; \
+		fi; \
+		if [ "$$MQTT_STATUS" = "active" ]; then \
+			echo "  $(COLOR_GREEN)✓ Mosquitto: $$MQTT_STATUS$(COLOR_RESET)"; \
+		else \
+			echo "  $(COLOR_YELLOW)⚠ Mosquitto: $$MQTT_STATUS$(COLOR_RESET)"; \
+		fi; \
+		echo ""; \
+		echo "$(COLOR_BLUE)Network Connectivity:$(COLOR_RESET)"; \
+		HTTP_RESULT=$$(multipass exec $(MULTIPASS_VM_NAME) -- bash -c 'timeout 3 curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/health 2>/dev/null' || echo "000"); \
+		if [ "$$HTTP_RESULT" = "200" ]; then \
+			echo "  $(COLOR_GREEN)✓ Mock server responding on port 8080$(COLOR_RESET)"; \
+		else \
+			echo "  $(COLOR_RED)✗ Mock server not responding on port 8080 (HTTP $$HTTP_RESULT)$(COLOR_RESET)"; \
+		fi; \
+	else \
+		echo "  $(COLOR_RED)✗ VM $(MULTIPASS_VM_NAME) not found$(COLOR_RESET)"; \
+		echo "  Run 'make e2e-tests-setup' to create the test environment"; \
+	fi
+	@echo ""
 
 e2e-tests-test: ## Run tests with verbose output (VM must be running)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Running E2E test suite (verbose mode)...$(COLOR_RESET)"
@@ -266,14 +309,15 @@ help:
 	@echo "  make clean         Clean build artifacts"
 	@echo ""
 	@echo "$(COLOR_BLUE)E2E Testing - VM Configuration:$(COLOR_RESET)"
-	@echo "  make e2e-tests-setup     # 1. Create VM and install services"
-	@echo "  make e2e-tests-test      # 2. Run tests"
-	@echo "  make e2e-tests-clean     # 3. Clean up VM and results"
+	@echo "  make e2e-tests-setup         # 1. Create VM and install services"
+	@echo "  make e2e-tests-test          # 2. Run tests"
+	@echo "  make e2e-tests-clean         # 3. Clean up VM and results"
 	@echo ""
 	@echo "$(COLOR_BLUE)E2E Testing - Advanced:$(COLOR_RESET)"
-	@echo "  make e2e-tests-test-full     # Run full suite (setup + test + teardown)"
+	@echo "  make e2e-tests-test-full     # Run full suite (cleanup + setup + test + teardown)"
+	@echo "  make e2e-tests-test-status   # Check if VM and services are running"
 	@echo "  make vm-shell                # Access VM for debugging"
-	@echo "  make e2e-tests-status        # Check VM and services status"
+	@echo "  make e2e-tests-status        # Detailed VM and services status"
 	@echo "  make vm-services-logs        # View service logs (last 50 lines)"
 	@echo "  make e2e-tests-logs          # Follow service logs in real-time"
 	@echo ""
