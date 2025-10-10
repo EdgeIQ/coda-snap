@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import logging
+
+sys.path.append(os.path.join(os.environ['SNAP'], 'shared'))
+
+import hook_utils
+
+# Setup logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+logging.info("Starting post-refresh cleanup...")
+
+# Define log directory path
+log_dir = os.path.join(os.environ['SNAP_COMMON'], 'log')
+
+# Clean up log directory
+if os.path.exists(log_dir):
+    logging.info(f"Cleaning up log directory: {log_dir}")
+    hook_utils.cleanup_directory(log_dir)
+    logging.info("Log directory cleanup completed successfully")
+else:
+    logging.info(f"Log directory does not exist, skipping cleanup: {log_dir}")
+
+logging.info("Post-refresh hook completed")

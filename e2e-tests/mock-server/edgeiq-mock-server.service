@@ -1,0 +1,28 @@
+[Unit]
+Description=EdgeIQ Mock API Server
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/mock-server
+Environment="PYTHONUNBUFFERED=1"
+Environment="LOG_LEVEL=INFO"
+Environment="RESPONSES_DIR=/home/ubuntu/fixtures/responses"
+Environment="MOCK_SERVER_HOST=localhost"
+Environment="MOCK_SERVER_PORT=8080"
+Environment="MQTT_HOST=localhost"
+Environment="MQTT_PORT=1883"
+ExecStart=/usr/bin/python3 /home/ubuntu/mock-server/server.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/home/ubuntu/mock-server/server.log
+StandardError=append:/home/ubuntu/mock-server/server.log
+
+# Resource limits
+MemoryMax=512M
+CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target

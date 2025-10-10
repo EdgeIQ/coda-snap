@@ -38,6 +38,8 @@ hooks:
     plugs: [network]
   configure:
     plugs: [network]
+  post-refresh:
+    plugs: [network]
 
 apps:
   agent:

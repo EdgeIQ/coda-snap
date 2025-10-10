@@ -52,7 +52,7 @@ sudo snap restart coda
 The brokers are:
 
 | Environment | MQTT Broker       |
-|------------|--------------------|
+|------------|-------------------|
 | Production | mqtt.edgeiq.io     |
 | Staging    | mqtt.stage.edgeiq.io    |
 
@@ -106,7 +106,7 @@ sudo snap connect coda:snapd-control :snapd-control
 To have ability [create and apply network configurations](https://dev.edgeiq.io/docs/create-and-apply-a-network-configuration-for-a-gateway-device) to your device via [API](https://dev.edgeiq.io/docs/network-configuration), please connect the following plug:
 
 ```bash
-sudo snap connect coda:network-control :network-control 
+sudo snap connect coda:network-control :network-control
 sudo snap connect coda:network-manager :network-manager
 sudo snap connect coda:network-manager-observe :network-manager-observe
 sudo snap connect coda:firewall-control :firewall-control
@@ -128,7 +128,7 @@ sudo snap connect coda:tpm :tpm
 
 - [Make](https://www.gnu.org/software/make/)
 - [Ubuntu 20+](https://ubuntu.com/)
-- [Snapd](https://snapcraft.io/snapd)
+- [Snapcraft](https://snapcraft.io/snapd)
 
 ### Setup
 
@@ -146,14 +146,22 @@ To build the project:
 make clean build
 ```
 
-To build the specific version:
+To build a specific version:
 
 ```bash
 export EDGEIQ_CODA_VERSION=4.0.22
 make clean build
 ```
 
-### Remote Build
+### Local Installation
+
+To install the locally built snap:
+
+```bash
+make install
+```
+
+### Remote Build and Publishing
 
 ```bash
 # Login to the snapcraft store
@@ -167,11 +175,90 @@ make template
 # Trigger the remote build
 snapcraft remote-build --launchpad-accept-public-upload --launchpad-timeout 3600 --build-for=amd64,armhf,arm64
 
-# Upload the builds to the snapcraft store
-snapcraft upload --release="edge,beta,candidate,stable" coda_${EDGEIQ_CODA_VERSION}_armhf.snap
-snapcraft upload --release="edge,beta,candidate,stable" coda_${EDGEIQ_CODA_VERSION}_amd64.snap
-snapcraft upload --release="edge,beta,candidate,stable" coda_${EDGEIQ_CODA_VERSION}_arm64.snap
+# Publish to the snapcraft store
+make publish
 ```
 
+## E2E Testing
+
+The E2E test suite uses **Multipass VMs** with real Ubuntu environments for authentic snap testing, providing more accurate validation than containerized environments.
+
+### Prerequisites
+
+- [Multipass](https://multipass.run/) - `brew install multipass` (macOS)
+- Python 3 with pytest
+- [Mosquitto](https://mosquitto.org/) - `brew install mosquitto` (macOS)
+
+### Running Tests
+
+```bash
+# Full test workflow (create VM, test, cleanup)
+make e2e-tests-test-full
+
+# Interactive workflow (keeps VM for debugging)
+make e2e-tests-setup    # Create VM and start services
+make e2e-tests-test     # Run tests
+make vm-shell           # Access VM for debugging
+make e2e-tests-clean    # Cleanup when done
+
+# Run specific test
+cd e2e-tests/test-runner
+MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestClass::test_name -v
+```
+
+### Test Architecture
+
+- **Multipass VM**: Ubuntu 24.04 with native snapd (2 CPUs, 2GB RAM, 10GB disk)
+- **Mock Server**: Python-based EdgeIQ API simulator running in VM (port 8080)
+- **MQTT Broker**: Can run Mosquitto in VM if needed (port 1883)
+- **Test Runner**: pytest on host, executes via `multipass exec`
+
+### Common Commands
+
+```bash
+make e2e-tests-status   # View VM and service status
+make e2e-tests-logs     # View service logs
+make vm-info            # Show VM details
+make e2e-tests-clean    # Complete cleanup
+make vm-list            # List all Multipass VMs
+```
+
+For detailed E2E testing documentation, see the [Makefile](e2e-tests/Makefile) and test files in `e2e-tests/test-runner/tests/`.
+
+## Hook Development
+
+The snap uses Python hooks in `snap/hooks/` for configuration management:
+
+- **install**: First-time setup, copies default configs, sets MAC-based unique-id
+- **configure**: Handles `snap set` commands, translates config keys, manages identifier.json
+
+Key utilities are in `utils/shared/hook_utils.py` for config translation between snap's dash-based keys and Coda's underscore-based keys.
+
+### Testing Hooks
+
+```bash
+# Build and install locally
+export EDGEIQ_CODA_VERSION=4.0.22
+make clean build install
+
+# Test configuration
+sudo snap set coda bootstrap.unique-id=test-device-001
+sudo snap set coda bootstrap.company-id=12345
+snap get coda -d
+
+# Check logs
+journalctl -t coda.hook.install
+journalctl -t coda.hook.configure
+```
+
+## Architecture Notes
+
+- **Binary Distribution**: Downloads pre-built Coda binaries from EdgeIQ API during build
+- **Configuration Translation**: Hook utilities translate between snap (dash) and Coda (underscore) key formats
+- **Multi-Architecture**: Builds for amd64, arm64, armhf with architecture-specific binary downloads
+- **Network Manager**: Uses nmcli for network configuration on Ubuntu Core
+- **Persistent Config**: All runtime config in `$SNAP_COMMON/conf/` persists across updates
+
+For detailed technical documentation and development guidance, see [CLAUDE.md](CLAUDE.md).
 
 For more information and support, visit the [EdgeIQ documentation](https://dev.edgeiq.io/).

@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "edge": {
+    "relay_frequency_limit": 10,
+    "log_level": "info",
+    "heartbeat_interval": 60,
+    "api_url": "http://mock-server:8080",
+    "mqtt_broker": "mqtt://mqtt-broker:1883"
+  },
+  "device": {
+    "carrier": "test-carrier",
+    "unique_id": "test-device-001"
+  },
+  "network": {
+    "configurer": "nmcli"
+  }
+}

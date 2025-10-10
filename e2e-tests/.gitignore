@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+
+# Docker (legacy)
+.docker/
+
+# Multipass
+*.pid
+.multipass/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/*.log
+!logs/.gitkeep
+
+# Test results
+.coverage
+htmlcov/
+junit.xml
