@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker compose:*)",
+      "Bash(lsof:*)",
+      "Bash(tee:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(make:*)",
+      "Bash(docker:*)",
+      "Bash(multipass:*)",
+      "Bash(tree:*)",
+      "Bash(export MULTIPASS_VM_NAME=coda-test-vm)",
+      "Bash(MULTIPASS_VM_NAME=coda-test-vm pytest tests/ -v -s)",
+      "Bash(MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestCodaSnapInstallation::test_install_coda_snap -v -s)",
+      "Bash(pytest:*)",
+      "Bash(MULTIPASS_VM_NAME=coda-test-vm /Users/mikhail/miniconda3/bin/pytest tests/test_coda_snap.py::TestCodaSnapInstallation::test_install_coda_snap -v -s)",
+      "WebSearch",
+      "WebFetch(domain:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

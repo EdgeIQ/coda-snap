@@ -1,4 +1,4 @@
-name: Buld & Publish Snap
+name: Build & Publish Snap
 
 on:
   workflow_dispatch:
@@ -12,32 +12,72 @@ on:
         default: 'edge,beta,candidate,stable'
 
 jobs:
-  build-and-publish:
-    name: Build and Publish Snap
+  build:
+    name: Build Snap (${{ matrix.architecture }})
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        architecture: [amd64, arm64, armhf]
     env:
       EDGEIQ_SNAP_NAME: coda
       EDGEIQ_API_URL: https://api.edgeiq.io
       EDGEIQ_CODA_VERSION: ${{ github.event.inputs.EDGEIQ_CODA_VERSION }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU for cross-architecture builds
+        uses: docker/setup-qemu-action@v3
+
+      - name: Generate snapcraft.yaml from template
+        run: |
+          export EDGEIQ_CODA_SNAP_VERSION=$(echo ${{ github.event.inputs.EDGEIQ_CODA_VERSION }} | sed 's/_/-/g')
+          make template
+
+      - name: Build snap for ${{ matrix.architecture }}
+        id: build-snap
+        uses: diddlesnaps/snapcraft-multiarch-action@v1
+        with:
+          architecture: ${{ matrix.architecture }}
+
+      - name: Upload snap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coda-snap-${{ matrix.architecture }}
+          path: ${{ steps.build-snap.outputs.snap }}
+          retention-days: 5
+
+  publish:
+    name: Publish Snaps to Store
+    needs: build
+    runs-on: ubuntu-22.04
+    env:
+      EDGEIQ_SNAP_NAME: coda
       SNAPCRAFT_CHANNELS: ${{ github.event.inputs.SNAPCRAFT_CHANNELS }}
       SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y make
+        uses: actions/checkout@v4
 
       - name: Install Snapcraft
-        uses: samuelmeuli/action-snapcraft@v3
-
-      - name: Ensure core22 is installed
-        run: sudo snap install core22 || sudo snap refresh core22
-
-      - name: Build snap
         run: |
-          make build-no-lxd
-          
-      - name: Release snap to the specified channels
+          sudo snap install snapcraft --classic
+
+      - name: Download all snap artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coda-snap-*
+          merge-multiple: true
+
+      - name: List downloaded artifacts
         run: |
-          make publish
+          echo "Downloaded snap files:"
+          ls -lh *.snap
+
+      - name: Publish snaps to specified channels
+        run: |
+          echo "Publishing snaps to channels: $SNAPCRAFT_CHANNELS"
+          for snap_file in *.snap; do
+            echo "Uploading $snap_file..."
+            snapcraft upload --release=$SNAPCRAFT_CHANNELS "$snap_file"
+          done
