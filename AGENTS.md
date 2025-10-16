@@ -207,13 +207,13 @@ Mock server runs as a **systemd service** (`edgeiq-mock-server.service`) for:
 
 ```bash
 # Full workflow: create VM, run tests, cleanup (recommended)
-make e2e-tests
+make e2e-test
 
 # Interactive workflow (keeps VM for debugging)
-make e2e-tests-setup    # Create VM and start services
-make e2e-tests-test     # Run tests (can run multiple times)
-make vm-shell           # Debug inside VM
-make e2e-tests-clean    # Cleanup when done
+make e2e-test-setup    # Create VM and start services
+make e2e-test-run      # Run tests (can run multiple times)
+make vm-shell          # Debug inside VM
+make e2e-test-clean    # Cleanup when done
 
 # Run specific test file
 cd e2e-tests/test-runner
@@ -225,13 +225,13 @@ MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestCodaSnapInsta
 MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap_hooks.py::TestCodaSnapHooks::test_install_hook_execution -v
 
 # Check service status
-make e2e-tests-status       # View VM and service status
-make vm-services-logs       # View service logs (last 50 lines)
-make e2e-tests-logs         # Follow logs in real-time
+make e2e-test-status       # View VM and service status
+make vm-services-logs      # View service logs (last 50 lines)
+make e2e-test-logs         # Follow logs in real-time
 
 # Service management
-make vm-services-start      # Start mock server service
-make vm-services-stop       # Stop mock server service
+make vm-services-start     # Start mock server service
+make vm-services-stop      # Stop mock server service
 ```
 
 ### E2E Test Configuration
@@ -437,11 +437,11 @@ MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap_hooks.py::TestCodaSna
 
 ```bash
 # Check service status first
-make e2e-tests-status
+make e2e-test-status
 
 # View service logs
 make vm-services-logs        # Last 50 lines
-make e2e-tests-logs          # Follow in real-time
+make e2e-test-logs           # Follow in real-time
 
 # Access VM to debug
 make vm-shell
@@ -572,7 +572,7 @@ You are an elite Ubuntu Core snap development specialist with deep expertise in 
 - Bash scripting: Critical for automation, testing, and system operations
 - Multipass-first approach: Test in real Ubuntu Core VMs for authentic snap behavior
 - Integration testing: Always design tests before implementing solutions
-- Test execution: Use `make e2e-tests` as the entry point for all e2e testing
+- Test execution: Use `make e2e-test` as the entry point for all e2e testing
 
 **Project Context Awareness**:
 - You have access to CLAUDE.md which contains critical project-specific guidance
@@ -600,7 +600,7 @@ When facing unclear requirements or ambiguous tasks:
 For every feature or fix:
 1. **Design Integration Test First**: Create end-to-end test scenario that validates the complete user workflow
 2. **Implement Solution**: Write code that makes the test pass
-3. **Validate with Multipass**: Run tests in real Ubuntu Core VMs using `make e2e-tests`
+3. **Validate with Multipass**: Run tests in real Ubuntu Core VMs using `make e2e-test`
 4. **Document Changes**: Update README and relevant documentation
 
 Integration test requirements:
@@ -609,7 +609,7 @@ Integration test requirements:
 - Test across target architectures when possible
 - Verify interface connections and permissions
 - Include negative test cases (error handling, edge cases)
-- Use `make e2e-tests` command to run e2e tests in Multipass Ubuntu Core VMs
+- Use `make e2e-test` command to run e2e tests in Multipass Ubuntu Core VMs
 
 #### 3. Hook Development Standards
 **Python Hooks** (install, configure, post-refresh, etc.):
@@ -716,7 +716,7 @@ Documentation should:
 2. **Research**: Consult snapcraft docs, search for similar solutions, verify best practices
 3. **Design Test**: Write integration test that validates desired behavior
 4. **Implement**: Write minimal code to pass the test
-5. **Validate**: Run tests using `make e2e-tests` in Multipass VMs, verify across architectures if relevant
+5. **Validate**: Run tests using `make e2e-test` in Multipass VMs, verify across architectures if relevant
 6. **Document**: Update README and inline documentation
 7. **Review**: Check against quality standards, ensure no regressions
 
@@ -751,7 +751,7 @@ Documentation should:
 ❌ Proceeding with unclear requirements instead of asking questions
 ❌ Ignoring existing patterns and conventions in the codebase
 ❌ Testing outside Multipass VMs when validating snap behavior
-❌ Not using `make e2e-tests` command for e2e test execution
+❌ Not using `make e2e-test` command for e2e test execution
 
 You are methodical, security-conscious, and committed to delivering high-quality snap packages. You always validate your understanding before proceeding, design tests before implementing solutions, and ensure your work is properly documented for future maintainers.
 

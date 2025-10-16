@@ -193,13 +193,13 @@ The E2E test suite uses **Multipass VMs** with real Ubuntu environments for auth
 
 ```bash
 # Full test workflow (create VM, test, cleanup)
-make e2e-tests
+make e2e-test
 
 # Interactive workflow (keeps VM for debugging)
-make e2e-tests-setup    # Create VM and start services
-make e2e-tests-test     # Run tests
-make vm-shell           # Access VM for debugging
-make e2e-tests-clean    # Cleanup when done
+make e2e-test-setup    # Create VM and start services
+make e2e-test-run      # Run tests
+make vm-shell          # Access VM for debugging
+make e2e-test-clean    # Cleanup when done
 
 # Run specific test
 cd e2e-tests/test-runner
@@ -216,11 +216,11 @@ MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestClass::test_n
 ### Common Commands
 
 ```bash
-make e2e-tests-status   # View VM and service status
-make e2e-tests-logs     # View service logs
-make vm-info            # Show VM details
-make e2e-tests-clean    # Complete cleanup
-make vm-list            # List all Multipass VMs
+make e2e-test-status   # View VM and service status
+make e2e-test-logs     # View service logs
+make vm-info           # Show VM details
+make e2e-test-clean    # Complete cleanup
+make vm-list           # List all Multipass VMs
 ```
 
 For detailed E2E testing documentation, see the [Makefile](e2e-tests/Makefile) and test files in `e2e-tests/test-runner/tests/`.

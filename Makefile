@@ -1,7 +1,7 @@
 .PHONY: help build setup template build-no-lxd build-interactive clean uninstall install connect login remote-build publish \
         install-multipass vm-create vm-delete vm-shell shell vm-info vm-list vm-wait-for-snapd \
-        vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-tests-status e2e-tests-setup test e2e-tests e2e-tests-test-status e2e-tests-test \
-        e2e-tests-clean e2e-tests-logs
+        vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-test-status e2e-test-setup test e2e-test e2e-test-check e2e-test-run \
+        e2e-test-clean e2e-test-logs
 
 SNAPCRAFT := $(shell if snapcraft --version > /dev/null 2>&1; then echo snapcraft; else echo sudo snapcraft; fi)
 LXD := $(shell if lxd --version > /dev/null 2>&1; then echo lxd; else echo sudo lxd; fi)
@@ -197,7 +197,7 @@ vm-services-stop: ## Stop systemd services in VM
 	@multipass exec $(MULTIPASS_VM_NAME) -- sudo systemctl stop edgeiq-mock-server.service 2>/dev/null || true
 	@echo "$(COLOR_GREEN)✓ Services stopped$(COLOR_RESET)"
 
-e2e-tests-status: ## Show status of services and VM
+e2e-test-status: ## Show status of services and VM
 	@echo "$(COLOR_BLUE)Multipass VMs:$(COLOR_RESET)"
 	@multipass list 2>/dev/null || echo "  No VMs found"
 	@echo ""
@@ -212,27 +212,27 @@ e2e-tests-status: ## Show status of services and VM
 		echo "  VM not running"; \
 	fi
 
-e2e-tests-setup: ## Create VM and install services (run this first)
+e2e-test-setup: ## Create VM and install services (run this first)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Setting up E2E test environment...$(COLOR_RESET)"
 	@$(MAKE) vm-create
 	@echo "$(COLOR_GREEN)✓ E2E test environment ready$(COLOR_RESET)"
-	@echo "$(COLOR_BLUE)Run 'make e2e-tests-test' to execute tests$(COLOR_RESET)"
+	@echo "$(COLOR_BLUE)Run 'make e2e-test-run' to execute tests$(COLOR_RESET)"
 
-e2e-tests: ## Run full E2E test suite (cleanup existing VM, create VM, test, cleanup)
+e2e-test: ## Run full E2E test suite (cleanup existing VM, create VM, test, cleanup)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Starting full E2E test suite...$(COLOR_RESET)"
 	@echo "$(COLOR_YELLOW)Checking for existing VM...$(COLOR_RESET)"
 	@if multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
 		echo "$(COLOR_YELLOW)⚠ Existing VM found. Cleaning up...$(COLOR_RESET)"; \
-		$(MAKE) e2e-tests-clean; \
+		$(MAKE) e2e-test-clean; \
 	else \
 		echo "$(COLOR_GREEN)✓ No existing VM found$(COLOR_RESET)"; \
 	fi
-	@$(MAKE) e2e-tests-setup
-	@$(MAKE) e2e-tests-test || (echo "$(COLOR_RED)✗ Tests failed$(COLOR_RESET)" && $(MAKE) e2e-tests-clean && exit 1)
-	@$(MAKE) e2e-tests-clean
+	@$(MAKE) e2e-test-setup
+	@$(MAKE) e2e-test-run || (echo "$(COLOR_RED)✗ Tests failed$(COLOR_RESET)" && $(MAKE) e2e-test-clean && exit 1)
+	@$(MAKE) e2e-test-clean
 	@echo "$(COLOR_GREEN)✓ Full E2E test suite completed successfully$(COLOR_RESET)"
 
-e2e-tests-test-status: ## Check if VM is running and services are active
+e2e-test-check: ## Check if VM is running and services are active
 	@echo "$(COLOR_BOLD)$(COLOR_BLUE)E2E Test Environment Status$(COLOR_RESET)"
 	@echo "=========================================="
 	@echo ""
@@ -264,14 +264,14 @@ e2e-tests-test-status: ## Check if VM is running and services are active
 		fi; \
 	else \
 		echo "  $(COLOR_RED)✗ VM $(MULTIPASS_VM_NAME) not found$(COLOR_RESET)"; \
-		echo "  Run 'make e2e-tests-setup' to create the test environment"; \
+		echo "  Run 'make e2e-test-setup' to create the test environment"; \
 	fi
 	@echo ""
 
-e2e-tests-test: ## Run tests with verbose output (VM must be running)
+e2e-test-run: ## Run tests with verbose output (VM must be running)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Running E2E test suite (verbose mode)...$(COLOR_RESET)"
 	@if ! multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
-		echo "$(COLOR_RED)✗ VM not found. Run 'make e2e-tests-setup' first$(COLOR_RESET)"; \
+		echo "$(COLOR_RED)✗ VM not found. Run 'make e2e-test-setup' first$(COLOR_RESET)"; \
 		exit 1; \
 	fi
 	@cd e2e-tests/test-runner && \
@@ -286,11 +286,11 @@ vm-services-logs: ## View service logs from VM
 	@echo "$(COLOR_BLUE)Mock Server Application Log:$(COLOR_RESET)"
 	@multipass exec $(MULTIPASS_VM_NAME) -- tail -n 50 /home/ubuntu/mock-server/server.log 2>/dev/null || echo "  Log file not found"
 
-e2e-tests-logs: ## Follow service logs in real-time
+e2e-test-logs: ## Follow service logs in real-time
 	@echo "$(COLOR_BLUE)Following mock server logs (Ctrl+C to stop)...$(COLOR_RESET)"
 	@multipass exec $(MULTIPASS_VM_NAME) -- sudo journalctl -u edgeiq-mock-server.service -f
 
-e2e-tests-clean:
+e2e-test-clean:
 	@echo "$(COLOR_YELLOW)Tearing down E2E test environment...$(COLOR_RESET)"
 	@$(MAKE) vm-services-stop 2>/dev/null || true
 	@$(MAKE) vm-delete 2>/dev/null || true
@@ -309,17 +309,17 @@ help:
 	@echo "  make clean         Clean build artifacts"
 	@echo ""
 	@echo "$(COLOR_BLUE)E2E Testing - VM Configuration:$(COLOR_RESET)"
-	@echo "  make e2e-tests-setup         # 1. Create VM and install services"
-	@echo "  make e2e-tests-test          # 2. Run tests"
-	@echo "  make e2e-tests-clean         # 3. Clean up VM and results"
+	@echo "  make e2e-test-setup          # 1. Create VM and install services"
+	@echo "  make e2e-test-run            # 2. Run tests"
+	@echo "  make e2e-test-clean          # 3. Clean up VM and results"
 	@echo ""
 	@echo "$(COLOR_BLUE)E2E Testing - Advanced:$(COLOR_RESET)"
-	@echo "  make e2e-tests               # Run full suite (cleanup + setup + test + teardown)"
-	@echo "  make e2e-tests-test-status   # Check if VM and services are running"
+	@echo "  make e2e-test                # Run full suite (cleanup + setup + test + teardown)"
+	@echo "  make e2e-test-check          # Check if VM and services are running"
 	@echo "  make vm-shell                # Access VM for debugging"
-	@echo "  make e2e-tests-status        # Detailed VM and services status"
+	@echo "  make e2e-test-status         # Detailed VM and services status"
 	@echo "  make vm-services-logs        # View service logs (last 50 lines)"
-	@echo "  make e2e-tests-logs          # Follow service logs in real-time"
+	@echo "  make e2e-test-logs           # Follow service logs in real-time"
 	@echo ""
 	@echo "$(COLOR_BLUE)Common Commands:$(COLOR_RESET)"
 	@echo "  make help            # Show this help message"
