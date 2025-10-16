@@ -155,9 +155,32 @@ class TestCodaSnapHooks:
 
         assert exit_code == 0, "Snapd did not become ready"
 
-        # Step 2: Install coda snap - either from local file or store
+        # Step 2: Ensure clean state for install hook testing
+        print("\n[2/9] Ensuring clean state for install hook testing...")
+        exit_code, output = self.exec_command(
+            multipass_vm,
+            "snap list coda",
+            check=False
+        )
+        if exit_code == 0:
+            print("⚠ Snap already installed, removing to test install hook...")
+            exit_code, output = self.exec_command(
+                multipass_vm,
+                "sudo snap remove coda --purge",
+                check=False,
+                timeout=60
+            )
+            if exit_code == 0:
+                print("✓ Existing snap removed")
+            else:
+                print(f"⚠ Failed to remove snap: {output}")
+            time.sleep(5)  # Wait for removal to complete
+        else:
+            print("✓ No existing snap found, clean state confirmed")
+
+        # Step 3: Install coda snap - either from local file or store
         if snap_in_vm['source'] == 'local':
-            print(f"\n[2/8] Installing coda snap from LOCAL FILE")
+            print(f"\n[3/9] Installing coda snap from LOCAL FILE")
             print(f"       File: {snap_in_vm['file_path']}")
 
             exit_code, output = self.exec_command(
@@ -166,7 +189,7 @@ class TestCodaSnapHooks:
                 timeout=120
             )
         else:
-            print(f"\n[2/8] Installing coda snap from SNAP STORE")
+            print(f"\n[3/9] Installing coda snap from SNAP STORE")
             print(f"       Channel: {snap_in_vm['channel']}")
 
             exit_code, output = self.exec_command(
@@ -179,8 +202,8 @@ class TestCodaSnapHooks:
         assert "coda" in output.lower()
         print("✓ Coda snap installed successfully")
 
-        # Step 3: Connect required interfaces
-        print("\n[3/8] Connecting required snap interfaces...")
+        # Step 4: Connect required interfaces
+        print("\n[4/9] Connecting required snap interfaces...")
         interfaces = [
             "home", "shutdown", "snapd-control", "hardware-observe", "system-observe",
             "network", "network-bind", "network-control",
@@ -202,8 +225,8 @@ class TestCodaSnapHooks:
 
         print("✓ Interface connections completed")
 
-        # Step 4: Verify bootstrap.json exists and has correct structure
-        print("\n[4/8] Verifying bootstrap.json was created by install hook...")
+        # Step 5: Verify bootstrap.json exists and has correct structure
+        print("\n[5/9] Verifying bootstrap.json was created by install hook...")
         exit_code, output = self.exec_command(
             multipass_vm,
             f"sudo test -f {BOOTSTRAP_JSON} && echo 'exists' || echo 'not exists'",
@@ -216,8 +239,8 @@ class TestCodaSnapHooks:
         bootstrap_data = self.read_json_file(multipass_vm, BOOTSTRAP_JSON)
         print("✓ bootstrap.json parsed successfully")
 
-        # Step 5: Verify conf.json exists
-        print("\n[5/8] Verifying conf.json was created by install hook...")
+        # Step 6: Verify conf.json exists
+        print("\n[6/9] Verifying conf.json was created by install hook...")
         exit_code, output = self.exec_command(
             multipass_vm,
             f"sudo test -f {CONF_JSON} && echo 'exists' || echo 'not exists'",
@@ -230,8 +253,8 @@ class TestCodaSnapHooks:
         conf_data = self.read_json_file(multipass_vm, CONF_JSON)
         print("✓ conf.json parsed successfully")
 
-        # Step 6: Verify unique-id is set to MAC address format
-        print("\n[6/8] Verifying unique-id is set to MAC address...")
+        # Step 7: Verify unique-id is set to MAC address format
+        print("\n[7/9] Verifying unique-id is set to MAC address...")
 
         # Check if identifier.json exists (may have been created by previous tests)
         IDENTIFIER_JSON = "/var/snap/coda/common/conf/identifier.json"
@@ -265,8 +288,8 @@ class TestCodaSnapHooks:
                 f"unique_id '{unique_id}' is not a valid MAC address format"
             print(f"✓ unique_id is valid MAC address: {unique_id}")
 
-        # Step 7: Verify snapctl configuration matches file contents (key translation)
-        print("\n[7/8] Verifying snapctl configuration and key translation...")
+        # Step 8: Verify snapctl configuration matches file contents (key translation)
+        print("\n[8/9] Verifying snapctl configuration and key translation...")
 
         # Get bootstrap config via snapctl (should have dashes)
         snap_bootstrap = self.get_snap_config(multipass_vm, "bootstrap")
@@ -282,8 +305,8 @@ class TestCodaSnapHooks:
 
         print("✓ Key translation verified (dash ↔ underscore)")
 
-        # Step 8: Verify install hook execution via snap changes
-        print("\n[8/8] Verifying install hook execution via snap changes...")
+        # Step 9: Verify install hook execution via snap changes
+        print("\n[9/9] Verifying install hook execution via snap changes...")
         # Note: Hook logs don't appear in journalctl with custom tags due to snapd's hook execution model
         # Instead, we verify hook execution by checking snap changes
         exit_code, changes_output = self.exec_command(
