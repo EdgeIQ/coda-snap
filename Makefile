@@ -1,6 +1,6 @@
 .PHONY: help build setup template build-no-lxd build-interactive clean uninstall install connect login remote-build publish \
         install-multipass vm-create vm-delete vm-shell shell vm-info vm-list vm-wait-for-snapd \
-        vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-tests-status e2e-tests-setup test e2e-tests-test-full e2e-tests-test-status e2e-tests-test \
+        vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-tests-status e2e-tests-setup test e2e-tests e2e-tests-test-status e2e-tests-test \
         e2e-tests-clean e2e-tests-logs
 
 SNAPCRAFT := $(shell if snapcraft --version > /dev/null 2>&1; then echo snapcraft; else echo sudo snapcraft; fi)
@@ -218,7 +218,7 @@ e2e-tests-setup: ## Create VM and install services (run this first)
 	@echo "$(COLOR_GREEN)✓ E2E test environment ready$(COLOR_RESET)"
 	@echo "$(COLOR_BLUE)Run 'make e2e-tests-test' to execute tests$(COLOR_RESET)"
 
-e2e-tests-test-full: ## Run full E2E test suite (cleanup existing VM, create VM, test, cleanup)
+e2e-tests: ## Run full E2E test suite (cleanup existing VM, create VM, test, cleanup)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Starting full E2E test suite...$(COLOR_RESET)"
 	@echo "$(COLOR_YELLOW)Checking for existing VM...$(COLOR_RESET)"
 	@if multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
@@ -314,7 +314,7 @@ help:
 	@echo "  make e2e-tests-clean         # 3. Clean up VM and results"
 	@echo ""
 	@echo "$(COLOR_BLUE)E2E Testing - Advanced:$(COLOR_RESET)"
-	@echo "  make e2e-tests-test-full     # Run full suite (cleanup + setup + test + teardown)"
+	@echo "  make e2e-tests               # Run full suite (cleanup + setup + test + teardown)"
 	@echo "  make e2e-tests-test-status   # Check if VM and services are running"
 	@echo "  make vm-shell                # Access VM for debugging"
 	@echo "  make e2e-tests-status        # Detailed VM and services status"

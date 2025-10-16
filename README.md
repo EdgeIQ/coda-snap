@@ -193,7 +193,7 @@ The E2E test suite uses **Multipass VMs** with real Ubuntu environments for auth
 
 ```bash
 # Full test workflow (create VM, test, cleanup)
-make e2e-tests-test-full
+make e2e-tests
 
 # Interactive workflow (keeps VM for debugging)
 make e2e-tests-setup    # Create VM and start services
