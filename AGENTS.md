@@ -302,7 +302,12 @@ Validates post-refresh hook log directory cleanup:
 
 #### Test Suite: `TestCodaSnapHooks` (test_coda_snap_hooks.py)
 
-Comprehensive tests for snap hooks. Tests run **sequentially** and must be executed in order:
+Comprehensive tests for snap hooks. Tests run **sequentially** and must be executed in order.
+
+**Important Notes**:
+- **Hook Logging**: Snap hooks do NOT log to journalctl with custom tags (e.g., `coda.hook.install`) due to snapd's hook execution model. Hook output is captured by snapd internally. Tests verify hook execution by checking `snap changes` output instead of journalctl.
+- **Test State Dependencies**: Tests share VM state and may create persistent configuration files (e.g., `identifier.json`). Tests are designed to handle pre-existing configuration gracefully.
+- **Post-Refresh Hook Requirements**: The post-refresh hook test requires **multiple snap revisions** to be installed for `snap refresh` to trigger the hook. If only one revision exists, the test attempts to install from different channels or uses revert/refresh strategy.
 
 #### 1. `test_install_hook_execution`
 **Purpose**: Verify install hook runs correctly on first snap installation
@@ -310,9 +315,9 @@ Comprehensive tests for snap hooks. Tests run **sequentially** and must be execu
 **Validates**:
 - Hook copies default config files from `$SNAP/conf` to `$SNAP_COMMON/conf`
 - Creates `bootstrap.json` and `conf.json` in persistent storage
-- Sets default `unique-id` to MAC address of first ethernet interface
+- Sets default `unique-id` to MAC address of first ethernet interface (or finds it in `identifier.json` if previously created)
 - Translates config keys from underscore (Coda) to dash (snap) format
-- Hook execution logs appear in journalctl
+- Hook execution verified via `snap changes` (not journalctl)
 
 **Test Steps**:
 1. Install coda snap from store (stable channel)
@@ -320,11 +325,11 @@ Comprehensive tests for snap hooks. Tests run **sequentially** and must be execu
 3. Verify `bootstrap.json` exists at `/var/snap/coda/common/conf/bootstrap.json`
 4. Verify `conf.json` exists at `/var/snap/coda/common/conf/conf.json`
 5. Parse JSON files and verify structure
-6. Extract `unique-id` from bootstrap.json and verify it's a valid MAC address format
+6. Extract `unique-id` from bootstrap.json or identifier.json (if it exists) and verify MAC address format
 7. Verify snapctl configuration matches file contents (with key translation)
-8. Check install hook logs: `journalctl -t coda.hook.install`
+8. Verify install hook execution via `snap changes`
 
-**Key Validations**: File creation, MAC address format, key translation (dash ↔ underscore), hook logs
+**Key Validations**: File creation, MAC address format, key translation (dash ↔ underscore), hook execution verification
 
 ---
 
@@ -334,18 +339,19 @@ Comprehensive tests for snap hooks. Tests run **sequentially** and must be execu
 **Validates**:
 - Configure hook triggered by `snap set` commands
 - Key translation from dash (snap) to underscore (Coda) works correctly
-- Configuration persisted to JSON files
+- Configuration persisted to JSON files (bootstrap.json, conf.json, or identifier.json)
 - Nested configuration paths work correctly
+- Hook execution verified via `snap changes` (not journalctl)
 
 **Test Steps**:
 1. Set simple config: `snap set coda bootstrap.unique-id=test-device-123`
 2. Verify config via `snap get coda bootstrap.unique-id`
-3. Verify bootstrap.json contains `unique_id` (underscore format)
+3. Verify configuration is persisted (checks bootstrap.json or identifier.json if it exists)
 4. Set nested config: `snap set coda conf.mqtt.broker.host=test-broker.local`
 5. Verify conf.json has correct nested structure: `{"mqtt": {"broker": {"host": "test-broker.local"}}}`
-6. Check configure hook logs: `journalctl -t coda.hook.configure`
+6. Verify configure hook execution via `snap changes`
 
-**Key Validations**: Basic config changes, nested paths, key translation, JSON persistence
+**Key Validations**: Basic config changes, nested paths, key translation, JSON persistence, hook execution verification
 
 ---
 
@@ -406,20 +412,24 @@ Comprehensive tests for snap hooks. Tests run **sequentially** and must be execu
 **Purpose**: Verify post-refresh hook cleans log directory on snap updates
 
 **Validates**:
-- Post-refresh hook triggered on snap refresh
+- Post-refresh hook triggered on snap refresh (requires multiple revisions installed)
 - All files and subdirectories in `$SNAP_COMMON/log` are removed
 - Log directory itself is preserved (not deleted)
 - Snap continues running normally after refresh
+- Hook execution verified via `snap changes` (not journalctl)
 
 **Test Steps**:
 1. Verify coda snap is installed and running
-2. Create test log files and subdirectories in `$SNAP_COMMON/log`
-3. Trigger snap refresh (uses revert/refresh if already up-to-date)
-4. Verify log directory is completely emptied
-5. Verify snap continues running normally after refresh
-6. Check post-refresh hook logs: `journalctl -t coda.hook.post-refresh`
+2. Ensure multiple snap revisions are available (installs from different channel if needed)
+3. Create test log files and subdirectories in `$SNAP_COMMON/log`
+4. Trigger snap refresh (uses revert/refresh if only one revision exists)
+5. Verify post-refresh hook execution via `snap changes`
+6. Verify log directory is completely emptied
+7. Verify snap continues running normally after refresh
 
-**Key Validations**: Complete cleanup, directory preservation, snap stability, hook logs
+**Key Validations**: Complete cleanup, directory preservation, snap stability, hook execution verification
+
+**Important**: This test requires at least 2 snap revisions to be installed. If only one revision exists, `snap refresh` will return "no updates available" and will NOT trigger the post-refresh hook.
 
 ---
 
