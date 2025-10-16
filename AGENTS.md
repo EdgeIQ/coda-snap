@@ -357,6 +357,12 @@ Cloud-init configuration ([e2e-tests/cloud-init.yaml](e2e-tests/cloud-init.yaml:
 
 ### E2E Test Cases
 
+**Test Execution Notes:**
+- When running `make e2e-test`, pytest executes tests from both test files sequentially
+- Tests from `test_coda_snap.py` run first (alphabetically), then `test_coda_snap_hooks.py`
+- `test_install_hook_execution` automatically removes any pre-installed snap to ensure clean hook testing
+- Tests share the same VM session but are designed to handle state dependencies gracefully
+
 #### Test Suite: `TestCodaSnapInstallation` (test_coda_snap.py)
 
 Tests run **sequentially** in order:
@@ -385,22 +391,7 @@ Reproduces crash behavior when disk space is exhausted (based on production inci
 - **Cleanup**: Unmounts loop device, restores common directory, verifies snap can restart
 - **Key Finding**: Filling only `/var/snap/coda/common/log` is insufficient - must fill entire common directory to trigger crash (affects both logs and database)
 
-#### 3. `test_post_refresh_hook_cleanup`
-Validates post-refresh hook log directory cleanup:
-- **Purpose**: Verify post-refresh hook cleans up log directory during snap updates
-- **Method**: Creates test log files and subdirectories, triggers snap refresh
-- **Test Steps**:
-  1. Verifies coda snap is installed and running
-  2. Creates test log files and subdirectories in `$SNAP_COMMON/log`
-  3. Triggers snap refresh (uses revert/refresh if already up-to-date)
-  4. Verifies log directory is completely emptied
-  5. Confirms snap continues running normally after refresh
-- **Expected Behavior**:
-  - All log files and subdirectories are removed
-  - Log directory itself is preserved (not deleted)
-  - Post-refresh hook logs cleanup operations
-  - Snap service remains active and functional
-- **Key Validations**: Tests file removal, subdirectory removal, directory preservation, and snap stability
+---
 
 #### Test Suite: `TestCodaSnapHooks` (test_coda_snap_hooks.py)
 
@@ -422,14 +413,16 @@ Comprehensive tests for snap hooks. Tests run **sequentially** and must be execu
 - Hook execution verified via `snap changes` (not journalctl)
 
 **Test Steps**:
-1. Install coda snap from store (stable channel)
-2. Connect all required snap interfaces
-3. Verify `bootstrap.json` exists at `/var/snap/coda/common/conf/bootstrap.json`
-4. Verify `conf.json` exists at `/var/snap/coda/common/conf/conf.json`
-5. Parse JSON files and verify structure
-6. Extract `unique-id` from bootstrap.json or identifier.json (if it exists) and verify MAC address format
-7. Verify snapctl configuration matches file contents (with key translation)
-8. Verify install hook execution via `snap changes`
+1. Verify snapd is ready
+2. **Ensure clean state** - remove snap if already installed (to test install hook on fresh installation)
+3. Install coda snap from store (stable channel) or local file
+4. Connect all required snap interfaces
+5. Verify `bootstrap.json` exists at `/var/snap/coda/common/conf/bootstrap.json`
+6. Verify `conf.json` exists at `/var/snap/coda/common/conf/conf.json`
+7. Parse JSON files and verify structure
+8. Extract `unique-id` from bootstrap.json or identifier.json (if it exists) and verify MAC address format
+9. Verify snapctl configuration matches file contents (with key translation)
+10. Verify install hook execution via `snap changes`
 
 **Key Validations**: File creation, MAC address format, key translation (dash ↔ underscore), hook execution verification
 
