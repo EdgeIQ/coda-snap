@@ -119,12 +119,12 @@ class TestCodaSnapHooks:
         )
         return output.strip()
 
-    def test_install_hook_execution(self, multipass_vm, wait_for_services):
+    def test_install_hook_execution(self, multipass_vm, wait_for_services, snap_in_vm):
         """
         Test that install hook executes correctly on first snap installation.
 
         This test:
-        1. Installs coda snap from store
+        1. Installs coda snap from store or local file
         2. Verifies install hook copied default config files to $SNAP_COMMON/conf
         3. Verifies bootstrap.json and conf.json exist
         4. Verifies unique-id is set to MAC address of first ethernet interface
@@ -136,7 +136,6 @@ class TestCodaSnapHooks:
         print("TEST: Install Hook - Initial Setup and Configuration")
         print("="*80)
 
-        SNAP_VERSION = "stable"
         BOOTSTRAP_JSON = "/var/snap/coda/common/conf/bootstrap.json"
         CONF_JSON = "/var/snap/coda/common/conf/conf.json"
 
@@ -156,13 +155,26 @@ class TestCodaSnapHooks:
 
         assert exit_code == 0, "Snapd did not become ready"
 
-        # Step 2: Install coda snap
-        print(f"\n[2/8] Installing coda snap version {SNAP_VERSION} from store...")
-        exit_code, output = self.exec_command(
-            multipass_vm,
-            f"sudo snap install coda --channel={SNAP_VERSION}",
-            timeout=120
-        )
+        # Step 2: Install coda snap - either from local file or store
+        if snap_in_vm['source'] == 'local':
+            print(f"\n[2/8] Installing coda snap from LOCAL FILE")
+            print(f"       File: {snap_in_vm['file_path']}")
+
+            exit_code, output = self.exec_command(
+                multipass_vm,
+                f"sudo snap install --dangerous {snap_in_vm['file_path']}",
+                timeout=120
+            )
+        else:
+            print(f"\n[2/8] Installing coda snap from SNAP STORE")
+            print(f"       Channel: {snap_in_vm['channel']}")
+
+            exit_code, output = self.exec_command(
+                multipass_vm,
+                f"sudo snap install coda --channel={snap_in_vm['channel']}",
+                timeout=120
+            )
+
         assert exit_code == 0, f"Failed to install coda snap: {output}"
         assert "coda" in output.lower()
         print("✓ Coda snap installed successfully")

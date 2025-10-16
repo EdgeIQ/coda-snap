@@ -28,6 +28,87 @@ def multipass_vm():
 
 
 @pytest.fixture(scope="session")
+def local_snap_file():
+    """
+    Get path to local snap file if CODA_SNAP_FILE environment variable is set.
+
+    Returns:
+        str or None: Path to local snap file, or None if not set/not found
+    """
+    snap_file_path = os.getenv('CODA_SNAP_FILE')
+
+    if not snap_file_path:
+        print("\nℹ No CODA_SNAP_FILE environment variable set - will use Snap Store")
+        return None
+
+    # Expand wildcards if present
+    import glob
+    matches = glob.glob(snap_file_path)
+
+    if not matches:
+        print(f"\n⚠ CODA_SNAP_FILE set to '{snap_file_path}' but no matching file found - will use Snap Store")
+        return None
+
+    snap_file = matches[0]  # Use first match if multiple files
+
+    if not os.path.isfile(snap_file):
+        print(f"\n⚠ CODA_SNAP_FILE '{snap_file}' is not a file - will use Snap Store")
+        return None
+
+    print(f"\n✓ Using local snap file: {snap_file}")
+    return snap_file
+
+
+@pytest.fixture(scope="session")
+def snap_in_vm(multipass_vm, local_snap_file):
+    """
+    Transfer local snap file to VM if present, return snap installation info.
+
+    Returns:
+        dict: {
+            'source': 'local' or 'store',
+            'file_path': '/home/ubuntu/snap_file.snap' (if local) or None,
+            'channel': 'stable' (if store) or None
+        }
+    """
+    if not local_snap_file:
+        # No local snap file, will install from store
+        return {
+            'source': 'store',
+            'file_path': None,
+            'channel': 'stable'
+        }
+
+    # Transfer snap file to VM
+    snap_basename = os.path.basename(local_snap_file)
+    vm_snap_path = f'/home/ubuntu/{snap_basename}'
+
+    print(f"Transferring snap file to VM: {snap_basename}")
+    result = subprocess.run(
+        ['multipass', 'transfer', local_snap_file, f'{multipass_vm}:{vm_snap_path}'],
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode != 0:
+        print(f"⚠ Failed to transfer snap file to VM: {result.stderr}")
+        print("  Falling back to Snap Store installation")
+        return {
+            'source': 'store',
+            'file_path': None,
+            'channel': 'stable'
+        }
+
+    print(f"✓ Snap file transferred to VM: {vm_snap_path}")
+
+    return {
+        'source': 'local',
+        'file_path': vm_snap_path,
+        'channel': None
+    }
+
+
+@pytest.fixture(scope="session")
 def mock_server_url():
     """
     Mock server HTTP URL.

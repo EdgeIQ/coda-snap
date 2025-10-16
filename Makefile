@@ -1,5 +1,5 @@
-.PHONY: help build setup template build-no-lxd build-interactive clean uninstall install connect login remote-build publish \
-        install-multipass vm-create vm-delete vm-shell shell vm-info vm-list vm-wait-for-snapd \
+.PHONY: help build setup template build-no-lxd build-interactive build-local clean uninstall install connect login remote-build publish \
+        install-multipass vm-create vm-delete vm-shell shell vm-info vm-list vm-wait-for-snapd vm-snap-transfer \
         vm-services-setup vm-services-start vm-services-stop vm-services-logs e2e-test-status e2e-test-setup test e2e-test e2e-test-check e2e-test-run \
         e2e-test-clean e2e-test-logs
 
@@ -12,6 +12,14 @@ EDGEIQ_API_URL ?= https://api.edgeiq.io
 EDGEIQ_CODA_VERSION ?= latest
 EDGEIQ_CODA_SNAP_VERSION ?= $(shell echo $(EDGEIQ_CODA_VERSION) | sed 's/_/-/g')
 SNAPCRAFT_CHANNEL ?= "edge,beta,candidate,stable"
+
+# Detect OS and set SED command for cross-platform compatibility
+UNAME := $(shell uname -s)
+ifeq ($(UNAME),Darwin)
+    SED_INPLACE := sed -i ''
+else
+    SED_INPLACE := sed -i
+endif
 
 # E2E Test Configuration
 MULTIPASS_VM_NAME ?= coda-test-vm
@@ -38,10 +46,10 @@ setup:
 template:
 	rm -rf snap/snapcraft.yaml
 	cp snap/local/snapcraft.template.yaml snap/snapcraft.yaml
-	sed -i 's#{{EDGEIQ_SNAP_NAME}}#'"$(EDGEIQ_SNAP_NAME)"'#' snap/snapcraft.yaml
-	sed -i 's#{{EDGEIQ_API_URL}}#'"$(EDGEIQ_API_URL)"'#' snap/snapcraft.yaml
-	sed -i 's#{{EDGEIQ_CODA_SNAP_VERSION}}#'"$(EDGEIQ_CODA_SNAP_VERSION)"'#' snap/snapcraft.yaml
-	sed -i 's#{{EDGEIQ_CODA_VERSION}}#'"$(EDGEIQ_CODA_VERSION)"'#' snap/snapcraft.yaml
+	$(SED_INPLACE) 's#{{EDGEIQ_SNAP_NAME}}#'"$(EDGEIQ_SNAP_NAME)"'#' snap/snapcraft.yaml
+	$(SED_INPLACE) 's#{{EDGEIQ_API_URL}}#'"$(EDGEIQ_API_URL)"'#' snap/snapcraft.yaml
+	$(SED_INPLACE) 's#{{EDGEIQ_CODA_SNAP_VERSION}}#'"$(EDGEIQ_CODA_SNAP_VERSION)"'#' snap/snapcraft.yaml
+	$(SED_INPLACE) 's#{{EDGEIQ_CODA_VERSION}}#'"$(EDGEIQ_CODA_VERSION)"'#' snap/snapcraft.yaml
 
 build:
 	$(MAKE) template
@@ -54,6 +62,83 @@ build-no-lxd:
 build-interactive:
 	$(MAKE) template
 	$(SNAPCRAFT) build --shell --use-lxd
+
+build-local: ## Build snap inside Multipass VM and transfer back to host
+	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Building snap locally using Multipass VM...$(COLOR_RESET)"
+	@echo ""
+	@echo "$(COLOR_YELLOW)Step 1: Checking VM state and cleaning up$(COLOR_RESET)"
+	@if multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
+		VM_STATE=$$(multipass list | grep $(MULTIPASS_VM_NAME) | awk '{print $$2}'); \
+		echo "Found VM in state: $$VM_STATE"; \
+		if [ "$$VM_STATE" = "Stopped" ]; then \
+			echo "Starting stopped VM..."; \
+			multipass start $(MULTIPASS_VM_NAME) || (echo "$(COLOR_RED)✗ Failed to start VM$(COLOR_RESET)" && exit 1); \
+			sleep 5; \
+		fi; \
+		echo "Cleaning up previous test artifacts..."; \
+		multipass exec $(MULTIPASS_VM_NAME) -- bash -c 'sudo snap remove $(EDGEIQ_SNAP_NAME) 2>/dev/null || true'; \
+		multipass exec $(MULTIPASS_VM_NAME) -- bash -c 'rm -rf /home/ubuntu/coda-snap-build 2>/dev/null || true'; \
+		multipass exec $(MULTIPASS_VM_NAME) -- bash -c 'rm -f /home/ubuntu/$(EDGEIQ_SNAP_NAME)_*.snap 2>/dev/null || true'; \
+		echo "$(COLOR_GREEN)✓ VM ready and cleaned$(COLOR_RESET)"; \
+	else \
+		echo "$(COLOR_YELLOW)VM not found. Creating new VM...$(COLOR_RESET)"; \
+		$(MAKE) vm-create || (echo "$(COLOR_RED)✗ VM setup failed$(COLOR_RESET)" && exit 1); \
+	fi
+	@echo ""
+	@echo "$(COLOR_YELLOW)Step 2: Verifying snapcraft is available in VM$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- bash -c ' \
+		if snap list snapcraft > /dev/null 2>&1; then \
+			echo "✓ Snapcraft already installed"; \
+		else \
+			echo "⚠ Snapcraft not found, installing..."; \
+			sudo snap install snapcraft --classic; \
+		fi \
+	'
+	@echo ""
+	@echo "$(COLOR_YELLOW)Step 3: Generating snapcraft.yaml from template$(COLOR_RESET)"
+	@$(MAKE) template
+	@echo "$(COLOR_GREEN)✓ Template generated$(COLOR_RESET)"
+	@echo ""
+	@echo "$(COLOR_YELLOW)Step 4: Transferring project files to VM$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- mkdir -p /home/ubuntu/coda-snap-build
+	@multipass transfer -r snap $(MULTIPASS_VM_NAME):/home/ubuntu/coda-snap-build/
+	@multipass transfer -r utils $(MULTIPASS_VM_NAME):/home/ubuntu/coda-snap-build/
+	@echo "$(COLOR_GREEN)✓ Project files transferred$(COLOR_RESET)"
+	@echo ""
+	@echo "$(COLOR_YELLOW)Step 5: Building snap in VM (this may take several minutes)...$(COLOR_RESET)"
+	@multipass exec $(MULTIPASS_VM_NAME) -- bash -c ' \
+		cd /home/ubuntu/coda-snap-build && \
+		snapcraft --destructive-mode 2>&1 | tee build.log \
+	' || (echo "$(COLOR_RED)✗ Snap build failed. Check logs in VM at /home/ubuntu/coda-snap-build/build.log$(COLOR_RESET)" && exit 1)
+	@echo "$(COLOR_GREEN)✓ Snap built successfully in VM$(COLOR_RESET)"
+	@echo ""
+	@echo "$(COLOR_YELLOW)Step 6: Transferring snap file back to host$(COLOR_RESET)"
+	@SNAP_FILE=$$(multipass exec $(MULTIPASS_VM_NAME) -- bash -c 'ls /home/ubuntu/coda-snap-build/$(EDGEIQ_SNAP_NAME)_*.snap 2>/dev/null | head -1'); \
+	if [ -z "$$SNAP_FILE" ]; then \
+		echo "$(COLOR_RED)✗ No snap file found in VM$(COLOR_RESET)"; \
+		exit 1; \
+	fi; \
+	SNAP_BASENAME=$$(basename $$SNAP_FILE); \
+	echo "Transferring $$SNAP_BASENAME..."; \
+	multipass transfer $(MULTIPASS_VM_NAME):$$SNAP_FILE ./ || \
+		(echo "$(COLOR_RED)✗ Failed to transfer snap file$(COLOR_RESET)" && exit 1); \
+	echo "$(COLOR_GREEN)✓ Snap file transferred: $$SNAP_BASENAME$(COLOR_RESET)"
+	@echo ""
+	@echo "$(COLOR_YELLOW)Step 7: Stopping VM to free resources$(COLOR_RESET)"
+	@multipass stop $(MULTIPASS_VM_NAME) || echo "⚠ Could not stop VM (may already be stopping)"
+	@echo "$(COLOR_GREEN)✓ VM stopped$(COLOR_RESET)"
+	@echo ""
+	@echo "$(COLOR_GREEN)$(COLOR_BOLD)✓ Build-local completed successfully!$(COLOR_RESET)"
+	@echo ""
+	@SNAP_FILE=$$(ls $(EDGEIQ_SNAP_NAME)_*.snap 2>/dev/null | head -1); \
+	echo "$(COLOR_BLUE)Built snap file: $$SNAP_FILE$(COLOR_RESET)"; \
+	ls -lh $$SNAP_FILE
+	@echo ""
+	@echo "$(COLOR_BLUE)Next steps:$(COLOR_RESET)"
+	@echo "  • Run E2E tests:       CODA_SNAP_FILE=$$(ls $(EDGEIQ_SNAP_NAME)_*.snap | head -1) make e2e-test-run"
+	@echo "                         (Will automatically start VM and run tests)"
+	@echo "  • Clean up VM:         make e2e-test-clean"
+	@echo ""
 
 clean:
 	$(LXD) shutdown
@@ -165,6 +250,18 @@ vm-wait-for-snapd: ## Wait for snapd to be ready in VM
 	' && echo "$(COLOR_GREEN)✓ snapd is ready$(COLOR_RESET)" || \
 	(echo "$(COLOR_RED)✗ snapd did not become ready$(COLOR_RESET)" && exit 1)
 
+vm-snap-transfer: ## Transfer local snap file to VM
+	@echo "$(COLOR_YELLOW)Transferring snap file to VM...$(COLOR_RESET)"
+	@SNAP_FILE=$$(ls $(EDGEIQ_SNAP_NAME)_*.snap 2>/dev/null | head -1); \
+	if [ -z "$$SNAP_FILE" ]; then \
+		echo "$(COLOR_RED)✗ No snap file found matching pattern: $(EDGEIQ_SNAP_NAME)_*.snap$(COLOR_RESET)"; \
+		exit 1; \
+	fi; \
+	echo "Found snap file: $$SNAP_FILE"; \
+	multipass transfer "$$SNAP_FILE" $(MULTIPASS_VM_NAME):/home/ubuntu/ || \
+		(echo "$(COLOR_RED)✗ Failed to transfer snap file$(COLOR_RESET)" && exit 1); \
+	echo "$(COLOR_GREEN)✓ Snap file transferred to VM:/home/ubuntu/$$(basename $$SNAP_FILE)$(COLOR_RESET)"
+
 vm-services-setup: ## Transfer files and setup systemd service in VM
 	@echo "$(COLOR_YELLOW)Setting up services in VM...$(COLOR_RESET)"
 	@multipass transfer -r e2e-tests/mock-server $(MULTIPASS_VM_NAME):/home/ubuntu/
@@ -268,11 +365,23 @@ e2e-test-check: ## Check if VM is running and services are active
 	fi
 	@echo ""
 
-e2e-test-run: ## Run tests with verbose output (VM must be running)
+e2e-test-run: ## Run tests with verbose output (VM must exist, will start if stopped)
 	@echo "$(COLOR_BOLD)$(COLOR_GREEN)Running E2E test suite (verbose mode)...$(COLOR_RESET)"
 	@if ! multipass list 2>/dev/null | grep -q $(MULTIPASS_VM_NAME); then \
 		echo "$(COLOR_RED)✗ VM not found. Run 'make e2e-test-setup' first$(COLOR_RESET)"; \
 		exit 1; \
+	fi
+	@echo "$(COLOR_YELLOW)Checking VM state...$(COLOR_RESET)"
+	@VM_STATE=$$(multipass list | grep $(MULTIPASS_VM_NAME) | awk '{print $$2}'); \
+	if [ "$$VM_STATE" = "Stopped" ]; then \
+		echo "$(COLOR_YELLOW)VM is stopped. Starting VM...$(COLOR_RESET)"; \
+		multipass start $(MULTIPASS_VM_NAME) || (echo "$(COLOR_RED)✗ Failed to start VM$(COLOR_RESET)" && exit 1); \
+		sleep 5; \
+		echo "$(COLOR_YELLOW)Waiting for services to be ready...$(COLOR_RESET)"; \
+		$(MAKE) vm-wait-for-snapd; \
+		$(MAKE) vm-services-start; \
+	else \
+		echo "$(COLOR_GREEN)✓ VM is running$(COLOR_RESET)"; \
 	fi
 	@cd e2e-tests/test-runner && \
 		MULTIPASS_VM_NAME=$(MULTIPASS_VM_NAME) \
@@ -304,7 +413,8 @@ help:
 	@echo "=========================================="
 	@echo ""
 	@echo "$(COLOR_BLUE)Snap Build:$(COLOR_RESET)"
-	@echo "  make build         Build snap package"
+	@echo "  make build         Build snap package (multi-arch)"
+	@echo "  make build-local   Build snap and install in test VM (fast iteration)"
 	@echo "  make install       Install snap locally"
 	@echo "  make clean         Clean build artifacts"
 	@echo ""
@@ -317,9 +427,13 @@ help:
 	@echo "  make e2e-test                # Run full suite (cleanup + setup + test + teardown)"
 	@echo "  make e2e-test-check          # Check if VM and services are running"
 	@echo "  make vm-shell                # Access VM for debugging"
+	@echo "  make vm-snap-transfer        # Transfer local snap to VM"
 	@echo "  make e2e-test-status         # Detailed VM and services status"
 	@echo "  make vm-services-logs        # View service logs (last 50 lines)"
 	@echo "  make e2e-test-logs           # Follow service logs in real-time"
+	@echo ""
+	@echo "$(COLOR_BLUE)Local Testing Workflow:$(COLOR_RESET)"
+	@echo "  CODA_SNAP_FILE=./coda_*.snap make e2e-test-run  # Test with local snap"
 	@echo ""
 	@echo "$(COLOR_BLUE)Common Commands:$(COLOR_RESET)"
 	@echo "  make help            # Show this help message"

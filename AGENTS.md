@@ -29,12 +29,71 @@ make build-no-lxd
 # Build interactively with shell access
 make build-interactive
 
-# Local installation for testing
+# Build and install in Multipass VM for local testing (recommended for fast iteration)
+export EDGEIQ_CODA_VERSION=4.0.22
+make build-local
+
+# Local installation for testing (on host, not VM)
 make install
 
 # Clean build artifacts
 make clean
 ```
+
+### Platform Compatibility
+
+The build system is **cross-platform compatible** (macOS and Linux):
+
+- **macOS**: Uses BSD sed with proper syntax (`sed -i ''`)
+- **Linux**: Uses GNU sed with standard syntax (`sed -i`)
+- The Makefile automatically detects the OS and uses the appropriate `sed` command
+
+**Note**: The Makefile includes fixes for macOS-specific issues:
+1. **sed compatibility**: BSD sed requires `sed -i ''` instead of `sed -i`
+2. **multipass exec**: Commands with stderr redirection must be wrapped in `bash -c` to prevent hanging
+
+### Local Development Workflow
+
+The `make build-local` target provides a streamlined workflow for local snap development without requiring LXD:
+
+**What it does:**
+1. Creates/reuses Multipass VM from E2E test infrastructure
+2. Installs snapcraft in VM (if not already present)
+3. Generates snapcraft.yaml from template on host
+4. Transfers project files (snap/, utils/) to VM
+5. Builds snap inside VM using `snapcraft --destructive-mode`
+6. Transfers resulting snap file back to host
+
+**Usage:**
+```bash
+# Build snap using Multipass VM
+export EDGEIQ_CODA_VERSION=4.0.22
+make build-local
+
+# The snap file will be in your project root: coda_*.snap
+ls -lh coda_*.snap
+
+# Run E2E tests with the built snap
+# (VM will be automatically started if stopped)
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run
+
+# Clean up when done
+make e2e-test-clean
+```
+
+**Resilience Features:**
+- **Handles stopped VMs:** Automatically starts stopped VMs before building
+- **Cleans test artifacts:** Removes previous test snaps and builds before starting
+- **Stops VM after build:** Frees resources and ensures clean state for testing
+- **No conflicts with tests:** VM is stopped after build, tests will restart it cleanly
+
+**Benefits:**
+- **No LXD required:** Uses Multipass VMs (lightweight, works on macOS)
+- **Fast iteration:** Build in VM, test immediately with E2E infrastructure
+- **Authentic environment:** Real Ubuntu with proper snapd behavior
+- **Reuses E2E infrastructure:** Same VM used for testing
+- **Resource efficient:** VM automatically stopped after build
+- **Offline capable after initial setup:** No dependency on Snap Store
 
 ### Build Process Details
 
@@ -194,6 +253,7 @@ The E2E test suite uses **Multipass VMs** (not Docker) to provide authentic Ubun
 - **Why Multipass**: Real snapd behavior, full systemd support, no container limitations
 - **Test Runner**: pytest on host (macOS), executes via `multipass exec`
 - **Mock Services**: EdgeIQ API mock server runs as systemd service inside VM
+- **Pre-installed Tools**: snapcraft, LXD (via cloud-init for faster bootstrap)
 
 ### Service Architecture
 
@@ -211,14 +271,26 @@ make e2e-test
 
 # Interactive workflow (keeps VM for debugging)
 make e2e-test-setup    # Create VM and start services
-make e2e-test-run      # Run tests (can run multiple times)
+make e2e-test-run      # Run tests (can run multiple times, auto-starts stopped VM)
 make vm-shell          # Debug inside VM
 make e2e-test-clean    # Cleanup when done
+
+# Test with local snap file (instead of Snap Store)
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run
+
+# Common workflow: build-local + test
+export EDGEIQ_CODA_VERSION=4.0.22
+make build-local                                    # Builds snap, stops VM
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run     # Starts VM, runs tests
 
 # Run specific test file
 cd e2e-tests/test-runner
 MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py -v  # Snap installation tests
 MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap_hooks.py -v  # Hooks tests
+
+# Run specific test with local snap
+cd e2e-tests/test-runner
+CODA_SNAP_FILE=../../coda_*.snap MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py -v
 
 # Run specific test
 MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestCodaSnapInstallation::test_install_coda_snap -v
@@ -234,6 +306,31 @@ make vm-services-start     # Start mock server service
 make vm-services-stop      # Stop mock server service
 ```
 
+### Testing with Local Snap Files
+
+E2E tests support both Snap Store installation and local snap file installation:
+
+**From Snap Store (default):**
+```bash
+make e2e-test-run
+```
+
+**From Local Snap File:**
+```bash
+# Set CODA_SNAP_FILE environment variable
+CODA_SNAP_FILE=./coda_4.0.22_amd64.snap make e2e-test-run
+
+# Or use wildcard
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run
+```
+
+**How it works:**
+- Tests check for `CODA_SNAP_FILE` environment variable
+- If set and file exists: transfers snap to VM and installs with `--dangerous` flag
+- If not set or file missing: falls back to Snap Store (stable channel)
+- Fixture handles file transfer automatically
+- Both test suites support both installation methods
+
 ### E2E Test Configuration
 
 Environment variables in Makefile:
@@ -243,6 +340,11 @@ Environment variables in Makefile:
 - `MULTIPASS_VM_DISK`: Disk size (default: `10G`)
 - `MOCK_SERVER_PORT`: Mock server port (default: `8080`)
 - `MQTT_PORT`: MQTT broker port (default: `1883`)
+
+Cloud-init configuration ([e2e-tests/cloud-init.yaml](e2e-tests/cloud-init.yaml:1)):
+- Pre-installs snapcraft and LXD during VM creation for faster `build-local` execution
+- Sets up mock server dependencies (Python, MQTT broker)
+- Configures snapd for immediate use
 
 ### Test Components
 
