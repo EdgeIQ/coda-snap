@@ -52,12 +52,12 @@ class TestCodaSnapInstallation:
             print(f"Command execution failed: {e}")
             raise
 
-    def test_install_coda_snap(self, multipass_vm, wait_for_services):
-        """Install the coda snap from the snap store"""
-        
-        SNAP_VERSION = "stable"
+    def test_install_coda_snap(self, multipass_vm, wait_for_services, snap_in_vm):
+        """Install the coda snap from the snap store or local file"""
+
         COMPANY_ID = "test-company-001"
         UNIQUE_ID = "test-device-001"
+
         # Verify snapd is responsive
         print("Verifying snapd is ready...")
         for attempt in range(10):
@@ -81,20 +81,37 @@ class TestCodaSnapInstallation:
         )
         print(f"Installed snaps: {output}")
 
-        # Get info from the store about coda snap
-        exit_code, output = self.exec_command(
-            multipass_vm,
-            "snap info coda"
-        )
-        print(f"Coda snap info: {output}")
+        # Install coda snap - either from local file or store
+        if snap_in_vm['source'] == 'local':
+            print(f"\n{'='*60}")
+            print(f"Installing coda snap from LOCAL FILE")
+            print(f"File: {snap_in_vm['file_path']}")
+            print(f"{'='*60}\n")
 
-        # Install coda snap version 4.1.0
-        print(f"Installing coda snap version {SNAP_VERSION} from store...")
-        exit_code, output = self.exec_command(
-            multipass_vm,
-            f"sudo snap install coda --channel={SNAP_VERSION}",
-            timeout=120
-        )
+            exit_code, output = self.exec_command(
+                multipass_vm,
+                f"sudo snap install --dangerous {snap_in_vm['file_path']}",
+                timeout=120
+            )
+        else:
+            print(f"\n{'='*60}")
+            print(f"Installing coda snap from SNAP STORE")
+            print(f"Channel: {snap_in_vm['channel']}")
+            print(f"{'='*60}\n")
+
+            # Get info from the store about coda snap
+            exit_code, output = self.exec_command(
+                multipass_vm,
+                "snap info coda"
+            )
+            print(f"Coda snap info: {output}")
+
+            # Install from store
+            exit_code, output = self.exec_command(
+                multipass_vm,
+                f"sudo snap install coda --channel={snap_in_vm['channel']}",
+                timeout=120
+            )
 
         # If installation appears stuck or failed, check snap changes
         if exit_code != 0:

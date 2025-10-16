@@ -16,7 +16,8 @@
       "Bash(pytest:*)",
       "Bash(MULTIPASS_VM_NAME=coda-test-vm /Users/mikhail/miniconda3/bin/pytest tests/test_coda_snap.py::TestCodaSnapInstallation::test_install_coda_snap -v -s)",
       "WebSearch",
-      "WebFetch(domain:*)"
+      "WebFetch(domain:*)",
+      "mcp__sequential-thinking__sequentialthinking"
     ],
     "deny": [],
     "ask": []

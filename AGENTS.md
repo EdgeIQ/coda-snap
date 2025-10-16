@@ -29,12 +29,71 @@ make build-no-lxd
 # Build interactively with shell access
 make build-interactive
 
-# Local installation for testing
+# Build and install in Multipass VM for local testing (recommended for fast iteration)
+export EDGEIQ_CODA_VERSION=4.0.22
+make build-local
+
+# Local installation for testing (on host, not VM)
 make install
 
 # Clean build artifacts
 make clean
 ```
+
+### Platform Compatibility
+
+The build system is **cross-platform compatible** (macOS and Linux):
+
+- **macOS**: Uses BSD sed with proper syntax (`sed -i ''`)
+- **Linux**: Uses GNU sed with standard syntax (`sed -i`)
+- The Makefile automatically detects the OS and uses the appropriate `sed` command
+
+**Note**: The Makefile includes fixes for macOS-specific issues:
+1. **sed compatibility**: BSD sed requires `sed -i ''` instead of `sed -i`
+2. **multipass exec**: Commands with stderr redirection must be wrapped in `bash -c` to prevent hanging
+
+### Local Development Workflow
+
+The `make build-local` target provides a streamlined workflow for local snap development without requiring LXD:
+
+**What it does:**
+1. Creates/reuses Multipass VM from E2E test infrastructure
+2. Installs snapcraft in VM (if not already present)
+3. Generates snapcraft.yaml from template on host
+4. Transfers project files (snap/, utils/) to VM
+5. Builds snap inside VM using `snapcraft --destructive-mode`
+6. Transfers resulting snap file back to host
+
+**Usage:**
+```bash
+# Build snap using Multipass VM
+export EDGEIQ_CODA_VERSION=4.0.22
+make build-local
+
+# The snap file will be in your project root: coda_*.snap
+ls -lh coda_*.snap
+
+# Run E2E tests with the built snap
+# (VM will be automatically started if stopped)
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run
+
+# Clean up when done
+make e2e-test-clean
+```
+
+**Resilience Features:**
+- **Handles stopped VMs:** Automatically starts stopped VMs before building
+- **Cleans test artifacts:** Removes previous test snaps and builds before starting
+- **Stops VM after build:** Frees resources and ensures clean state for testing
+- **No conflicts with tests:** VM is stopped after build, tests will restart it cleanly
+
+**Benefits:**
+- **No LXD required:** Uses Multipass VMs (lightweight, works on macOS)
+- **Fast iteration:** Build in VM, test immediately with E2E infrastructure
+- **Authentic environment:** Real Ubuntu with proper snapd behavior
+- **Reuses E2E infrastructure:** Same VM used for testing
+- **Resource efficient:** VM automatically stopped after build
+- **Offline capable after initial setup:** No dependency on Snap Store
 
 ### Build Process Details
 
@@ -194,6 +253,7 @@ The E2E test suite uses **Multipass VMs** (not Docker) to provide authentic Ubun
 - **Why Multipass**: Real snapd behavior, full systemd support, no container limitations
 - **Test Runner**: pytest on host (macOS), executes via `multipass exec`
 - **Mock Services**: EdgeIQ API mock server runs as systemd service inside VM
+- **Pre-installed Tools**: snapcraft, LXD (via cloud-init for faster bootstrap)
 
 ### Service Architecture
 
@@ -207,27 +267,69 @@ Mock server runs as a **systemd service** (`edgeiq-mock-server.service`) for:
 
 ```bash
 # Full workflow: create VM, run tests, cleanup (recommended)
-make e2e-tests-test-full
+make e2e-test
 
 # Interactive workflow (keeps VM for debugging)
-make e2e-tests-setup    # Create VM and start services
-make e2e-tests-test     # Run tests (can run multiple times)
-make vm-shell           # Debug inside VM
-make e2e-tests-clean    # Cleanup when done
+make e2e-test-setup    # Create VM and start services
+make e2e-test-run      # Run tests (can run multiple times, auto-starts stopped VM)
+make vm-shell          # Debug inside VM
+make e2e-test-clean    # Cleanup when done
+
+# Test with local snap file (instead of Snap Store)
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run
+
+# Common workflow: build-local + test
+export EDGEIQ_CODA_VERSION=4.0.22
+make build-local                                    # Builds snap, stops VM
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run     # Starts VM, runs tests
+
+# Run specific test file
+cd e2e-tests/test-runner
+MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py -v  # Snap installation tests
+MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap_hooks.py -v  # Hooks tests
+
+# Run specific test with local snap
+cd e2e-tests/test-runner
+CODA_SNAP_FILE=../../coda_*.snap MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py -v
 
 # Run specific test
-cd e2e-tests/test-runner
 MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap.py::TestCodaSnapInstallation::test_install_coda_snap -v
+MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap_hooks.py::TestCodaSnapHooks::test_install_hook_execution -v
 
 # Check service status
-make e2e-tests-status       # View VM and service status
-make vm-services-logs       # View service logs (last 50 lines)
-make e2e-tests-logs         # Follow logs in real-time
+make e2e-test-status       # View VM and service status
+make vm-services-logs      # View service logs (last 50 lines)
+make e2e-test-logs         # Follow logs in real-time
 
 # Service management
-make vm-services-start      # Start mock server service
-make vm-services-stop       # Stop mock server service
+make vm-services-start     # Start mock server service
+make vm-services-stop      # Stop mock server service
 ```
+
+### Testing with Local Snap Files
+
+E2E tests support both Snap Store installation and local snap file installation:
+
+**From Snap Store (default):**
+```bash
+make e2e-test-run
+```
+
+**From Local Snap File:**
+```bash
+# Set CODA_SNAP_FILE environment variable
+CODA_SNAP_FILE=./coda_4.0.22_amd64.snap make e2e-test-run
+
+# Or use wildcard
+CODA_SNAP_FILE=./coda_*.snap make e2e-test-run
+```
+
+**How it works:**
+- Tests check for `CODA_SNAP_FILE` environment variable
+- If set and file exists: transfers snap to VM and installs with `--dangerous` flag
+- If not set or file missing: falls back to Snap Store (stable channel)
+- Fixture handles file transfer automatically
+- Both test suites support both installation methods
 
 ### E2E Test Configuration
 
@@ -239,16 +341,25 @@ Environment variables in Makefile:
 - `MOCK_SERVER_PORT`: Mock server port (default: `8080`)
 - `MQTT_PORT`: MQTT broker port (default: `1883`)
 
+Cloud-init configuration ([e2e-tests/cloud-init.yaml](e2e-tests/cloud-init.yaml:1)):
+- Pre-installs snapcraft and LXD during VM creation for faster `build-local` execution
+- Sets up mock server dependencies (Python, MQTT broker)
+- Configures snapd for immediate use
+
 ### Test Components
 
 1. **Multipass VM** (`e2e-tests/cloud-init.yaml`): Ubuntu 24.04 with snapd
 2. **Mock Server** (`e2e-tests/mock-server/server.py`): Simulates EdgeIQ API
 3. **Test Fixtures** (`e2e-tests/fixtures/`): Mock API responses and configs
-4. **Test Suite** (`e2e-tests/test-runner/tests/test_coda_snap.py`): Main test cases
+4. **Test Suites**:
+   - `e2e-tests/test-runner/tests/test_coda_snap.py`: Snap installation and operational tests
+   - `e2e-tests/test-runner/tests/test_coda_snap_hooks.py`: Snap hooks (install, configure, post-refresh) tests
 
 ### E2E Test Cases
 
-Tests in `TestCodaSnapInstallation` class run **sequentially** in order:
+#### Test Suite: `TestCodaSnapInstallation` (test_coda_snap.py)
+
+Tests run **sequentially** in order:
 
 #### 1. `test_install_coda_snap`
 Installs and configures the coda snap from the Snap Store:
@@ -291,15 +402,158 @@ Validates post-refresh hook log directory cleanup:
   - Snap service remains active and functional
 - **Key Validations**: Tests file removal, subdirectory removal, directory preservation, and snap stability
 
+#### Test Suite: `TestCodaSnapHooks` (test_coda_snap_hooks.py)
+
+Comprehensive tests for snap hooks. Tests run **sequentially** and must be executed in order.
+
+**Important Notes**:
+- **Hook Logging**: Snap hooks do NOT log to journalctl with custom tags (e.g., `coda.hook.install`) due to snapd's hook execution model. Hook output is captured by snapd internally. Tests verify hook execution by checking `snap changes` output instead of journalctl.
+- **Test State Dependencies**: Tests share VM state and may create persistent configuration files (e.g., `identifier.json`). Tests are designed to handle pre-existing configuration gracefully.
+- **Post-Refresh Hook Requirements**: The post-refresh hook test requires **multiple snap revisions** to be installed for `snap refresh` to trigger the hook. If only one revision exists, the test attempts to install from different channels or uses revert/refresh strategy.
+
+#### 1. `test_install_hook_execution`
+**Purpose**: Verify install hook runs correctly on first snap installation
+
+**Validates**:
+- Hook copies default config files from `$SNAP/conf` to `$SNAP_COMMON/conf`
+- Creates `bootstrap.json` and `conf.json` in persistent storage
+- Sets default `unique-id` to MAC address of first ethernet interface (or finds it in `identifier.json` if previously created)
+- Translates config keys from underscore (Coda) to dash (snap) format
+- Hook execution verified via `snap changes` (not journalctl)
+
+**Test Steps**:
+1. Install coda snap from store (stable channel)
+2. Connect all required snap interfaces
+3. Verify `bootstrap.json` exists at `/var/snap/coda/common/conf/bootstrap.json`
+4. Verify `conf.json` exists at `/var/snap/coda/common/conf/conf.json`
+5. Parse JSON files and verify structure
+6. Extract `unique-id` from bootstrap.json or identifier.json (if it exists) and verify MAC address format
+7. Verify snapctl configuration matches file contents (with key translation)
+8. Verify install hook execution via `snap changes`
+
+**Key Validations**: File creation, MAC address format, key translation (dash ↔ underscore), hook execution verification
+
+---
+
+#### 2. `test_configure_hook_basic_config`
+**Purpose**: Verify configure hook handles basic configuration changes
+
+**Validates**:
+- Configure hook triggered by `snap set` commands
+- Key translation from dash (snap) to underscore (Coda) works correctly
+- Configuration persisted to JSON files (bootstrap.json, conf.json, or identifier.json)
+- Nested configuration paths work correctly
+- Hook execution verified via `snap changes` (not journalctl)
+
+**Test Steps**:
+1. Set simple config: `snap set coda bootstrap.unique-id=test-device-123`
+2. Verify config via `snap get coda bootstrap.unique-id`
+3. Verify configuration is persisted (checks bootstrap.json or identifier.json if it exists)
+4. Set nested config: `snap set coda conf.mqtt.broker.host=test-broker.local`
+5. Verify conf.json has correct nested structure: `{"mqtt": {"broker": {"host": "test-broker.local"}}}`
+6. Verify configure hook execution via `snap changes`
+
+**Key Validations**: Basic config changes, nested paths, key translation, JSON persistence, hook execution verification
+
+---
+
+#### 3. `test_configure_hook_identifier_creation`
+**Purpose**: Verify configure hook auto-creates identifier.json
+
+**Validates**:
+- Setting both `company-id` and `unique-id` triggers identifier.json creation
+- identifier.json contains correct data structure
+- bootstrap.json updated with `identifier_filepath` pointing to identifier.json
+- Configuration loaded correctly after snap restart
+
+**Test Steps**:
+1. Set `snap set coda bootstrap.company-id=test-company-001`
+2. Set `snap set coda bootstrap.unique-id=test-device-456`
+3. Verify `/var/snap/coda/common/conf/identifier.json` exists
+4. Parse identifier.json and verify:
+   - `company_id` = "test-company-001"
+   - `unique_id` = "test-device-456"
+5. Parse bootstrap.json and verify:
+   - Has `identifier_filepath` pointing to identifier.json
+6. Restart snap and verify it loads configuration correctly
+
+**Key Validations**: Auto-creation of identifier.json, correct data structure, file path reference, snap restart
+
+---
+
+#### 4. `test_configure_hook_complex_nested_config`
+**Purpose**: Verify configure hook handles deeply nested configurations
+
+**Validates**:
+- Multiple nested levels work correctly
+- Dash-to-underscore translation applies recursively
+- Complex configuration structures persist correctly
+- Multiple config types (strings, integers) handled properly
+
+**Test Steps**:
+1. Set multiple nested configs:
+   - `snap set coda conf.edge.relay-frequency-limit=10`
+   - `snap set coda conf.platform.url=http://test-platform.local:8080/api`
+   - `snap set coda conf.mqtt.broker.protocol=tcp`
+2. Parse conf.json and verify structure with underscores:
+   ```json
+   {
+     "edge": {"relay_frequency_limit": 10},
+     "platform": {"url": "http://test-platform.local:8080/api"},
+     "mqtt": {"broker": {"protocol": "tcp"}}
+   }
+   ```
+3. Verify `snap get` returns correct values with dashes
+4. Check hook logs for any errors
+
+**Key Validations**: Deeply nested config, recursive key translation, multiple data types, error-free execution
+
+---
+
+#### 5. `test_post_refresh_hook_cleanup`
+**Purpose**: Verify post-refresh hook cleans log directory on snap updates
+
+**Validates**:
+- Post-refresh hook triggered on snap refresh (requires multiple revisions installed)
+- All files and subdirectories in `$SNAP_COMMON/log` are removed
+- Log directory itself is preserved (not deleted)
+- Snap continues running normally after refresh
+- Hook execution verified via `snap changes` (not journalctl)
+
+**Test Steps**:
+1. Verify coda snap is installed and running
+2. Ensure multiple snap revisions are available (installs from different channel if needed)
+3. Create test log files and subdirectories in `$SNAP_COMMON/log`
+4. Trigger snap refresh (uses revert/refresh if only one revision exists)
+5. Verify post-refresh hook execution via `snap changes`
+6. Verify log directory is completely emptied
+7. Verify snap continues running normally after refresh
+
+**Key Validations**: Complete cleanup, directory preservation, snap stability, hook execution verification
+
+**Important**: This test requires at least 2 snap revisions to be installed. If only one revision exists, `snap refresh` will return "no updates available" and will NOT trigger the post-refresh hook.
+
+---
+
+**Running Hooks Tests**:
+```bash
+# Run all hooks tests
+cd e2e-tests/test-runner
+MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap_hooks.py -vv -s
+
+# Run specific hooks test
+MULTIPASS_VM_NAME=coda-test-vm pytest tests/test_coda_snap_hooks.py::TestCodaSnapHooks::test_install_hook_execution -vv -s
+```
+
 ### Debugging Failed Tests
 
 ```bash
 # Check service status first
-make e2e-tests-status
+make e2e-test-status
 
 # View service logs
 make vm-services-logs        # Last 50 lines
-make e2e-tests-logs          # Follow in real-time
+make e2e-test-logs           # Follow in real-time
 
 # Access VM to debug
 make vm-shell
@@ -430,7 +684,7 @@ You are an elite Ubuntu Core snap development specialist with deep expertise in 
 - Bash scripting: Critical for automation, testing, and system operations
 - Multipass-first approach: Test in real Ubuntu Core VMs for authentic snap behavior
 - Integration testing: Always design tests before implementing solutions
-- Test execution: Use `make e2e-tests-test-full` as the entry point for all e2e testing
+- Test execution: Use `make e2e-test` as the entry point for all e2e testing
 
 **Project Context Awareness**:
 - You have access to CLAUDE.md which contains critical project-specific guidance
@@ -458,7 +712,7 @@ When facing unclear requirements or ambiguous tasks:
 For every feature or fix:
 1. **Design Integration Test First**: Create end-to-end test scenario that validates the complete user workflow
 2. **Implement Solution**: Write code that makes the test pass
-3. **Validate with Multipass**: Run tests in real Ubuntu Core VMs using `make e2e-tests-test-full`
+3. **Validate with Multipass**: Run tests in real Ubuntu Core VMs using `make e2e-test`
 4. **Document Changes**: Update README and relevant documentation
 
 Integration test requirements:
@@ -467,7 +721,7 @@ Integration test requirements:
 - Test across target architectures when possible
 - Verify interface connections and permissions
 - Include negative test cases (error handling, edge cases)
-- Use `make e2e-tests-test-full` command to run e2e tests in Multipass Ubuntu Core VMs
+- Use `make e2e-test` command to run e2e tests in Multipass Ubuntu Core VMs
 
 #### 3. Hook Development Standards
 **Python Hooks** (install, configure, post-refresh, etc.):
@@ -574,7 +828,7 @@ Documentation should:
 2. **Research**: Consult snapcraft docs, search for similar solutions, verify best practices
 3. **Design Test**: Write integration test that validates desired behavior
 4. **Implement**: Write minimal code to pass the test
-5. **Validate**: Run tests using `make e2e-tests-test-full` in Multipass VMs, verify across architectures if relevant
+5. **Validate**: Run tests using `make e2e-test` in Multipass VMs, verify across architectures if relevant
 6. **Document**: Update README and inline documentation
 7. **Review**: Check against quality standards, ensure no regressions
 
@@ -609,7 +863,7 @@ Documentation should:
 ❌ Proceeding with unclear requirements instead of asking questions
 ❌ Ignoring existing patterns and conventions in the codebase
 ❌ Testing outside Multipass VMs when validating snap behavior
-❌ Not using `make e2e-tests-test-full` command for e2e test execution
+❌ Not using `make e2e-test` command for e2e test execution
 
 You are methodical, security-conscious, and committed to delivering high-quality snap packages. You always validate your understanding before proceeding, design tests before implementing solutions, and ensure your work is properly documented for future maintainers.
 

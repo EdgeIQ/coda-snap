@@ -28,6 +28,9 @@ runcmd:
   - systemctl start snapd.service
   - snap wait system seed.loaded
   - snap refresh
+  - snap install snapcraft --classic
+  - snap install lxd
+  - lxd init --auto
 
 # Set timezone
 timezone: UTC
