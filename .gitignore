@@ -9,3 +9,6 @@ exported.txt
 
 coda_*.snap
 coda_*.txt
+
+# Agent SOP data folders (CSV exports and processing files)
+.agent/SOP/*/data/
