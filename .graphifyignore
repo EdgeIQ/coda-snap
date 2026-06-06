@@ -1,0 +1,44 @@
+# Editor / agent / tooling configs
+.claude/
+.vscode/
+.github/
+
+# Project-meta docs (org/release notes, not architecture)
+# .agent/ is INTENTIONALLY KEPT - architectural signal
+README.md
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+NAVIGATION.md
+PROJECT_INDEX.md
+CLAUDE.md
+LICENSE
+LICENSE.md
+SECURITY.md
+SECURITY.md
+.editorconfig
+
+# Per-package vendored docs
+packages/**/README.md
+packages/**/CHANGELOG.md
+packages/**/CODE_OF_CONDUCT.md
+packages/**/CONTRIBUTING.md
+packages/**/LICENSE
+packages/**/LICENSE.md
+
+# Tests
+test/
+tests/
+
+# Coverage / build outputs
+dist/
+build/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# Go vendored deps
+vendor/
+
+# Certs
+certs/
