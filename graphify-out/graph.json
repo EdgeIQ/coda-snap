@@ -8,7 +8,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L1",
-      "community": 3,
+      "community": 9,
       "norm_label": "config.json",
       "id": "responses_config"
     },
@@ -17,7 +17,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L2",
-      "community": 3,
+      "community": 9,
       "norm_label": "version",
       "id": "responses_config_version"
     },
@@ -26,7 +26,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L3",
-      "community": 3,
+      "community": 9,
       "norm_label": "edge",
       "id": "responses_config_edge"
     },
@@ -35,7 +35,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L4",
-      "community": 3,
+      "community": 9,
       "norm_label": "relay_frequency_limit",
       "id": "responses_config_edge_relay_frequency_limit"
     },
@@ -44,7 +44,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L5",
-      "community": 3,
+      "community": 9,
       "norm_label": "log_level",
       "id": "responses_config_edge_log_level"
     },
@@ -53,7 +53,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L6",
-      "community": 3,
+      "community": 9,
       "norm_label": "heartbeat_interval",
       "id": "responses_config_edge_heartbeat_interval"
     },
@@ -62,7 +62,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L7",
-      "community": 3,
+      "community": 9,
       "norm_label": "api_url",
       "id": "responses_config_edge_api_url"
     },
@@ -71,7 +71,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L8",
-      "community": 3,
+      "community": 9,
       "norm_label": "mqtt_broker",
       "id": "responses_config_edge_mqtt_broker"
     },
@@ -80,7 +80,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L10",
-      "community": 3,
+      "community": 9,
       "norm_label": "device",
       "id": "responses_config_device"
     },
@@ -89,7 +89,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L11",
-      "community": 3,
+      "community": 9,
       "norm_label": "carrier",
       "id": "responses_config_device_carrier"
     },
@@ -98,7 +98,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L12",
-      "community": 3,
+      "community": 9,
       "norm_label": "unique_id",
       "id": "responses_config_device_unique_id"
     },
@@ -107,7 +107,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L14",
-      "community": 3,
+      "community": 9,
       "norm_label": "network",
       "id": "responses_config_network"
     },
@@ -116,7 +116,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/fixtures/responses/config.json",
       "source_location": "L15",
-      "community": 3,
+      "community": 9,
       "norm_label": "configurer",
       "id": "responses_config_network_configurer"
     },
@@ -125,7 +125,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L1",
-      "community": 0,
+      "community": 1,
       "norm_label": "server.py",
       "id": "mock_server_server"
     },
@@ -134,7 +134,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L30",
-      "community": 0,
+      "community": 1,
       "norm_label": "generate_app_config_zip()",
       "id": "mock_server_server_generate_app_config_zip"
     },
@@ -143,7 +143,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L181",
-      "community": 0,
+      "community": 1,
       "norm_label": "mockmqttserver",
       "id": "mock_server_server_mockmqttserver"
     },
@@ -152,7 +152,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L184",
-      "community": 0,
+      "community": 1,
       "norm_label": ".__init__()",
       "id": "mock_server_server_mockmqttserver_init"
     },
@@ -161,7 +161,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L195",
-      "community": 0,
+      "community": 1,
       "norm_label": ".on_connect()",
       "id": "mock_server_server_mockmqttserver_on_connect"
     },
@@ -170,7 +170,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L209",
-      "community": 0,
+      "community": 1,
       "norm_label": ".on_disconnect()",
       "id": "mock_server_server_mockmqttserver_on_disconnect"
     },
@@ -179,7 +179,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L214",
-      "community": 0,
+      "community": 1,
       "norm_label": ".on_message()",
       "id": "mock_server_server_mockmqttserver_on_message"
     },
@@ -188,7 +188,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L279",
-      "community": 0,
+      "community": 1,
       "norm_label": ".wait_for_broker()",
       "id": "mock_server_server_mockmqttserver_wait_for_broker"
     },
@@ -197,7 +197,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L316",
-      "community": 0,
+      "community": 1,
       "norm_label": ".start()",
       "id": "mock_server_server_mockmqttserver_start"
     },
@@ -206,7 +206,7 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L324",
-      "community": 0,
+      "community": 1,
       "norm_label": ".stop()",
       "id": "mock_server_server_mockmqttserver_stop"
     },
@@ -215,25 +215,16 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L331",
-      "community": 0,
+      "community": 1,
       "norm_label": "mockhttpserver",
       "id": "mock_server_server_mockhttpserver"
-    },
-    {
-      "label": ".__init__()",
-      "file_type": "code",
-      "source_file": "e2e-tests/mock-server/server.py",
-      "source_location": "L334",
-      "community": 0,
-      "norm_label": ".__init__()",
-      "id": "mock_server_server_mockhttpserver_init"
     },
     {
       "label": ".handle_health()",
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L341",
-      "community": 0,
+      "community": 1,
       "norm_label": ".handle_health()",
       "id": "mock_server_server_mockhttpserver_handle_health"
     },
@@ -242,25 +233,16 @@
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L345",
-      "community": 0,
+      "community": 1,
       "norm_label": ".handle_config_download()",
       "id": "mock_server_server_mockhttpserver_handle_config_download"
-    },
-    {
-      "label": ".start()",
-      "file_type": "code",
-      "source_file": "e2e-tests/mock-server/server.py",
-      "source_location": "L379",
-      "community": 0,
-      "norm_label": ".start()",
-      "id": "mock_server_server_mockhttpserver_start"
     },
     {
       "label": "main()",
       "file_type": "code",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L388",
-      "community": 0,
+      "community": 1,
       "norm_label": "main()",
       "id": "mock_server_server_main"
     },
@@ -269,7 +251,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L31",
-      "community": 0,
+      "community": 1,
       "norm_label": "generate app_config.zip file content and return (zip_data, json_md5_hash, zip_md",
       "id": "mock_server_server_rationale_31"
     },
@@ -278,7 +260,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L182",
-      "community": 0,
+      "community": 1,
       "norm_label": "mqtt client that connects to mosquitto broker and responds to device config requ",
       "id": "mock_server_server_rationale_182"
     },
@@ -287,7 +269,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L196",
-      "community": 0,
+      "community": 1,
       "norm_label": "handle connection to mosquitto broker",
       "id": "mock_server_server_rationale_196"
     },
@@ -296,7 +278,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L210",
-      "community": 0,
+      "community": 1,
       "norm_label": "handle disconnection from broker",
       "id": "mock_server_server_rationale_210"
     },
@@ -305,7 +287,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L215",
-      "community": 0,
+      "community": 1,
       "norm_label": "handle incoming messages and respond with appropriate commands",
       "id": "mock_server_server_rationale_215"
     },
@@ -314,7 +296,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L280",
-      "community": 0,
+      "community": 1,
       "norm_label": "wait for mosquitto broker to be available",
       "id": "mock_server_server_rationale_280"
     },
@@ -323,7 +305,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L317",
-      "community": 0,
+      "community": 1,
       "norm_label": "start the mqtt client and connect to broker",
       "id": "mock_server_server_rationale_317"
     },
@@ -332,7 +314,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L332",
-      "community": 0,
+      "community": 1,
       "norm_label": "http server that mocks edgeiq api endpoints",
       "id": "mock_server_server_rationale_332"
     },
@@ -341,7 +323,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L342",
-      "community": 0,
+      "community": 1,
       "norm_label": "health check endpoint",
       "id": "mock_server_server_rationale_342"
     },
@@ -350,7 +332,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L346",
-      "community": 0,
+      "community": 1,
       "norm_label": "handle config download requests matching pattern:         get /api/v1/platform/",
       "id": "mock_server_server_rationale_346"
     },
@@ -359,7 +341,7 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L380",
-      "community": 0,
+      "community": 1,
       "norm_label": "start the http server",
       "id": "mock_server_server_rationale_380"
     },
@@ -368,16 +350,412 @@
       "file_type": "rationale",
       "source_file": "e2e-tests/mock-server/server.py",
       "source_location": "L389",
-      "community": 0,
+      "community": 1,
       "norm_label": "run both http server and mqtt client",
       "id": "mock_server_server_rationale_389"
+    },
+    {
+      "label": "conftest.py",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L1",
+      "community": 8,
+      "norm_label": "conftest.py",
+      "id": "tests_conftest"
+    },
+    {
+      "label": "local_snap_file()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L31",
+      "community": 8,
+      "norm_label": "local_snap_file()",
+      "id": "tests_conftest_local_snap_file"
+    },
+    {
+      "label": "snap_in_vm()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L63",
+      "community": 8,
+      "norm_label": "snap_in_vm()",
+      "id": "tests_conftest_snap_in_vm"
+    },
+    {
+      "label": "mock_server_url()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L112",
+      "community": 8,
+      "norm_label": "mock_server_url()",
+      "id": "tests_conftest_mock_server_url"
+    },
+    {
+      "label": "mock_mqtt_broker()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L122",
+      "community": 8,
+      "norm_label": "mock_mqtt_broker()",
+      "id": "tests_conftest_mock_mqtt_broker"
+    },
+    {
+      "label": "wait_for_services()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L134",
+      "community": 8,
+      "norm_label": "wait_for_services()",
+      "id": "tests_conftest_wait_for_services"
+    },
+    {
+      "label": "Pytest configuration and fixtures for e2e tests",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L1",
+      "community": 8,
+      "norm_label": "pytest configuration and fixtures for e2e tests",
+      "id": "tests_conftest_rationale_1"
+    },
+    {
+      "label": "Get reference to the Multipass VM for test execution",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L14",
+      "community": 8,
+      "norm_label": "get reference to the multipass vm for test execution",
+      "id": "tests_conftest_rationale_14"
+    },
+    {
+      "label": "Get path to local snap file if CODA_SNAP_FILE environment variable is set.",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L32",
+      "community": 8,
+      "norm_label": "get path to local snap file if coda_snap_file environment variable is set.",
+      "id": "tests_conftest_rationale_32"
+    },
+    {
+      "label": "Transfer local snap file to VM if present, return snap installation info.",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L64",
+      "community": 8,
+      "norm_label": "transfer local snap file to vm if present, return snap installation info.",
+      "id": "tests_conftest_rationale_64"
+    },
+    {
+      "label": "Mock server HTTP URL.     Services run inside the VM, so they're accessible via",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L113",
+      "community": 8,
+      "norm_label": "mock server http url.     services run inside the vm, so they're accessible via",
+      "id": "tests_conftest_rationale_113"
+    },
+    {
+      "label": "Mock MQTT broker connection details.     Services run inside the VM, accessible",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L123",
+      "community": 8,
+      "norm_label": "mock mqtt broker connection details.     services run inside the vm, accessible",
+      "id": "tests_conftest_rationale_123"
+    },
+    {
+      "label": "Wait for all services to be ready before running tests.     This fixture runs a",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L135",
+      "community": 8,
+      "norm_label": "wait for all services to be ready before running tests.     this fixture runs a",
+      "id": "tests_conftest_rationale_135"
+    },
+    {
+      "label": "test_coda_snap.py",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "test_coda_snap.py",
+      "id": "tests_test_coda_snap"
+    },
+    {
+      "label": "TestCodaSnapInstallation",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L14",
+      "community": 10,
+      "norm_label": "testcodasnapinstallation",
+      "id": "tests_test_coda_snap_testcodasnapinstallation"
+    },
+    {
+      "label": ".exec_command()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L17",
+      "community": 10,
+      "norm_label": ".exec_command()",
+      "id": "tests_test_coda_snap_testcodasnapinstallation_exec_command"
+    },
+    {
+      "label": ".test_install_coda_snap()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L55",
+      "community": 10,
+      "norm_label": ".test_install_coda_snap()",
+      "id": "tests_test_coda_snap_testcodasnapinstallation_test_install_coda_snap"
+    },
+    {
+      "label": ".test_disk_space_exhaustion_crash()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L283",
+      "community": 10,
+      "norm_label": ".test_disk_space_exhaustion_crash()",
+      "id": "tests_test_coda_snap_testcodasnapinstallation_test_disk_space_exhaustion_crash"
+    },
+    {
+      "label": "E2E tests for Coda snap installation and configuration",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "e2e tests for coda snap installation and configuration",
+      "id": "tests_test_coda_snap_rationale_1"
+    },
+    {
+      "label": "Test suite for Coda snap installation and basic functionality",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L15",
+      "community": 10,
+      "norm_label": "test suite for coda snap installation and basic functionality",
+      "id": "tests_test_coda_snap_rationale_15"
+    },
+    {
+      "label": "Execute command in Multipass VM and return result          Args:",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L18",
+      "community": 10,
+      "norm_label": "execute command in multipass vm and return result          args:",
+      "id": "tests_test_coda_snap_rationale_18"
+    },
+    {
+      "label": "Install the coda snap from the snap store or local file",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L56",
+      "community": 10,
+      "norm_label": "install the coda snap from the snap store or local file",
+      "id": "tests_test_coda_snap_rationale_56"
+    },
+    {
+      "label": "Test that coda snap handles disk space exhaustion gracefully without crashing.",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L284",
+      "community": 10,
+      "norm_label": "test that coda snap handles disk space exhaustion gracefully without crashing.",
+      "id": "tests_test_coda_snap_rationale_284"
+    },
+    {
+      "label": "test_coda_snap_hooks.py",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L1",
+      "community": 5,
+      "norm_label": "test_coda_snap_hooks.py",
+      "id": "tests_test_coda_snap_hooks"
+    },
+    {
+      "label": ".exec_command()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L27",
+      "community": 5,
+      "norm_label": ".exec_command()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "label": ".read_json_file()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L65",
+      "community": 5,
+      "norm_label": ".read_json_file()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file"
+    },
+    {
+      "label": ".verify_mac_address_format()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L90",
+      "community": 5,
+      "norm_label": ".verify_mac_address_format()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_verify_mac_address_format"
+    },
+    {
+      "label": ".get_snap_config()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L103",
+      "community": 5,
+      "norm_label": ".get_snap_config()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_get_snap_config"
+    },
+    {
+      "label": ".test_install_hook_execution()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L122",
+      "community": 5,
+      "norm_label": ".test_install_hook_execution()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_test_install_hook_execution"
+    },
+    {
+      "label": ".test_configure_hook_basic_config()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L325",
+      "community": 5,
+      "norm_label": ".test_configure_hook_basic_config()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_basic_config"
+    },
+    {
+      "label": ".test_configure_hook_identifier_creation()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L430",
+      "community": 5,
+      "norm_label": ".test_configure_hook_identifier_creation()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_identifier_creation"
+    },
+    {
+      "label": ".test_configure_hook_complex_nested_config()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L542",
+      "community": 5,
+      "norm_label": ".test_configure_hook_complex_nested_config()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_complex_nested_config"
+    },
+    {
+      "label": ".test_post_refresh_hook_cleanup()",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L646",
+      "community": 5,
+      "norm_label": ".test_post_refresh_hook_cleanup()",
+      "id": "tests_test_coda_snap_hooks_testcodasnaphooks_test_post_refresh_hook_cleanup"
+    },
+    {
+      "label": "E2E tests for Coda snap hooks (install, configure, post-refresh)  These tests",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L1",
+      "community": 5,
+      "norm_label": "e2e tests for coda snap hooks (install, configure, post-refresh)  these tests",
+      "id": "tests_test_coda_snap_hooks_rationale_1"
+    },
+    {
+      "label": "Test suite for Coda snap hooks (install, configure, post-refresh)",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L25",
+      "community": 5,
+      "norm_label": "test suite for coda snap hooks (install, configure, post-refresh)",
+      "id": "tests_test_coda_snap_hooks_rationale_25"
+    },
+    {
+      "label": "Execute command in Multipass VM and return result          Args:",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L28",
+      "community": 5,
+      "norm_label": "execute command in multipass vm and return result          args:",
+      "id": "tests_test_coda_snap_hooks_rationale_28"
+    },
+    {
+      "label": "Read and parse JSON file from VM          Args:             vm_name: Name of",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L66",
+      "community": 5,
+      "norm_label": "read and parse json file from vm          args:             vm_name: name of",
+      "id": "tests_test_coda_snap_hooks_rationale_66"
+    },
+    {
+      "label": "Verify MAC address format (XX:XX:XX:XX:XX:XX or xx:xx:xx:xx:xx:xx)          Ar",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L91",
+      "community": 5,
+      "norm_label": "verify mac address format (xx:xx:xx:xx:xx:xx or xx:xx:xx:xx:xx:xx)          ar",
+      "id": "tests_test_coda_snap_hooks_rationale_91"
+    },
+    {
+      "label": "Get snap configuration value via snapctl          Args:             vm_name:",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L104",
+      "community": 5,
+      "norm_label": "get snap configuration value via snapctl          args:             vm_name:",
+      "id": "tests_test_coda_snap_hooks_rationale_104"
+    },
+    {
+      "label": "Test that install hook executes correctly on first snap installation.",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L123",
+      "community": 5,
+      "norm_label": "test that install hook executes correctly on first snap installation.",
+      "id": "tests_test_coda_snap_hooks_rationale_123"
+    },
+    {
+      "label": "Test that configure hook handles basic configuration changes correctly.",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L326",
+      "community": 5,
+      "norm_label": "test that configure hook handles basic configuration changes correctly.",
+      "id": "tests_test_coda_snap_hooks_rationale_326"
+    },
+    {
+      "label": "Test that configure hook auto-creates identifier.json when company-id and unique",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L431",
+      "community": 5,
+      "norm_label": "test that configure hook auto-creates identifier.json when company-id and unique",
+      "id": "tests_test_coda_snap_hooks_rationale_431"
+    },
+    {
+      "label": "Test that configure hook handles deeply nested and complex configurations.",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L543",
+      "community": 5,
+      "norm_label": "test that configure hook handles deeply nested and complex configurations.",
+      "id": "tests_test_coda_snap_hooks_rationale_543"
+    },
+    {
+      "label": "Test that post-refresh hook successfully cleans up the log directory.",
+      "file_type": "rationale",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L647",
+      "community": 5,
+      "norm_label": "test that post-refresh hook successfully cleans up the log directory.",
+      "id": "tests_test_coda_snap_hooks_rationale_647"
     },
     {
       "label": "hook_utils.py",
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L1",
-      "community": 1,
+      "community": 4,
       "norm_label": "hook_utils.py",
       "id": "shared_hook_utils"
     },
@@ -386,7 +764,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L10",
-      "community": 1,
+      "community": 4,
       "norm_label": "get_mac_of_first_ethernet()",
       "id": "shared_hook_utils_get_mac_of_first_ethernet"
     },
@@ -395,7 +773,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L24",
-      "community": 1,
+      "community": 4,
       "norm_label": "get_mac_of_first_ethernet_failsafe()",
       "id": "shared_hook_utils_get_mac_of_first_ethernet_failsafe"
     },
@@ -404,7 +782,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L36",
-      "community": 1,
+      "community": 4,
       "norm_label": "translate_config()",
       "id": "shared_hook_utils_translate_config"
     },
@@ -413,7 +791,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L47",
-      "community": 1,
+      "community": 4,
       "norm_label": "translate_config_coda_to_snap()",
       "id": "shared_hook_utils_translate_config_coda_to_snap"
     },
@@ -422,7 +800,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L53",
-      "community": 1,
+      "community": 4,
       "norm_label": "translate_config_snap_to_coda()",
       "id": "shared_hook_utils_translate_config_snap_to_coda"
     },
@@ -431,7 +809,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L59",
-      "community": 1,
+      "community": 4,
       "norm_label": "snapctl_get()",
       "id": "shared_hook_utils_snapctl_get"
     },
@@ -440,7 +818,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L70",
-      "community": 1,
+      "community": 4,
       "norm_label": "snapctl_set()",
       "id": "shared_hook_utils_snapctl_set"
     },
@@ -449,7 +827,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L82",
-      "community": 1,
+      "community": 4,
       "norm_label": "load_json()",
       "id": "shared_hook_utils_load_json"
     },
@@ -458,7 +836,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L96",
-      "community": 1,
+      "community": 4,
       "norm_label": "save_json()",
       "id": "shared_hook_utils_save_json"
     },
@@ -467,7 +845,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L111",
-      "community": 1,
+      "community": 4,
       "norm_label": "copy_configuration_files()",
       "id": "shared_hook_utils_copy_configuration_files"
     },
@@ -476,7 +854,7 @@
       "file_type": "code",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L122",
-      "community": 1,
+      "community": 4,
       "norm_label": "cleanup_directory()",
       "id": "shared_hook_utils_cleanup_directory"
     },
@@ -485,7 +863,7 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L11",
-      "community": 1,
+      "community": 4,
       "norm_label": "get mac address of first ethernet card",
       "id": "shared_hook_utils_rationale_11"
     },
@@ -494,7 +872,7 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L25",
-      "community": 1,
+      "community": 4,
       "norm_label": "get mac address of first ethernet card with retries, if no success return empty",
       "id": "shared_hook_utils_rationale_25"
     },
@@ -503,7 +881,7 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L37",
-      "community": 1,
+      "community": 4,
       "norm_label": "recursively translates configuration keys using the provided translation functio",
       "id": "shared_hook_utils_rationale_37"
     },
@@ -512,25 +890,16 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L48",
-      "community": 1,
+      "community": 4,
       "norm_label": "translates configuration keys from coda style (underscore) to snap style (dash).",
       "id": "shared_hook_utils_rationale_48"
-    },
-    {
-      "label": "Translates configuration keys from snap style (dash) to coda style (underscore).",
-      "file_type": "rationale",
-      "source_file": "utils/shared/hook_utils.py",
-      "source_location": "L54",
-      "community": 1,
-      "norm_label": "translates configuration keys from snap style (dash) to coda style (underscore).",
-      "id": "shared_hook_utils_rationale_54"
     },
     {
       "label": "Gets a snap configuration key using snapctl.",
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L60",
-      "community": 1,
+      "community": 4,
       "norm_label": "gets a snap configuration key using snapctl.",
       "id": "shared_hook_utils_rationale_60"
     },
@@ -539,7 +908,7 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L71",
-      "community": 1,
+      "community": 4,
       "norm_label": "sets a snap configuration key to the provided json data using snapctl.",
       "id": "shared_hook_utils_rationale_71"
     },
@@ -548,7 +917,7 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L83",
-      "community": 1,
+      "community": 4,
       "norm_label": "loads and returns the json data from the specified file.",
       "id": "shared_hook_utils_rationale_83"
     },
@@ -557,7 +926,7 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L97",
-      "community": 1,
+      "community": 4,
       "norm_label": "saves the provided json data to the specified file path.",
       "id": "shared_hook_utils_rationale_97"
     },
@@ -566,7 +935,7 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L112",
-      "community": 1,
+      "community": 4,
       "norm_label": "copies configuration files from source directory to destination directory.",
       "id": "shared_hook_utils_rationale_112"
     },
@@ -575,486 +944,1071 @@
       "file_type": "rationale",
       "source_file": "utils/shared/hook_utils.py",
       "source_location": "L123",
-      "community": 1,
+      "community": 4,
       "norm_label": "removes all files and subdirectories from the specified directory.     the dire",
       "id": "shared_hook_utils_rationale_123"
     },
     {
-      "label": "AGENTS.md",
+      "label": "README.md",
       "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L1",
-      "community": 2,
-      "norm_label": "agents.md",
-      "id": "agents"
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "readme.md",
+      "id": "readme"
     },
     {
-      "label": "Overview",
+      "label": ".agent/README.md",
       "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L1",
-      "community": 2,
-      "norm_label": "overview",
-      "id": "agents_overview"
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": ".agent/readme.md",
+      "id": "agent_readme"
     },
     {
-      "label": "Build System",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L5",
-      "community": 2,
-      "norm_label": "build system",
-      "id": "agents_build_system"
-    },
-    {
-      "label": "Environment Variables",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L7",
-      "community": 2,
-      "norm_label": "environment variables",
-      "id": "agents_environment_variables"
-    },
-    {
-      "label": "Common Build Commands",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L16",
-      "community": 2,
-      "norm_label": "common build commands",
-      "id": "agents_common_build_commands"
-    },
-    {
-      "label": "Platform Compatibility",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L43",
-      "community": 2,
-      "norm_label": "platform compatibility",
-      "id": "agents_platform_compatibility"
-    },
-    {
-      "label": "Local Development Workflow",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L55",
-      "community": 2,
-      "norm_label": "local development workflow",
-      "id": "agents_local_development_workflow"
-    },
-    {
-      "label": "Build Process Details",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L98",
-      "community": 2,
-      "norm_label": "build process details",
-      "id": "agents_build_process_details"
-    },
-    {
-      "label": "Snap Architecture",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L107",
+      "label": "Coda Snap",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 7,
-      "norm_label": "snap architecture",
-      "id": "agents_snap_architecture"
+      "norm_label": "coda snap",
+      "id": "coda_snap"
     },
     {
-      "label": "Apps and Services",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L109",
+      "label": "EdgeIQ Coda Snap",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 7,
-      "norm_label": "apps and services",
-      "id": "agents_apps_and_services"
+      "norm_label": "edgeiq coda snap",
+      "id": "edgeiq_coda_snap"
     },
     {
-      "label": "Snap Hooks",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L115",
+      "label": "Edge Local Service",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 7,
-      "norm_label": "snap hooks",
-      "id": "agents_snap_hooks"
+      "norm_label": "edge local service",
+      "id": "edge_local_service"
     },
     {
-      "label": "Hook Utilities",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L137",
+      "label": "EdgeIQ Symphony",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 7,
-      "norm_label": "hook utilities",
-      "id": "agents_hook_utilities"
+      "norm_label": "edgeiq symphony",
+      "id": "edgeiq_symphony"
     },
     {
-      "label": "Configuration Model",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L147",
+      "label": "Ubuntu Core",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 7,
-      "norm_label": "configuration model",
-      "id": "agents_configuration_model"
+      "norm_label": "ubuntu core",
+      "id": "ubuntu_core"
     },
     {
-      "label": "Snap Plugs",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L158",
+      "label": "snap",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 7,
-      "norm_label": "snap plugs",
-      "id": "agents_snap_plugs"
+      "norm_label": "snap",
+      "id": "snap"
     },
     {
-      "label": "CI/CD",
+      "label": "MQTT",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 7,
+      "norm_label": "mqtt",
+      "id": "mqtt"
+    },
+    {
+      "label": "device",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 7,
+      "norm_label": "device",
+      "id": "device"
+    },
+    {
+      "label": "configuration",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 7,
+      "norm_label": "configuration",
+      "id": "configuration"
+    },
+    {
+      "label": "bootstrap.unique-id",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "bootstrap.unique-id",
+      "id": "bootstrap_unique_id"
+    },
+    {
+      "label": "bootstrap.company-id",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "bootstrap.company-id",
+      "id": "bootstrap_company_id"
+    },
+    {
+      "label": "conf.mqtt.broker.password",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "conf.mqtt.broker.password",
+      "id": "conf_mqtt_broker_password"
+    },
+    {
+      "label": "conf.mqtt.broker.host",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "conf.mqtt.broker.host",
+      "id": "conf_mqtt_broker_host"
+    },
+    {
+      "label": "conf.json",
       "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L179",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "conf.json",
+      "id": "conf_json"
+    },
+    {
+      "label": "bootstrap.json",
+      "file_type": "document",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "bootstrap.json",
+      "id": "bootstrap_json"
+    },
+    {
+      "label": "identifier.json",
+      "file_type": "document",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "identifier.json",
+      "id": "identifier_json"
+    },
+    {
+      "label": "journal.persistent",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "journal.persistent",
+      "id": "journal_persistent"
+    },
+    {
+      "label": "snapd-control",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "snapd-control",
+      "id": "snapd_control"
+    },
+    {
+      "label": "network-control",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "network-control",
+      "id": "network_control"
+    },
+    {
+      "label": "network-manager",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 6,
+      "norm_label": "network-manager",
+      "id": "network_manager"
+    },
+    {
+      "label": "firewall-control",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "firewall-control",
+      "id": "firewall_control"
+    },
+    {
+      "label": "tpm",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "tpm",
+      "id": "tpm"
+    },
+    {
+      "label": "Make",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "make",
+      "id": "make"
+    },
+    {
+      "label": "Ubuntu",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "ubuntu",
+      "id": "ubuntu"
+    },
+    {
+      "label": "Snapcraft",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "snapcraft",
+      "id": "snapcraft"
+    },
+    {
+      "label": "Multipass",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 8,
+      "norm_label": "multipass",
+      "id": "multipass"
+    },
+    {
+      "label": "pytest",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 2,
-      "norm_label": "ci/cd",
-      "id": "agents_ci_cd"
+      "norm_label": "pytest",
+      "id": "pytest"
     },
     {
-      "label": "Multi-Architecture Build Pipeline",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L181",
-      "community": 2,
-      "norm_label": "multi-architecture build pipeline",
-      "id": "agents_multi_architecture_build_pipeline"
+      "label": "Mosquitto",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "mosquitto",
+      "id": "mosquitto"
     },
     {
-      "label": "Remote Build and Publishing",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L230",
-      "community": 2,
-      "norm_label": "remote build and publishing",
-      "id": "agents_remote_build_and_publishing"
+      "label": "Python",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "python",
+      "id": "python"
     },
     {
-      "label": "E2E Testing Infrastructure",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L246",
+      "label": "hooks",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "hooks",
+      "id": "hooks"
+    },
+    {
+      "label": "install hook",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "install hook",
+      "id": "install_hook"
+    },
+    {
+      "label": "configure hook",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "configure hook",
+      "id": "configure_hook"
+    },
+    {
+      "label": "utils/shared/hook_utils.py",
+      "file_type": "code",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "utils/shared/hook_utils.py",
+      "id": "utils_shared_hook_utils_py"
+    },
+    {
+      "label": "nmcli",
+      "file_type": "concept",
+      "source_file": "README.md",
       "community": 6,
-      "norm_label": "e2e testing infrastructure",
-      "id": "agents_e2e_testing_infrastructure"
+      "norm_label": "nmcli",
+      "id": "nmcli"
     },
     {
-      "label": "Test Environment",
+      "label": "CLAUDE.md",
       "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L248",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "claude.md",
+      "id": "claude_md"
+    },
+    {
+      "label": "EdgeIQ documentation",
+      "file_type": "document",
+      "source_file": "README.md",
+      "community": 3,
+      "norm_label": "edgeiq documentation",
+      "id": "edgeiq_documentation"
+    },
+    {
+      "label": "EdgeIQ Symphony platform",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "edgeiq symphony platform",
+      "id": "edgeiq_symphony_platform"
+    },
+    {
+      "label": "edge agent",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "edge agent",
+      "id": "edge_agent"
+    },
+    {
+      "label": "IoT device management",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "iot device management",
+      "id": "iot_device_management"
+    },
+    {
+      "label": "monitoring",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "monitoring",
+      "id": "monitoring"
+    },
+    {
+      "label": "orchestration",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "orchestration",
+      "id": "orchestration"
+    },
+    {
+      "label": "Modbus",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "modbus",
+      "id": "modbus"
+    },
+    {
+      "label": "BACnet",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "bacnet",
+      "id": "bacnet"
+    },
+    {
+      "label": "OPC-UA",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "opc-ua",
+      "id": "opc_ua"
+    },
+    {
+      "label": "Serial",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "serial",
+      "id": "serial"
+    },
+    {
+      "label": "D-Bus",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "d-bus",
+      "id": "dbus"
+    },
+    {
+      "label": "SNMP",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "snmp",
+      "id": "snmp"
+    },
+    {
+      "label": "HTTP",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "http",
+      "id": "http"
+    },
+    {
+      "label": "TCP/UDP",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "tcp/udp",
+      "id": "tcp_udp"
+    },
+    {
+      "label": "AWS IoT Core",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "aws iot core",
+      "id": "aws_iot_core"
+    },
+    {
+      "label": "Azure IoT Hub",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "azure iot hub",
+      "id": "azure_iot_hub"
+    },
+    {
+      "label": "GCP",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "gcp",
+      "id": "gcp"
+    },
+    {
+      "label": "satellite networks",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "satellite networks",
+      "id": "satellite_networks"
+    },
+    {
+      "label": "AppArmor",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "apparmor",
+      "id": "apparmor"
+    },
+    {
+      "label": "Seccomp",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "seccomp",
+      "id": "seccomp"
+    },
+    {
+      "label": "snapd",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "snapd",
+      "id": "snapd"
+    },
+    {
+      "label": "TLS/SSL",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "tls/ssl",
+      "id": "tls_ssl"
+    },
+    {
+      "label": "TPM 2.0",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "tpm 2.0",
+      "id": "tpm_2_0"
+    },
+    {
+      "label": "REST API",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "rest api",
+      "id": "rest_api"
+    },
+    {
+      "label": "Device Lifecycle Management",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "device lifecycle management",
+      "id": "device_lifecycle_management"
+    },
+    {
+      "label": "Software Updates",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "software updates",
+      "id": "software_updates"
+    },
+    {
+      "label": "Health Monitoring",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "health monitoring",
+      "id": "health_monitoring"
+    },
+    {
+      "label": "Diagnostics",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "diagnostics",
+      "id": "diagnostics"
+    },
+    {
+      "label": "Ethernet",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "ethernet",
+      "id": "ethernet"
+    },
+    {
+      "label": "WiFi",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "wifi",
+      "id": "wifi"
+    },
+    {
+      "label": "cellular",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "cellular",
+      "id": "cellular"
+    },
+    {
+      "label": "ModemManager",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
       "community": 6,
-      "norm_label": "test environment",
-      "id": "agents_test_environment"
+      "norm_label": "modemmanager",
+      "id": "modemmanager"
     },
     {
-      "label": "Service Architecture",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L258",
+      "label": "iptables",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
       "community": 6,
-      "norm_label": "service architecture",
-      "id": "agents_service_architecture"
+      "norm_label": "iptables",
+      "id": "iptables"
     },
     {
-      "label": "Running E2E Tests",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L266",
-      "community": 6,
-      "norm_label": "running e2e tests",
-      "id": "agents_running_e2e_tests"
+      "label": "Device Identity",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "device identity",
+      "id": "device_identity"
     },
     {
-      "label": "Testing with Local Snap Files",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L309",
-      "community": 6,
-      "norm_label": "testing with local snap files",
-      "id": "agents_testing_with_local_snap_files"
+      "label": "Snap Interfaces",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "snap interfaces",
+      "id": "snap_interfaces"
     },
     {
-      "label": "E2E Test Configuration",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L334",
-      "community": 6,
-      "norm_label": "e2e test configuration",
-      "id": "agents_e2e_test_configuration"
-    },
-    {
-      "label": "Test Components",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L349",
-      "community": 6,
-      "norm_label": "test components",
-      "id": "agents_test_components"
-    },
-    {
-      "label": "E2E Test Cases",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L358",
-      "community": 5,
-      "norm_label": "e2e test cases",
-      "id": "agents_e2e_test_cases"
-    },
-    {
-      "label": "Test Suite: `TestCodaSnapInstallation` (test_coda_snap.py)",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L366",
-      "community": 5,
-      "norm_label": "test suite: `testcodasnapinstallation` (test_coda_snap.py)",
-      "id": "agents_test_suite_testcodasnapinstallation_test_coda_snap_py"
-    },
-    {
-      "label": "1. `test_install_coda_snap`",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L370",
-      "community": 5,
-      "norm_label": "1. `test_install_coda_snap`",
-      "id": "agents_1_test_install_coda_snap"
-    },
-    {
-      "label": "2. `test_disk_space_exhaustion_crash`",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L380",
-      "community": 5,
-      "norm_label": "2. `test_disk_space_exhaustion_crash`",
-      "id": "agents_2_test_disk_space_exhaustion_crash"
-    },
-    {
-      "label": "Test Suite: `TestCodaSnapHooks` (test_coda_snap_hooks.py)",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L396",
-      "community": 5,
-      "norm_label": "test suite: `testcodasnaphooks` (test_coda_snap_hooks.py)",
-      "id": "agents_test_suite_testcodasnaphooks_test_coda_snap_hooks_py"
-    },
-    {
-      "label": "1. `test_install_hook_execution`",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L405",
-      "community": 5,
-      "norm_label": "1. `test_install_hook_execution`",
-      "id": "agents_1_test_install_hook_execution"
-    },
-    {
-      "label": "2. `test_configure_hook_basic_config`",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L431",
-      "community": 5,
-      "norm_label": "2. `test_configure_hook_basic_config`",
-      "id": "agents_2_test_configure_hook_basic_config"
-    },
-    {
-      "label": "3. `test_configure_hook_identifier_creation`",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L453",
-      "community": 5,
-      "norm_label": "3. `test_configure_hook_identifier_creation`",
-      "id": "agents_3_test_configure_hook_identifier_creation"
-    },
-    {
-      "label": "4. `test_configure_hook_complex_nested_config`",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L477",
-      "community": 5,
-      "norm_label": "4. `test_configure_hook_complex_nested_config`",
-      "id": "agents_4_test_configure_hook_complex_nested_config"
-    },
-    {
-      "label": "5. `test_post_refresh_hook_cleanup`",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L506",
-      "community": 5,
-      "norm_label": "5. `test_post_refresh_hook_cleanup`",
-      "id": "agents_5_test_post_refresh_hook_cleanup"
-    },
-    {
-      "label": "Debugging Failed Tests",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L541",
-      "community": 6,
-      "norm_label": "debugging failed tests",
-      "id": "agents_debugging_failed_tests"
+      "label": "E2E Testing",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 0,
+      "norm_label": "e2e testing",
+      "id": "e2e_tests"
     },
     {
       "label": "Hook Development",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L570",
-      "community": 2,
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 0,
       "norm_label": "hook development",
-      "id": "agents_hook_development"
+      "id": "hook_development"
     },
     {
-      "label": "Hook Architecture",
+      "label": "Architecture Notes",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "community": 0,
+      "norm_label": "architecture notes",
+      "id": "architecture_notes"
+    },
+    {
+      "label": "Repository Structure",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "repository structure",
+      "id": "repository_structure"
+    },
+    {
+      "label": "Key Concepts",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "key concepts",
+      "id": "key_concepts"
+    },
+    {
+      "label": "Relationship to EdgeIQ Platform",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "relationship to edgeiq platform",
+      "id": "relationship_to_edgeiq_platform"
+    },
+    {
+      "label": "Next Steps",
+      "file_type": "concept",
+      "source_file": ".agent/README.md",
+      "community": 0,
+      "norm_label": "next steps",
+      "id": "next_steps"
+    },
+    {
+      "label": "cloud-init.yaml",
       "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L572",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "community": 2,
-      "norm_label": "hook architecture",
-      "id": "agents_hook_architecture"
+      "norm_label": "cloud-init.yaml",
+      "id": "e2e-tests_cloud-init"
     },
     {
-      "label": "Key Translation System",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L592",
+      "label": "snapd",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "community": 2,
-      "norm_label": "key translation system",
-      "id": "agents_key_translation_system"
+      "norm_label": "snapd",
+      "id": "concept_snapd"
     },
     {
-      "label": "Testing Hooks Locally",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L606",
+      "label": "squashfuse",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "community": 2,
-      "norm_label": "testing hooks locally",
-      "id": "agents_testing_hooks_locally"
+      "norm_label": "squashfuse",
+      "id": "concept_squashfuse"
     },
     {
-      "label": "Hook Utility Functions",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L638",
+      "label": "fuse",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "community": 2,
-      "norm_label": "hook utility functions",
-      "id": "agents_hook_utility_functions"
+      "norm_label": "fuse",
+      "id": "concept_fuse"
     },
     {
-      "label": "Key Architectural Points",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L650",
+      "label": "python3",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "community": 2,
-      "norm_label": "key architectural points",
-      "id": "agents_key_architectural_points"
+      "norm_label": "python3",
+      "id": "concept_python3"
     },
     {
-      "label": "AI Agent Instructions",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L661",
-      "community": 4,
-      "norm_label": "ai agent instructions",
-      "id": "agents_ai_agent_instructions"
+      "label": "python3-pip",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "python3-pip",
+      "id": "concept_python3-pip"
     },
     {
-      "label": "Core Expertise",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L665",
-      "community": 4,
-      "norm_label": "core expertise",
-      "id": "agents_core_expertise"
+      "label": "python3-venv",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "python3-venv",
+      "id": "concept_python3-venv"
     },
     {
-      "label": "Operational Protocol",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L688",
-      "community": 4,
-      "norm_label": "operational protocol",
-      "id": "agents_operational_protocol"
+      "label": "curl",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "curl",
+      "id": "concept_curl"
     },
     {
-      "label": "1. Clarification First",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L690",
-      "community": 4,
-      "norm_label": "1. clarification first",
-      "id": "agents_1_clarification_first"
+      "label": "jq",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "jq",
+      "id": "concept_jq"
     },
     {
-      "label": "2. Test-Driven Development",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L704",
-      "community": 4,
-      "norm_label": "2. test-driven development",
-      "id": "agents_2_test_driven_development"
+      "label": "iproute2",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "iproute2",
+      "id": "concept_iproute2"
     },
     {
-      "label": "3. Hook Development Standards",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L719",
-      "community": 4,
-      "norm_label": "3. hook development standards",
-      "id": "agents_3_hook_development_standards"
+      "label": "net-tools",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "net-tools",
+      "id": "concept_net-tools"
     },
     {
-      "label": "4. Multipass-First Workflow",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L735",
-      "community": 4,
-      "norm_label": "4. multipass-first workflow",
-      "id": "agents_4_multipass_first_workflow"
+      "label": "netcat-openbsd",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "netcat-openbsd",
+      "id": "concept_netcat-openbsd"
     },
     {
-      "label": "5. Documentation Discipline",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L782",
-      "community": 4,
-      "norm_label": "5. documentation discipline",
-      "id": "agents_5_documentation_discipline"
+      "label": "mosquitto",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "mosquitto",
+      "id": "concept_mosquitto"
     },
     {
-      "label": "Quality Standards",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L795",
-      "community": 4,
-      "norm_label": "quality standards",
-      "id": "agents_quality_standards"
+      "label": "mosquitto-clients",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "mosquitto-clients",
+      "id": "concept_mosquitto-clients"
     },
     {
-      "label": "Problem-Solving Approach",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L818",
-      "community": 4,
-      "norm_label": "problem-solving approach",
-      "id": "agents_problem_solving_approach"
+      "label": "snapcraft",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "runcmd",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "snapcraft",
+      "id": "concept_snapcraft"
     },
     {
-      "label": "Common Snap Patterns",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L828",
-      "community": 4,
-      "norm_label": "common snap patterns",
-      "id": "agents_common_snap_patterns"
+      "label": "lxd",
+      "file_type": "concept",
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "runcmd",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "lxd",
+      "id": "concept_lxd"
     },
     {
-      "label": "Red Flags to Avoid",
+      "label": "requirements.txt",
       "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L849",
-      "community": 4,
-      "norm_label": "red flags to avoid",
-      "id": "agents_red_flags_to_avoid"
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "requirements.txt",
+      "id": "e2e-tests_mock-server_requirements"
+    },
+    {
+      "label": "aiohttp",
+      "file_type": "concept",
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": "aiohttp>=3.9",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "aiohttp",
+      "id": "concept_aiohttp"
+    },
+    {
+      "label": "paho-mqtt",
+      "file_type": "concept",
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": "paho-mqtt>=2.0",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "paho-mqtt",
+      "id": "concept_paho-mqtt"
+    },
+    {
+      "label": "requirements.txt",
+      "file_type": "document",
+      "source_file": "e2e-tests/test-runner/requirements.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "requirements.txt",
+      "id": "e2e-tests_test-runner_requirements"
+    },
+    {
+      "label": "pytest-asyncio",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/requirements.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "pytest-asyncio",
+      "id": "pytest_asyncio"
+    },
+    {
+      "label": "requests",
+      "file_type": "code",
+      "source_file": "e2e-tests/test-runner/requirements.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 2,
+      "norm_label": "requests",
+      "id": "requests"
+    },
+    {
+      "label": "snapcraft.template.yaml",
+      "file_type": "code",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "snapcraft.template.yaml",
+      "id": "snapcraft_template_yaml"
+    },
+    {
+      "label": "EdgeIQ Coda",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 7,
+      "norm_label": "edgeiq coda",
+      "id": "edgeiq_coda"
+    },
+    {
+      "label": "Device Management",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 7,
+      "norm_label": "device management",
+      "id": "device_management"
+    },
+    {
+      "label": "Workflow Orchestration",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 7,
+      "norm_label": "workflow orchestration",
+      "id": "workflow_orchestration"
+    },
+    {
+      "label": "IoT Devices",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 7,
+      "norm_label": "iot devices",
+      "id": "iot_devices"
+    },
+    {
+      "label": "Edge Computing",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 7,
+      "norm_label": "edge computing",
+      "id": "edge_computing"
+    },
+    {
+      "label": "https://www.edgeiq.ai/",
+      "file_type": "document",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "https://www.edgeiq.ai/",
+      "id": "https_www_edgeiq_ai"
+    },
+    {
+      "label": "https://github.com/EdgeIQ/coda-snap.git",
+      "file_type": "document",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "https://github.com/edgeiq/coda-snap.git",
+      "id": "https_github_com_edgeiq_coda_snap_git"
+    },
+    {
+      "label": "https://edgeiq.atlassian.net/servicedesk/customer/portal/3",
+      "file_type": "document",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "https://edgeiq.atlassian.net/servicedesk/customer/portal/3",
+      "id": "https_edgeiq_atlassian_net_servicedesk_customer_portal_3"
+    },
+    {
+      "label": "agent",
+      "file_type": "code",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "agent",
+      "id": "agent"
+    },
+    {
+      "label": "edge",
+      "file_type": "code",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "edge",
+      "id": "edge"
+    },
+    {
+      "label": "iputils-ping",
+      "file_type": "code",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "iputils-ping",
+      "id": "iputils_ping"
+    },
+    {
+      "label": "wget",
+      "file_type": "code",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "wget",
+      "id": "wget"
+    },
+    {
+      "label": "jq",
+      "file_type": "code",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "jq",
+      "id": "jq"
+    },
+    {
+      "label": "EDGEIQ_API_URL",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "edgeiq_api_url",
+      "id": "edgeiq_api_url"
+    },
+    {
+      "label": "EDGEIQ_CODA_VERSION",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "edgeiq_coda_version",
+      "id": "edgeiq_coda_version"
+    },
+    {
+      "label": "EDGEIQ_CODA_SNAP_VERSION",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "edgeiq_coda_snap_version",
+      "id": "edgeiq_coda_snap_version"
+    },
+    {
+      "label": "EDGEIQ_SNAP_NAME",
+      "file_type": "concept",
+      "source_file": "snap/snapcraft.template.yaml",
+      "community": 6,
+      "norm_label": "edgeiq_snap_name",
+      "id": "edgeiq_snap_name"
     }
   ],
   "links": [
@@ -1342,6 +2296,16 @@
       "target": "mock_server_server_mockmqttserver"
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/mock-server/server.py",
+      "source_location": "L334",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "mock_server_server_mockhttpserver",
+      "target": "mock_server_server_mockmqttserver_init"
+    },
+    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "e2e-tests/mock-server/server.py",
@@ -1393,6 +2357,27 @@
       "target": "mock_server_server_mockmqttserver_wait_for_broker"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/mock-server/server.py",
+      "source_location": "L416",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "mock_server_server_main",
+      "target": "mock_server_server_mockmqttserver_start"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/mock-server/server.py",
+      "source_location": "L379",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "mock_server_server_mockhttpserver",
+      "target": "mock_server_server_mockmqttserver_start"
+    },
+    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "e2e-tests/mock-server/server.py",
@@ -1400,6 +2385,16 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "mock_server_server_rationale_317",
+      "target": "mock_server_server_mockmqttserver_start"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/mock-server/server.py",
+      "source_location": "L380",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "mock_server_server_rationale_380",
       "target": "mock_server_server_mockmqttserver_start"
     },
     {
@@ -1445,26 +2440,6 @@
       "target": "mock_server_server_mockhttpserver_handle_health"
     },
     {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "e2e-tests/mock-server/server.py",
-      "source_location": "L334",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "mock_server_server_mockhttpserver",
-      "target": "mock_server_server_mockhttpserver_init"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "e2e-tests/mock-server/server.py",
-      "source_location": "L379",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "mock_server_server_mockhttpserver",
-      "target": "mock_server_server_mockhttpserver_start"
-    },
-    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "e2e-tests/mock-server/server.py",
@@ -1495,27 +2470,6 @@
       "target": "mock_server_server_mockhttpserver_handle_config_download"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "e2e-tests/mock-server/server.py",
-      "source_location": "L416",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "mock_server_server_main",
-      "target": "mock_server_server_mockhttpserver_start"
-    },
-    {
-      "relation": "rationale_for",
-      "confidence": "EXTRACTED",
-      "source_file": "e2e-tests/mock-server/server.py",
-      "source_location": "L380",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "mock_server_server_rationale_380",
-      "target": "mock_server_server_mockhttpserver_start"
-    },
-    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "e2e-tests/mock-server/server.py",
@@ -1524,6 +2478,657 @@
       "confidence_score": 1.0,
       "source": "mock_server_server_rationale_389",
       "target": "mock_server_server_main"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "multipass"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "pytest"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "requests"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "tests_conftest_local_snap_file"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L122",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "tests_conftest_mock_mqtt_broker"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "tests_conftest_mock_server_url"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L63",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "tests_conftest_snap_in_vm"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L134",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest",
+      "target": "tests_conftest_wait_for_services"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest_rationale_1",
+      "target": "tests_conftest"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest_rationale_32",
+      "target": "tests_conftest_local_snap_file"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest_rationale_64",
+      "target": "tests_conftest_snap_in_vm"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest_rationale_113",
+      "target": "tests_conftest_mock_server_url"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L123",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest_rationale_123",
+      "target": "tests_conftest_mock_mqtt_broker"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L135",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest_rationale_135",
+      "target": "tests_conftest_wait_for_services"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/conftest.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_conftest_rationale_14",
+      "target": "multipass"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap",
+      "target": "pytest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap",
+      "target": "tests_test_coda_snap_testcodasnapinstallation"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_rationale_1",
+      "target": "tests_test_coda_snap"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_rationale_15",
+      "target": "tests_test_coda_snap_testcodasnapinstallation"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_testcodasnapinstallation",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_exec_command"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L283",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_testcodasnapinstallation",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_test_disk_space_exhaustion_crash"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L55",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_testcodasnapinstallation",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_test_install_coda_snap"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_rationale_18",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L316",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_testcodasnapinstallation_test_disk_space_exhaustion_crash",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_testcodasnapinstallation_test_install_coda_snap",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_exec_command"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_rationale_56",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_test_install_coda_snap"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap.py",
+      "source_location": "L284",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_rationale_284",
+      "target": "tests_test_coda_snap_testcodasnapinstallation_test_disk_space_exhaustion_crash"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "pytest"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L103",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_get_snap_config"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L325",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_basic_config"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L542",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_complex_nested_config"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L430",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_identifier_creation"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L122",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_install_hook_execution"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L646",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_post_refresh_hook_cleanup"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L90",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_verify_mac_address_format"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_1",
+      "target": "tests_test_coda_snap_hooks"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_25",
+      "target": "tests_test_coda_snap_hooks"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_28",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L115",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_get_snap_config",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L349",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_basic_config",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L572",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_complex_nested_config",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L455",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_identifier_creation",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L145",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_install_hook_execution",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L671",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_post_refresh_hook_cleanup",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_exec_command"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_66",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L365",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_basic_config",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L584",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_complex_nested_config",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L486",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_identifier_creation",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L239",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_install_hook_execution",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_read_json_file"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_91",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_verify_mac_address_format"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L276",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_install_hook_execution",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_verify_mac_address_format"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_104",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_get_snap_config"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L358",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_basic_config",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_get_snap_config"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L622",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_complex_nested_config",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_get_snap_config"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L295",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_testcodasnaphooks_test_install_hook_execution",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_get_snap_config"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L123",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_123",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_install_hook_execution"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L326",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_326",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_basic_config"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L431",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_431",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_identifier_creation"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L543",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_543",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_configure_hook_complex_nested_config"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e-tests/test-runner/tests/test_coda_snap_hooks.py",
+      "source_location": "L647",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_coda_snap_hooks_rationale_647",
+      "target": "tests_test_coda_snap_hooks_testcodasnaphooks_test_post_refresh_hook_cleanup"
     },
     {
       "relation": "contains",
@@ -1715,7 +3320,7 @@
       "source_location": "L54",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "shared_hook_utils_rationale_54",
+      "source": "shared_hook_utils_rationale_48",
       "target": "shared_hook_utils_translate_config_snap_to_coda"
     },
     {
@@ -1779,526 +3384,1232 @@
       "target": "shared_hook_utils_cleanup_directory"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L661",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_ai_agent_instructions"
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "bootstrap_company_id"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L5",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_build_system"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "bootstrap_json"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L179",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_ci_cd"
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "bootstrap_unique_id"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L246",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_e2e_testing_infrastructure"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "claude_md"
     },
     {
-      "relation": "contains",
+      "relation": "describes",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L570",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_hook_development"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "coda_snap"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L650",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_key_architectural_points"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "conf_json"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_overview"
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "conf_mqtt_broker_host"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L230",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_remote_build_and_publishing"
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "conf_mqtt_broker_password"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L107",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_snap_architecture"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "configure_hook"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L98",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_build_system",
-      "target": "agents_build_process_details"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "edgeiq_documentation"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L16",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_build_system",
-      "target": "agents_common_build_commands"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "firewall_control"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L7",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_build_system",
-      "target": "agents_environment_variables"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "hooks"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L55",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_build_system",
-      "target": "agents_local_development_workflow"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "identifier_json"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L43",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_build_system",
-      "target": "agents_platform_compatibility"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "install_hook"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L109",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents_snap_architecture",
-      "target": "agents_apps_and_services"
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "journal_persistent"
     },
     {
-      "relation": "contains",
+      "relation": "uses",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L147",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_snap_architecture",
-      "target": "agents_configuration_model"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "make"
     },
     {
-      "relation": "contains",
+      "relation": "uses",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L137",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_snap_architecture",
-      "target": "agents_hook_utilities"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "mosquitto"
     },
     {
-      "relation": "contains",
+      "relation": "uses",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L115",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_snap_architecture",
-      "target": "agents_snap_hooks"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "multipass"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L158",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_snap_architecture",
-      "target": "agents_snap_plugs"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "network_control"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L181",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_ci_cd",
-      "target": "agents_multi_architecture_build_pipeline"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "network_manager"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L541",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_debugging_failed_tests"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "nmcli"
     },
     {
-      "relation": "contains",
+      "relation": "uses",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L358",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_e2e_test_cases"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "pytest"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L334",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_e2e_test_configuration"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "python"
     },
     {
-      "relation": "contains",
+      "relation": "uses",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L266",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_running_e2e_tests"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "snapcraft"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L258",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_service_architecture"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "snapd_control"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L349",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_test_components"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "tpm"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L248",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_test_environment"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "ubuntu"
     },
     {
-      "relation": "contains",
+      "relation": "used_by",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L309",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_testing_infrastructure",
-      "target": "agents_testing_with_local_snap_files"
+      "source_file": "README.md",
+      "source": "readme",
+      "target": "utils_shared_hook_utils_py"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L370",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_1_test_install_coda_snap"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "apparmor"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L405",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_1_test_install_hook_execution"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "architecture_notes"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L431",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_2_test_configure_hook_basic_config"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "aws_iot_core"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L380",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_2_test_disk_space_exhaustion_crash"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "azure_iot_hub"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L453",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_3_test_configure_hook_identifier_creation"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "bacnet"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L477",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_4_test_configure_hook_complex_nested_config"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "cellular"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L506",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_5_test_post_refresh_hook_cleanup"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "claude_md"
     },
     {
-      "relation": "contains",
+      "relation": "describes",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L396",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_test_suite_testcodasnaphooks_test_coda_snap_hooks_py"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "coda_snap"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L366",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_e2e_test_cases",
-      "target": "agents_test_suite_testcodasnapinstallation_test_coda_snap_py"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "configuration"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L572",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_hook_development",
-      "target": "agents_hook_architecture"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "configure_hook"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L638",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_hook_development",
-      "target": "agents_hook_utility_functions"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "dbus"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L592",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_hook_development",
-      "target": "agents_key_translation_system"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "device_identity"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L606",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_hook_development",
-      "target": "agents_testing_hooks_locally"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "device_lifecycle_management"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L828",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_ai_agent_instructions",
-      "target": "agents_common_snap_patterns"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "diagnostics"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L665",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_ai_agent_instructions",
-      "target": "agents_core_expertise"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "e2e_tests"
     },
     {
-      "relation": "contains",
+      "relation": "semantically_similar_to",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L688",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_ai_agent_instructions",
-      "target": "agents_operational_protocol"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "edge_agent"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L818",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_ai_agent_instructions",
-      "target": "agents_problem_solving_approach"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "edgeiq_symphony_platform"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L795",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_ai_agent_instructions",
-      "target": "agents_quality_standards"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "ethernet"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L849",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_ai_agent_instructions",
-      "target": "agents_red_flags_to_avoid"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "gcp"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L690",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_operational_protocol",
-      "target": "agents_1_clarification_first"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "health_monitoring"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L704",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_operational_protocol",
-      "target": "agents_2_test_driven_development"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "hook_development"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L719",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_operational_protocol",
-      "target": "agents_3_hook_development_standards"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "http"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L735",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_operational_protocol",
-      "target": "agents_4_multipass_first_workflow"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "install_hook"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L782",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "agents_operational_protocol",
-      "target": "agents_5_documentation_discipline"
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "iot_device_management"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "iptables"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "key_concepts"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "make"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "modbus"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "modemmanager"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "monitoring"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "mqtt"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "multipass"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "next_steps"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "nmcli"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "opc_ua"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "orchestration"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "pytest"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "python"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "relationship_to_edgeiq_platform"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "repository_structure"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "rest_api"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "satellite_networks"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "seccomp"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "serial"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "snap"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "snap_interfaces"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "snapcraft"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "snapd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "snmp"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "software_updates"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "tcp_udp"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "tls_ssl"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "tpm_2_0"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "ubuntu"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "ubuntu_core"
+    },
+    {
+      "relation": "used_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "utils_shared_hook_utils_py"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agent/README.md",
+      "source": "agent_readme",
+      "target": "wifi"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source": "coda_snap",
+      "target": "configuration"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source": "coda_snap",
+      "target": "device"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source": "coda_snap",
+      "target": "edgeiq_symphony"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source": "coda_snap",
+      "target": "mqtt"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source": "coda_snap",
+      "target": "snap"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source": "coda_snap",
+      "target": "ubuntu_core"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "README.md",
+      "source": "edgeiq_coda_snap",
+      "target": "coda_snap"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source": "edgeiq_coda_snap",
+      "target": "edge_local_service"
+    },
+    {
+      "relation": "requires_subscription_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "edgeiq_coda",
+      "target": "edgeiq_symphony"
+    },
+    {
+      "relation": "simplifies_deployment_on",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "edgeiq_coda",
+      "target": "ubuntu_core"
+    },
+    {
+      "relation": "stages_package",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "network_manager"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/test-runner/requirements.txt",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "e2e-tests_test-runner_requirements",
+      "target": "pytest"
+    },
+    {
+      "relation": "uses_tool",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "nmcli"
+    },
+    {
+      "relation": "stages_package",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "modemmanager"
+    },
+    {
+      "relation": "stages_package",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "iptables"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_curl"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_fuse"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_iproute2"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_jq"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "runcmd",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_lxd"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_mosquitto"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_mosquitto-clients"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_net-tools"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_netcat-openbsd"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_python3"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_python3-pip"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_python3-venv"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "runcmd",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_snapcraft"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_snapd"
+    },
+    {
+      "relation": "installs",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "e2e-tests_cloud-init",
+      "target": "concept_squashfuse"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "runcmd",
+      "weight": 1.0,
+      "source": "concept_snapd",
+      "target": "concept_lxd"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "runcmd",
+      "weight": 1.0,
+      "source": "concept_snapd",
+      "target": "concept_snapcraft"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "concept_python3",
+      "target": "concept_python3-pip"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "concept_python3",
+      "target": "concept_python3-venv"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": "aiohttp>=3.9",
+      "weight": 1.0,
+      "source": "concept_python3-pip",
+      "target": "concept_aiohttp"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": "paho-mqtt>=2.0",
+      "weight": 1.0,
+      "source": "concept_python3-pip",
+      "target": "concept_paho-mqtt"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "e2e-tests/cloud-init.yaml",
+      "source_location": "packages",
+      "weight": 1.0,
+      "source": "concept_mosquitto",
+      "target": "concept_mosquitto-clients"
+    },
+    {
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": "paho-mqtt>=2.0",
+      "weight": 1.0,
+      "source": "concept_mosquitto-clients",
+      "target": "concept_paho-mqtt"
+    },
+    {
+      "relation": "requires",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": "aiohttp>=3.9",
+      "weight": 1.0,
+      "source": "e2e-tests_mock-server_requirements",
+      "target": "concept_aiohttp"
+    },
+    {
+      "relation": "requires",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/mock-server/requirements.txt",
+      "source_location": "paho-mqtt>=2.0",
+      "weight": 1.0,
+      "source": "e2e-tests_mock-server_requirements",
+      "target": "concept_paho-mqtt"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/test-runner/requirements.txt",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "e2e-tests_test-runner_requirements",
+      "target": "concept_paho-mqtt"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/test-runner/requirements.txt",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "e2e-tests_test-runner_requirements",
+      "target": "pytest_asyncio"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e-tests/test-runner/requirements.txt",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "e2e-tests_test-runner_requirements",
+      "target": "requests"
+    },
+    {
+      "relation": "defines_app",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "agent"
+    },
+    {
+      "relation": "builds_binary",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "edge"
+    },
+    {
+      "relation": "uses_variable",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "edgeiq_api_url"
+    },
+    {
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "edgeiq_coda"
+    },
+    {
+      "relation": "uses_variable",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "edgeiq_coda_snap_version"
+    },
+    {
+      "relation": "uses_variable",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "edgeiq_coda_version"
+    },
+    {
+      "relation": "uses_variable",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "edgeiq_snap_name"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "https_edgeiq_atlassian_net_servicedesk_customer_portal_3"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "https_github_com_edgeiq_coda_snap_git"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "https_www_edgeiq_ai"
+    },
+    {
+      "relation": "stages_package",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "iputils_ping"
+    },
+    {
+      "relation": "uses_tool",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "jq"
+    },
+    {
+      "relation": "uses_tool",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "snapcraft_template_yaml",
+      "target": "wget"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "edgeiq_coda",
+      "target": "device_management"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "edgeiq_coda",
+      "target": "edge_computing"
+    },
+    {
+      "relation": "manages",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "edgeiq_coda",
+      "target": "iot_devices"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "edgeiq_coda",
+      "target": "workflow_orchestration"
+    },
+    {
+      "relation": "command",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "snap/snapcraft.template.yaml",
+      "source": "agent",
+      "target": "edge"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7e50d6f6b1ffcd0e72f5df5384dcdda3e85d1e36"
+  "built_at_commit": "ba349a0e075bce85c9195c1c611ba133f70e2fc7"
 }
