@@ -274,3 +274,16 @@ sudo snap install --dangerous coda_*.snap
 ---
 
 **Note**: When making structural or architectural changes to the codebase, always update the relevant documentation files (AGENTS.md, README.md, and `.agent/` docs).
+
+## Knowledge Graph (graphify)
+
+This repo ships a **prebuilt knowledge graph** at `graphify-out/` (committed; built with the `/graphify` skill). Use it to navigate and reason about the codebase **instead of blind grep**.
+
+- For **"how does X work?"**, **"what calls Y?"**, or **"what's the blast radius of changing Z?"** — **query the graph first** (or use the `graphify-edgeiq` MCP tools, if connected):
+  ```bash
+  graphify query "<your question>"             # BFS traversal — broad context
+  graphify path "<concept A>" "<concept B>"    # shortest path between two concepts
+  graphify explain "<symbol or concept>"       # plain-language summary of a node + its neighbors
+  ```
+- The graph is a **snapshot** — treat it as a map to find the right files, then **read the live code to confirm**. It's strong on code structure but weaker on runtime contracts (e.g. which service consumes a Kafka topic), and code added by an in-flight PR isn't in it.
+- If `graphify-out/graph.json` is **missing or stale**, refresh it keyless with `/graphify-refresh`, or `/graphify . --update`.
